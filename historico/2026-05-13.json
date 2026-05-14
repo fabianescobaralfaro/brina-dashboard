@@ -72,16 +72,16 @@
       }
     ],
     "total_cierres_historicos": 36,
-    "actualizadoEl": "13/05/2026 22:13"
+    "actualizadoEl": "13/05/2026 23:25"
   },
   "haulmer": {
-    "actualizadoEl": "13/05/2026 22:13",
+    "actualizadoEl": "13/05/2026 23:33",
     "error": null,
     "informe_dia": {
-      "periodo": "Día",
+      "periodo": "Dia",
+      "monto_ventas": 244400,
       "monto_neto": 205372,
       "iva": 39028,
-      "monto_ventas": 244400,
       "monto_exento": 244400,
       "propinas": 7648,
       "debito": 140389,
@@ -90,19 +90,11 @@
       "pos_breakdown": [
         {
           "serial": "PB1T238420182",
-          "total_ventas": 157630,
-          "debito": 86450,
-          "credito": 11250,
-          "efectivo": 59930,
-          "propinas": 0
+          "total_ventas": 157630
         },
         {
           "serial": "6010B232511900275",
-          "total_ventas": 94418,
-          "debito": 53939,
-          "credito": 12859,
-          "efectivo": 27620,
-          "propinas": 0
+          "total_ventas": 94418
         }
       ],
       "n_tx_debito": 40,
@@ -379,7 +371,7 @@
       "availability_pct": 0,
       "cooking_time_avg": 0
     },
-    "actualizadoEl": "13/05/2026 22:14"
+    "actualizadoEl": "13/05/2026 23:26"
   },
   "pedidosya": {
     "error": null,
@@ -388,8 +380,8 @@
     "cerrado_razon": "UNREACHABLE",
     "tier": "NONE",
     "tier_periodo": {
-      "desde": "",
-      "hasta": ""
+      "desde": "2026-02-01",
+      "hasta": "2026-04-30"
     },
     "metricas_tier": {
       "calificacion": "0",
@@ -410,6 +402,6 @@
     },
     "performance_7d": [],
     "heatmap": [],
-    "actualizadoEl": "13/05/2026 22:14"
+    "actualizadoEl": "13/05/2026 23:26"
   }
 }
