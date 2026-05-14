@@ -1956,7 +1956,8 @@ function getLiveVentas() {
             tipoDoc:'Sin documento', nDoc:'—', monto: dH.monto_ventas, estado:'Pagado', _live:true, _hist:true });
         }
       }
-      // Toteat histórico
+      // Toteat histórico — visible en tabla pero NO suma al total
+      // (Toteat y Haulmer registran las mismas transacciones; Haulmer es la fuente de verdad para ventas)
       const hT = datos.toteat;
       if (hT && !hT.error) {
         const uc = hT.ultimo_cierre || {};
@@ -1964,7 +1965,8 @@ function getLiveVentas() {
         if (uc.total_ventas > 0 && ucFecha === fecha) {
           rows.push({ fecha, plataforma:'Toteat',
             descripcion: `Cierre de caja ${uc.fecha||''} — ${uc.n_ordenes||0} órdenes`,
-            tipoDoc:'Sin documento', nDoc: uc.turno||'—', monto: uc.total_ventas, estado:'Pagado', _live:true, _hist:true });
+            tipoDoc:'Sin documento', nDoc: uc.turno||'—', monto: uc.total_ventas, estado:'Pagado', _live:true });
+          // _hist:true omitido a propósito — evita doble conteo con Haulmer
         }
       }
       // PedidosYa histórico
