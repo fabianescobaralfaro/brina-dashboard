@@ -1,0 +1,31 @@
+{
+  "fecha": "2026-05-08",
+  "haulmer": {
+    "actualizadoEl": "08/05/2026 23:55",
+    "error": null,
+    "informe_dia": {
+      "periodo": "Día",
+      "monto_neto": 387042,
+      "iva": 73548,
+      "monto_ventas": 460590,
+      "monto_exento": 0,
+      "propinas": 21771,
+      "debito": 378222,
+      "credito": 34489,
+      "efectivo": 69650,
+      "pos_breakdown": [],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "informe_semana": {},
+    "informe_mes": {},
+    "dte": {"total_declarado":0,"total":0,"boletas":0,"facturas":0,"monto_boletas":0,"monto_facturas":0,"documentos":[],"paginas_leidas":0,"nota":"(recuperado manualmente)"},
+    "abonos": {"abonos":[],"total_abonado":0,"total_comision":0,"comision_pct":1.99,"transacciones_hoy":[],"total_ventas_hoy":0,"n_transacciones_hoy":0},
+    "ventas_hoy": {"total_dia":0,"transacciones":[]}
+  },
+  "toteat": null,
+  "rappi": null,
+  "pedidosya": null
+}
