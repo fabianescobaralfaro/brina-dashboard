@@ -1,13 +1,13 @@
 {
   "fecha": "2026-05-06",
   "haulmer": {
-    "actualizadoEl": "06/05/2026 22:42",
+    "actualizadoEl": "13/05/2026 23:33",
     "error": null,
     "informe_dia": {
-      "periodo": "Día",
+      "periodo": "Dia",
+      "monto_ventas": 250020,
       "monto_neto": 210097,
       "iva": 39923,
-      "monto_ventas": 250020,
       "monto_exento": 250020,
       "propinas": 8882,
       "debito": 136738,
@@ -16,19 +16,11 @@
       "pos_breakdown": [
         {
           "serial": "PB1T238420182",
-          "total_ventas": 161200,
-          "debito": 84400,
-          "credito": 9400,
-          "efectivo": 67400,
-          "propinas": 0
+          "total_ventas": 161200
         },
         {
           "serial": "6010B232511900275",
-          "total_ventas": 97703,
-          "debito": 52338,
-          "credito": 36795,
-          "efectivo": 8570,
-          "propinas": 0
+          "total_ventas": 97703
         }
       ],
       "n_tx_debito": 29,
