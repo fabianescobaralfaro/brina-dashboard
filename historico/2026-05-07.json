@@ -1,29 +1,59 @@
 {
   "fecha": "2026-05-07",
   "haulmer": {
-    "actualizadoEl": "07/05/2026 23:55",
+    "actualizadoEl": "13/05/2026 23:33",
     "error": null,
     "informe_dia": {
-      "periodo": "Día",
+      "periodo": "Dia",
+      "monto_ventas": 373920,
       "monto_neto": 314217,
       "iva": 59703,
-      "monto_ventas": 373920,
-      "monto_exento": 0,
+      "monto_exento": 373920,
       "propinas": 14447,
       "debito": 281870,
       "credito": 19267,
       "efectivo": 87230,
-      "pos_breakdown": [],
-      "n_tx_debito": 0,
-      "n_tx_credito": 0,
-      "n_tx_efectivo": 0,
-      "n_tx_total": 0
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 211450
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 176917
+        }
+      ],
+      "n_tx_debito": 72,
+      "n_tx_credito": 4,
+      "n_tx_efectivo": 38,
+      "n_tx_total": 114
     },
     "informe_semana": {},
     "informe_mes": {},
-    "dte": {"total_declarado":0,"total":0,"boletas":0,"facturas":0,"monto_boletas":0,"monto_facturas":0,"documentos":[],"paginas_leidas":0,"nota":"(recuperado manualmente)"},
-    "abonos": {"abonos":[],"total_abonado":0,"total_comision":0,"comision_pct":1.99,"transacciones_hoy":[],"total_ventas_hoy":0,"n_transacciones_hoy":0},
-    "ventas_hoy": {"total_dia":0,"transacciones":[]}
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 0,
+      "nota": "(recuperado manualmente)"
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    }
   },
   "toteat": null,
   "rappi": null,
