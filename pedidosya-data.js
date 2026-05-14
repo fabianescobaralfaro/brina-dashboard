@@ -6,8 +6,8 @@ window.PEDIDOSYA_DATA = {
   "cerrado_razon": "UNREACHABLE",
   "tier": "NONE",
   "tier_periodo": {
-    "desde": "",
-    "hasta": ""
+    "desde": "2026-02-01",
+    "hasta": "2026-04-30"
   },
   "metricas_tier": {
     "calificacion": "0",
@@ -28,5 +28,5 @@ window.PEDIDOSYA_DATA = {
   },
   "performance_7d": [],
   "heatmap": [],
-  "actualizadoEl": "13/05/2026 22:14"
+  "actualizadoEl": "13/05/2026 23:26"
 };
