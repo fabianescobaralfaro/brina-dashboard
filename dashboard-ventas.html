@@ -1658,6 +1658,10 @@ function renderResumen() {
   }
 
   // ── Datos en vivo desde scrapers ──
+  // Fecha del dato en vivo de Haulmer (para evitar doble conteo con historico)
+  const _fechaDatoH = (H && H.actualizadoEl)
+      ? H.actualizadoEl.split(' ')[0].split('/').reverse().join('-')
+      : fechaVista;
   const liveHaulmer = (H && !H.error) ? ((H.informe_dia||{}).monto_ventas  || 0) : 0;
   const _ucT = (T && !T.error) ? (T.ultimo_cierre || {}) : {};
   const _ucFechaIso = _ucT.fecha_iso || (_ucT.fecha ? _ucT.fecha.split('/').reverse().join('-') : '');
@@ -1679,7 +1683,11 @@ function renderResumen() {
 
   // ── KPIs consolidados ──
   // Sumar ventas históricas scrapeadas (días anteriores en cache)
-  const _histRows = filtrarPorFecha(getLiveVentas().filter(v => v._hist));
+  // IMPORTANTE: excluir del historico la fecha ya cubierta por liveHaulmer (evita doble conteo)
+  const _allLiveVentas = getLiveVentas();
+  const _histRows = filtrarPorFecha(
+      _allLiveVentas.filter(v => v._hist && !(v.plataforma === 'Haulmer' && v.fecha === _fechaDatoH))
+  );
   const _histTotal = _histRows.reduce((s,v) => s + v.monto, 0);
   const totalVentas = liveHaulmer + liveToteat + livePya + liveRappi + ventasManual + _histTotal;
   const totalOrdenes = ordToteat + ordPya + ordRappi + ventas.length;
@@ -1705,7 +1713,7 @@ function renderResumen() {
   const platClasses = { PedidosYa:'pedidosya', Rappi:'rappi', Toteat:'topeat', Haulmer:'haulmer' };
   const platEmoji   = { PedidosYa:'🛵', Rappi:'🟠', Toteat:'🍽', Haulmer:'📊' };
   const platPeriod  = {
-    Haulmer:   (H   && !H.error)   ? 'Hoy'                                              : 'Sin datos',
+    Haulmer:   (H   && !H.error)   ? (_fechaDatoH === fechaVista ? 'Hoy' : 'Ayer')       : 'Sin datos',
     Toteat:    (T   && !T.error)   ? (_ucFechaIso === fechaVista ? 'Cierre ' + (_ucT.fecha||'') : 'Sin cierre del día — último: ' + (_ucT.fecha||'')) : 'Sin datos',
     PedidosYa: (PYA && !PYA.error) ? 'Últimos 7 días'                                   : 'Sin datos',
     Rappi:     (RAP && !RAP.error) ? 'Últimos 7 días'                                   : 'Sin datos',
@@ -1752,7 +1760,11 @@ function renderResumen() {
     }).join('');
   }
 
-  renderCharts(ventas, gastos, liveByPlat);
+  // Armar filas para gráficos: historico + hoy si es hoy + manuales
+  const _haulmerHoyRow = (_fechaDatoH === fechaVista && liveHaulmer > 0)
+      ? [{ fecha: fechaVista, plataforma:'Haulmer', monto: liveHaulmer }] : [];
+  const _ventasParaCharts = [..._histRows, ..._haulmerHoyRow, ...ventas];
+  renderCharts(_ventasParaCharts, gastos, liveByPlat);
 }
 
 // ═══════════════════════════════════════
