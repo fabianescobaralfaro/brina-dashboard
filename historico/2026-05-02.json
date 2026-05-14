@@ -1,0 +1,61 @@
+{
+  "fecha": "2026-05-02",
+  "haulmer": {
+    "informe_dia": {
+      "periodo": "Dia",
+      "monto_ventas": 165200,
+      "monto_neto": 138822,
+      "iva": 26378,
+      "monto_exento": 165200,
+      "propinas": 0,
+      "debito": 104950,
+      "credito": 1800,
+      "efectivo": 58450,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 165200
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 0
+        }
+      ],
+      "n_tx_debito": 37,
+      "n_tx_credito": 2,
+      "n_tx_efectivo": 25,
+      "n_tx_total": 64
+    },
+    "actualizadoEl": "13/05/2026 23:33",
+    "error": null,
+    "informe_semana": {},
+    "informe_mes": {},
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 0,
+      "nota": "(no capturado)"
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    }
+  },
+  "toteat": null,
+  "rappi": null,
+  "pedidosya": null
+}
