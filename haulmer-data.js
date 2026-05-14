@@ -1,39 +1,31 @@
 /* Generado automáticamente por scraper.py — NO editar manualmente */
 window.HAULMER_DATA = {
-  "actualizadoEl": "13/05/2026 23:24",
+  "actualizadoEl": "14/05/2026 00:00",
   "error": null,
   "informe_dia": {
     "periodo": "Día",
-    "monto_neto": 205372,
-    "iva": 39028,
-    "monto_ventas": 244400,
-    "monto_exento": 244400,
-    "propinas": 7648,
-    "debito": 140389,
-    "credito": 24109,
-    "efectivo": 87550,
+    "monto_neto": 0,
+    "iva": 0,
+    "monto_ventas": 0,
+    "monto_exento": 0,
+    "propinas": 0,
+    "debito": 0,
+    "credito": 0,
+    "efectivo": 0,
     "pos_breakdown": [
       {
         "serial": "PB1T238420182",
-        "total_ventas": 157630,
-        "debito": 86450,
-        "credito": 11250,
-        "efectivo": 59930,
-        "propinas": 0
-      },
-      {
-        "serial": "6010B232511900275",
-        "total_ventas": 94418,
-        "debito": 53939,
-        "credito": 12859,
-        "efectivo": 27620,
+        "total_ventas": 0,
+        "debito": 0,
+        "credito": 0,
+        "efectivo": 0,
         "propinas": 0
       }
     ],
-    "n_tx_debito": 40,
-    "n_tx_credito": 5,
-    "n_tx_efectivo": 29,
-    "n_tx_total": 74
+    "n_tx_debito": 0,
+    "n_tx_credito": 0,
+    "n_tx_efectivo": 0,
+    "n_tx_total": 0
   },
   "informe_semana": {
     "periodo": "Semana",
@@ -113,134 +105,117 @@ window.HAULMER_DATA = {
     "nota": ""
   },
   "abonos": {
-    "abonos": [
-      {
-        "fecha": "13/05/2026",
-        "ventas_abonadas": 52239,
-        "comision": 1042,
-        "total_abonado": 51197
-      }
-    ],
-    "total_abonado": 51197,
-    "total_comision": 1042,
+    "abonos": [],
+    "total_abonado": 0,
+    "total_comision": 0,
     "comision_pct": 1.99,
-    "transacciones_hoy": [
-      {
-        "n_tx": "600051746048",
-        "monto": 1600,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 32,
-        "neto": 1568,
-        "serial": "600051741816"
-      },
-      {
-        "n_tx": "600051741816",
-        "monto": 17600,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 350,
-        "neto": 17250,
-        "serial": "600051741660"
-      },
-      {
-        "n_tx": "600051741660",
-        "monto": 5000,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 100,
-        "neto": 4900,
-        "serial": "700051713269"
-      },
-      {
-        "n_tx": "700051713269",
-        "monto": 4400,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 88,
-        "neto": 4312,
-        "serial": "800064346822"
-      },
-      {
-        "n_tx": "800064346822",
-        "monto": 4400,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 88,
-        "neto": 4312,
-        "serial": "700051705272"
-      },
-      {
-        "n_tx": "700051705272",
-        "monto": 5000,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 100,
-        "neto": 4900,
-        "serial": "600051700304"
-      },
-      {
-        "n_tx": "600051700304",
-        "monto": 9339,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 186,
-        "neto": 9153,
-        "serial": "900060387492"
-      },
-      {
-        "n_tx": "900060387492",
-        "monto": 3600,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 72,
-        "neto": 3528,
-        "serial": "900060385956"
-      },
-      {
-        "n_tx": "900060385956",
-        "monto": 400,
-        "tipo": "Crédito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 8,
-        "neto": 392,
-        "serial": "900060385267"
-      },
-      {
-        "n_tx": "900060385267",
-        "monto": 900,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "13-05-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 18,
-        "neto": 882,
-        "serial": "PB1T238420182"
-      }
-    ],
-    "total_ventas_hoy": 52239,
-    "n_transacciones_hoy": 10
+    "transacciones_hoy": [],
+    "total_ventas_hoy": 0,
+    "n_transacciones_hoy": 0
   },
   "ventas_hoy": {
-    "total_dia": 0,
-    "transacciones": []
+    "total_dia": 85919,
+    "transacciones": [
+      {
+        "descripcion": "Venta débito",
+        "doc": "**** 0757",
+        "monto": 1600
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34179",
+        "monto": 1150
+      },
+      {
+        "descripcion": "Venta débito",
+        "doc": "**** 4878",
+        "monto": 5000
+      },
+      {
+        "descripcion": "Venta débito",
+        "doc": "**** 8934",
+        "monto": 17600
+      },
+      {
+        "descripcion": "Venta débito",
+        "doc": "**** 6623",
+        "monto": 4400
+      },
+      {
+        "descripcion": "Venta débito",
+        "doc": "**** 3070",
+        "monto": 4400
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34178",
+        "monto": 8150
+      },
+      {
+        "descripcion": "Venta débito",
+        "doc": "**** 9454",
+        "monto": 5000
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34177",
+        "monto": 1990
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34176",
+        "monto": 1150
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34175",
+        "monto": 900
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34174",
+        "monto": 650
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34173",
+        "monto": 5000
+      },
+      {
+        "descripcion": "Venta débito",
+        "doc": "**** 9532",
+        "monto": 9339
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34172",
+        "monto": 500
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34171",
+        "monto": 2500
+      },
+      {
+        "descripcion": "Venta débito",
+        "doc": "**** 9271",
+        "monto": 3600
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34170",
+        "monto": 9990
+      },
+      {
+        "descripcion": "Venta crédito",
+        "doc": "**** 6683",
+        "monto": 400
+      },
+      {
+        "descripcion": "Venta efectivo",
+        "doc": "Boleta Afecta #34169",
+        "monto": 2600
+      }
+    ]
   }
 };
