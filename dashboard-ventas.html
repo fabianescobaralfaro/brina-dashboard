@@ -1760,10 +1760,12 @@ function renderResumen() {
     }).join('');
   }
 
-  // Armar filas para gráficos: historico + hoy si es hoy + manuales
+  // Armar filas para gráficos: usar TODOS los históricos (sin filtro de período)
+  // para que el gráfico "últimos 30 días" muestre datos de abril también
   const _haulmerHoyRow = (_fechaDatoH === fechaVista && liveHaulmer > 0)
       ? [{ fecha: fechaVista, plataforma:'Haulmer', monto: liveHaulmer }] : [];
-  const _ventasParaCharts = [..._histRows, ..._haulmerHoyRow, ...ventas];
+  const _allHistParaCharts = _allLiveVentas.filter(v => v._hist);
+  const _ventasParaCharts = [..._allHistParaCharts, ..._haulmerHoyRow, ...ventas];
   renderCharts(_ventasParaCharts, gastos, liveByPlat);
 }
 
