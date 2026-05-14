@@ -1,6 +1,6 @@
 /* Generado automáticamente por scraper.py — NO editar manualmente */
 window.HAULMER_DATA = {
-  "actualizadoEl": "13/05/2026 22:13",
+  "actualizadoEl": "13/05/2026 23:24",
   "error": null,
   "informe_dia": {
     "periodo": "Día",
