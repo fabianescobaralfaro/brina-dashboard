@@ -1,0 +1,3144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Ventas — Mi Local</title>
+<script src="haulmer-data.js" onerror="console.warn('haulmer-data.js no encontrado')"></script>
+<script src="toteat-data.js" onerror="console.warn('toteat-data.js no encontrado — ejecutá scraper_toteat.py primero')"></script>
+<script src="pedidosya-data.js" onerror="console.warn('pedidosya-data.js no encontrado')"></script>
+<script src="rappi-data.js" onerror="console.warn('rappi-data.js no encontrado')"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3250;
+    --accent: #6c63ff;
+    --accent2: #ff6584;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --text: #e2e8f0;
+    --muted: #8892b0;
+    --pedidosya: #fa005a;
+    --rappi: #ff441f;
+    --topeat: #00b140;
+    --haulmer: #6c63ff;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+  }
+
+  /* ── Sidebar ── */
+  aside {
+    width: 220px;
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 100;
+  }
+  aside nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 0 8px;
+  }
+  aside nav::-webkit-scrollbar { width: 4px; }
+  aside nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .logo {
+    padding: 0 20px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .logo h2 { font-size: 1rem; font-weight: 700; color: var(--accent); }
+  .logo p { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+  nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-left: 3px solid transparent;
+    transition: all .2s;
+    cursor: pointer;
+  }
+  nav a:hover, nav a.active {
+    color: var(--text);
+    background: var(--surface2);
+    border-left-color: var(--accent);
+  }
+  nav a svg { width: 16px; height: 16px; flex-shrink: 0; }
+  .nav-section {
+    padding: 16px 20px 6px;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .platform-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── Main content ── */
+  main {
+    margin-left: 220px;
+    flex: 1;
+    padding: 28px;
+    min-height: 100vh;
+  }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── Header de página ── */
+  .page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .page-header h1 { font-size: 1.4rem; font-weight: 700; }
+  .page-header p { font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+  .header-actions { display: flex; gap: 10px; }
+
+  /* ── Controles de fecha ── */
+  .date-filter {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 12px;
+  }
+  .date-filter label { font-size: 0.78rem; color: var(--muted); }
+  .date-filter input {
+    background: transparent; border: none; color: var(--text);
+    font-size: 0.82rem; outline: none;
+  }
+
+  /* ── KPI cards ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+  }
+  .kpi.green::before { background: var(--green); }
+  .kpi.red::before { background: var(--red); }
+  .kpi.yellow::before { background: var(--yellow); }
+  .kpi-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .kpi-value { font-size: 1.7rem; font-weight: 700; margin: 6px 0 4px; }
+  .kpi-sub { font-size: 0.75rem; color: var(--muted); }
+  .kpi-badge {
+    display: inline-block;
+    background: rgba(34,197,94,.15);
+    color: var(--green);
+    border-radius: 20px;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+  .kpi-badge.neg { background: rgba(239,68,68,.15); color: var(--red); }
+
+  /* ── Grilla 2 columnas ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media(max-width:900px){ .grid2,.grid3 { grid-template-columns: 1fr; } }
+
+  /* ── Card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .card-title { font-size: 0.9rem; font-weight: 600; }
+  .card-muted { font-size: 0.78rem; color: var(--muted); }
+
+  /* ── Platform pills ── */
+  .platform-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border: 2px solid;
+    cursor: pointer;
+    transition: all .2s;
+    opacity: .55;
+  }
+  .pill.active, .pill:hover { opacity: 1; }
+  .pill.pedidosya { border-color: var(--pedidosya); color: var(--pedidosya); }
+  .pill.pedidosya.active { background: var(--pedidosya); color: #fff; }
+  .pill.rappi { border-color: var(--rappi); color: var(--rappi); }
+  .pill.rappi.active { background: var(--rappi); color: #fff; }
+  .pill.topeat { border-color: var(--topeat); color: var(--topeat); }
+  .pill.topeat.active { background: var(--topeat); color: #fff; }
+  .pill.haulmer { border-color: var(--haulmer); color: var(--haulmer); }
+  .pill.haulmer.active { background: var(--haulmer); color: #fff; }
+  .pill.all { border-color: var(--muted); color: var(--muted); }
+  .pill.all.active { background: var(--surface2); color: var(--text); border-color: var(--text); }
+
+  /* ── Selector de fecha histórica (pie del sidebar) ── */
+  #date-switcher {
+    flex-shrink: 0;
+    padding: 12px 16px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  #date-switcher .ds-label {
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    display: block;
+    margin-bottom: 6px;
+  }
+  #date-switcher select {
+    width: 100%;
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 0.82rem;
+    outline: none;
+    cursor: pointer;
+  }
+  #date-switcher select:hover { border-color: var(--accent); }
+  #date-switcher .ds-spin { font-size: 0.72rem; color: var(--muted); margin-top: 4px; display: none; }
+  /* Aviso modo histórico — banner superior del main */
+  #hist-aviso {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245,158,11,.12);
+    border: 1px solid rgba(245,158,11,.35);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    color: var(--yellow);
+    margin-bottom: 20px;
+  }
+  #hist-aviso button {
+    background: transparent;
+    border: none;
+    color: var(--yellow);
+    cursor: pointer;
+    font-size: 0.8rem;
+    text-decoration: underline;
+    padding: 0;
+    margin-left: 4px;
+  }
+
+  /* ── Tabla ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th {
+    text-align: left; padding: 10px 12px;
+    background: var(--surface2);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,.02); }
+  .badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+  .badge-pedidosya { background: rgba(250,0,90,.15); color: var(--pedidosya); }
+  .badge-rappi { background: rgba(255,68,31,.15); color: var(--rappi); }
+  .badge-topeat { background: rgba(0,177,64,.15); color: var(--topeat); }
+  .badge-haulmer { background: rgba(108,99,255,.15); color: var(--haulmer); }
+  .badge-factura { background: rgba(245,158,11,.15); color: var(--yellow); }
+  .badge-boleta { background: rgba(34,197,94,.15); color: var(--green); }
+  .badge-pendiente { background: rgba(239,68,68,.15); color: var(--red); }
+  .badge-pagado { background: rgba(34,197,94,.15); color: var(--green); }
+  .badge-gasto { background: rgba(239,68,68,.15); color: var(--red); }
+
+  /* ── Botones ── */
+  .btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #5a52d5; }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-outline:hover { background: var(--surface2); }
+  .btn-danger { background: rgba(239,68,68,.15); color: var(--red); border: 1px solid rgba(239,68,68,.3); }
+  .btn-sm { padding: 5px 10px; font-size: 0.75rem; border-radius: 6px; }
+
+  /* ── Modal / formulario ── */
+  .modal-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    width: 480px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow);
+  }
+  .modal h3 { font-size: 1rem; margin-bottom: 20px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 5px; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--accent); }
+  .form-group select option { background: var(--surface2); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+  /* ── Chart container ── */
+  .chart-container { position: relative; height: 220px; }
+
+  /* ── Progress bars ── */
+  .platform-stat {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 12px;
+  }
+  .platform-stat-label { width: 110px; font-size: 0.8rem; flex-shrink: 0; }
+  .progress-track {
+    flex: 1; height: 8px; background: var(--surface2);
+    border-radius: 4px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width .5s ease; }
+  .platform-stat-value { width: 80px; text-align: right; font-size: 0.82rem; font-weight: 600; }
+
+  /* ── Empty state ── */
+  .empty {
+    text-align: center; padding: 40px 20px;
+    color: var(--muted); font-size: 0.85rem;
+  }
+  .empty svg { width: 40px; height: 40px; margin-bottom: 12px; opacity: .4; }
+
+  /* ── Resumen plataforma card ── */
+  .platform-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    border-top: 3px solid;
+  }
+  .platform-card.pedidosya { border-top-color: var(--pedidosya); }
+  .platform-card.rappi { border-top-color: var(--rappi); }
+  .platform-card.topeat { border-top-color: var(--topeat); }
+  .platform-card.haulmer { border-top-color: var(--haulmer); }
+  .platform-card-name { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .platform-card-total { font-size: 1.5rem; font-weight: 800; margin: 6px 0 2px; }
+  .platform-card-orders { font-size: 0.78rem; color: var(--muted); }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .text-green { color: var(--green); }
+  .text-red { color: var(--red); }
+  .text-muted { color: var(--muted); }
+  .font-bold { font-weight: 700; }
+  .mt-4 { margin-top: 16px; }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  .summary-row:last-child { border-bottom: none; }
+
+  /* ── Acordeón histórico ── */
+  .accordion { display: flex; flex-direction: column; gap: 8px; }
+  .accordion-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .accordion-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; cursor: pointer; user-select: none;
+    transition: background .15s;
+  }
+  .accordion-header:hover { background: var(--surface2); }
+  .accordion-header .acc-left { display: flex; align-items: center; gap: 14px; }
+  .accordion-header .acc-mes { font-weight: 700; font-size: 0.95rem; min-width: 100px; }
+  .accordion-header .acc-kpis { display: flex; gap: 18px; flex-wrap: wrap; font-size: 0.82rem; color: var(--muted); }
+  .accordion-header .acc-kpis strong { color: var(--text); }
+  .accordion-header .acc-arrow { font-size: 0.75rem; color: var(--muted); transition: transform .2s; }
+  .accordion-item.open .acc-arrow { transform: rotate(180deg); }
+  .accordion-body { display: none; padding: 0 20px 16px; border-top: 1px solid var(--border); }
+  .accordion-item.open .accordion-body { display: block; }
+  .acc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 14px 0; }
+  .acc-kpi { background: var(--surface2); border-radius: 8px; padding: 10px 14px; }
+  .acc-kpi .label { font-size: 0.72rem; color: var(--muted); margin-bottom: 4px; }
+  .acc-kpi .value { font-size: 1.05rem; font-weight: 700; }
+  .acc-plat-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 0.83rem; }
+  .acc-plat-row:last-child { border-bottom: none; }
+  .acc-plat-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .acc-plat-bar-fill { height: 100%; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ SIDEBAR ══════════════════ -->
+<aside>
+  <div class="logo">
+    <h2>🍽 Mi Local</h2>
+    <p>Panel de Control</p>
+  </div>
+  <nav>
+    <a class="active" onclick="showPage('resumen')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Resumen General
+    </a>
+    <div class="nav-section">Ventas</div>
+    <a onclick="showPage('ventas')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      Todas las Ventas
+    </a>
+    <a onclick="showPage('plataformas')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      Por Plataforma
+    </a>
+    <div class="nav-section">Finanzas</div>
+    <a onclick="showPage('gastos')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Gastos
+    </a>
+    <a onclick="showPage('documentos')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+      Facturas y Boletas
+    </a>
+    <div class="nav-section">Live Data</div>
+    <a onclick="showPage('haulmer')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Haulmer Live
+    </a>
+    <a onclick="showPage('toteat')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+      Toteat Live
+    </a>
+    <a onclick="showPage('pedidosya')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      PedidosYa Live
+    </a>
+    <a onclick="showPage('rappi')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      Rappi Live
+    </a>
+    <div class="nav-section">Histórico</div>
+    <a onclick="showPage('historico')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Meses Anteriores
+    </a>
+    <div class="nav-section">Datos</div>
+    <a onclick="exportarCSV()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Exportar CSV
+    </a>
+    <a onclick="importarDemo()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,8 12,12 14,14"/></svg>
+      Cargar Demo
+    </a>
+  </nav>
+  <div id="date-switcher">
+    <span class="ds-label">📅 Ver datos del día</span>
+    <select id="date-select" onchange="cargarFechaHistorica(this.value)">
+      <option value="hoy">Hoy (en vivo)</option>
+    </select>
+    <span id="date-spin" class="ds-spin">⏳ Cargando...</span>
+  </div>
+</aside>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<main>
+
+  <!-- Aviso modo histórico — visible en todas las páginas -->
+  <div id="hist-aviso">
+    ⏪ Viendo datos del <strong id="hist-aviso-fecha"></strong>
+    <button onclick="volverAHoy()">← Volver a hoy</button>
+  </div>
+
+  <!-- ──── RESUMEN GENERAL ──── -->
+  <div class="page active" id="page-resumen">
+    <div class="page-header">
+      <div>
+        <h1>Resumen General</h1>
+        <p id="resumen-fecha">Cargando...</p>
+      </div>
+      <div class="header-actions">
+        <div class="date-filter">
+          <label>Desde</label>
+          <input type="date" id="filter-desde" onchange="renderAll()">
+          <label>Hasta</label>
+          <input type="date" id="filter-hasta" onchange="renderAll()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner Haulmer -->
+    <div id="banner-haulmer" style="display:none;background:linear-gradient(135deg,rgba(108,99,255,.15),rgba(108,99,255,.05));border:1px solid rgba(108,99,255,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);flex-shrink:0"></span>
+        <span style="font-size:0.82rem;font-weight:600;color:var(--accent)">Haulmer Live</span>
+        <span id="banner-haulmer-ts" style="font-size:0.78rem;color:var(--muted)"></span>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <span style="font-size:0.82rem">Ventas hoy: <strong id="banner-haulmer-dia" class="text-green">—</strong></span>
+        <span style="font-size:0.82rem">Mes: <strong id="banner-haulmer-mes" class="text-green">—</strong></span>
+        <span style="font-size:0.82rem">Abono neto: <strong id="banner-haulmer-abono">—</strong></span>
+        <a onclick="showPage('haulmer')" style="font-size:0.78rem;color:var(--accent);cursor:pointer;text-decoration:underline">Ver detalle →</a>
+      </div>
+    </div>
+
+    <!-- Banner Toteat -->
+    <div id="banner-toteat" style="display:none;background:linear-gradient(135deg,rgba(0,177,64,.12),rgba(0,177,64,.04));border:1px solid rgba(0,177,64,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--topeat);box-shadow:0 0 6px var(--topeat);flex-shrink:0"></span>
+        <span style="font-size:0.82rem;font-weight:600;color:var(--topeat)">Toteat Live</span>
+        <span id="banner-toteat-ts" style="font-size:0.78rem;color:var(--muted)"></span>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <span style="font-size:0.82rem">Último cierre: <strong id="banner-toteat-fecha" class="text-green">—</strong></span>
+        <span style="font-size:0.82rem">Ventas: <strong id="banner-toteat-ventas" class="text-green">—</strong></span>
+        <span style="font-size:0.82rem">Órdenes: <strong id="banner-toteat-ordenes">—</strong></span>
+        <a onclick="showPage('toteat')" style="font-size:0.78rem;color:var(--topeat);cursor:pointer;text-decoration:underline">Ver detalle →</a>
+      </div>
+    </div>
+
+    <!-- Banner PedidosYa -->
+    <div id="banner-pedidosya" style="display:none;background:linear-gradient(135deg,rgba(250,0,90,.12),rgba(250,0,90,.04));border:1px solid rgba(250,0,90,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span id="banner-pya-dot" style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0"></span>
+        <span style="font-size:0.82rem;font-weight:600;color:var(--pedidosya)">PedidosYa Live</span>
+        <span id="banner-pya-ts" style="font-size:0.78rem;color:var(--muted)"></span>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <span style="font-size:0.82rem">Estado: <strong id="banner-pya-estado">—</strong></span>
+        <span style="font-size:0.82rem">Tier: <strong id="banner-pya-tier">—</strong></span>
+        <a onclick="showPage('pedidosya')" style="font-size:0.78rem;color:var(--pedidosya);cursor:pointer;text-decoration:underline">Ver detalle →</a>
+      </div>
+    </div>
+
+    <!-- Banner Rappi -->
+    <div id="banner-rappi" style="display:none;background:linear-gradient(135deg,rgba(255,68,31,.12),rgba(255,68,31,.04));border:1px solid rgba(255,68,31,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span id="banner-rappi-dot" style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0"></span>
+        <span style="font-size:0.82rem;font-weight:600;color:var(--rappi)">Rappi Live</span>
+        <span id="banner-rappi-ts" style="font-size:0.78rem;color:var(--muted)"></span>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <span style="font-size:0.82rem">Estado: <strong id="banner-rappi-estado">—</strong></span>
+        <span style="font-size:0.82rem">Ventas 7d: <strong id="banner-rappi-ventas">—</strong></span>
+        <a onclick="showPage('rappi')" style="font-size:0.78rem;color:var(--rappi);cursor:pointer;text-decoration:underline">Ver detalle →</a>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi green">
+        <div class="kpi-label">Ventas Totales</div>
+        <div class="kpi-value" id="kpi-ventas">$0</div>
+        <div class="kpi-sub"><span class="kpi-badge" id="kpi-ventas-badge">0 pedidos</span></div>
+      </div>
+      <div class="kpi red">
+        <div class="kpi-label">Gastos Totales</div>
+        <div class="kpi-value" id="kpi-gastos">$0</div>
+        <div class="kpi-sub"><span class="kpi-badge neg" id="kpi-gastos-badge">0 ítems</span></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Resultado Neto</div>
+        <div class="kpi-value" id="kpi-neto">$0</div>
+        <div class="kpi-sub" id="kpi-neto-sub">Ingresos - Gastos</div>
+      </div>
+      <div class="kpi yellow">
+        <div class="kpi-label">Facturas Emitidas</div>
+        <div class="kpi-value" id="kpi-facturas">0</div>
+        <div class="kpi-sub"><span class="kpi-badge" id="kpi-boletas-sub">0 boletas</span></div>
+      </div>
+    </div>
+
+    <!-- Plataformas resumen -->
+    <div class="grid3" id="platform-cards"></div>
+
+    <!-- Gráficos -->
+    <div class="grid2">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Ventas por Plataforma</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-plataforma"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Ingresos vs Gastos</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-ingreso-gasto"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Evolución de Ventas (últimos 30 días)</span>
+      </div>
+      <div class="chart-container" style="height:200px">
+        <canvas id="chart-evolucion"></canvas>
+      </div>
+    </div>
+
+    <!-- Ultimas transacciones -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Últimas Transacciones</span>
+        <span class="card-muted" id="ultimas-count"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Plataforma</th>
+              <th>Descripción</th>
+              <th>Tipo Doc.</th>
+              <th>Monto</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-ultimas"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──── VENTAS ──── -->
+  <div class="page" id="page-ventas">
+    <div class="page-header">
+      <div>
+        <h1>Registro de Ventas</h1>
+        <p>Todas las ventas consolidadas</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" onclick="abrirModal('venta')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nueva Venta
+        </button>
+      </div>
+    </div>
+
+    <div class="platform-bar">
+      <span class="pill all active" onclick="filtrarPlatVenta('all',this)">Todas</span>
+      <span class="pill pedidosya" onclick="filtrarPlatVenta('PedidosYa',this)">PedidosYa</span>
+      <span class="pill rappi" onclick="filtrarPlatVenta('Rappi',this)">Rappi</span>
+      <span class="pill topeat" onclick="filtrarPlatVenta('Toteat',this)">Toteat</span>
+      <span class="pill haulmer" onclick="filtrarPlatVenta('Haulmer',this)">Espacio Haulmer</span>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Plataforma</th>
+              <th>Pedido / Descripción</th>
+              <th>Tipo Doc.</th>
+              <th>N° Doc.</th>
+              <th>Monto</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabla-ventas"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──── PLATAFORMAS ──── -->
+  <div class="page" id="page-plataformas">
+    <div class="page-header">
+      <div>
+        <h1>Comparativa por Plataforma</h1>
+        <p>Rendimiento de cada canal de venta</p>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="card" id="card-pedidosya" style="border-top:3px solid var(--pedidosya)">
+        <div class="card-header">
+          <span class="card-title" style="color:var(--pedidosya)">🛵 PedidosYa</span>
+          <span class="badge badge-pedidosya">Delivery</span>
+        </div>
+        <div id="stats-pedidosya"></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--rappi)">
+        <div class="card-header">
+          <span class="card-title" style="color:var(--rappi)">🟠 Rappi</span>
+          <span class="badge badge-rappi">Delivery</span>
+        </div>
+        <div id="stats-rappi"></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--topeat)">
+        <div class="card-header">
+          <span class="card-title" style="color:var(--topeat)">🍽 Toteat</span>
+          <span class="badge badge-topeat">Menú online</span>
+        </div>
+        <div id="stats-topeat"></div>
+      </div>
+      <div class="card" style="border-top:3px solid var(--haulmer)">
+        <div class="card-header">
+          <span class="card-title" style="color:var(--haulmer)">📊 Espacio Haulmer</span>
+          <span class="badge badge-haulmer">Gestión</span>
+        </div>
+        <div id="stats-haulmer"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Participación de ventas</span>
+      </div>
+      <div id="participacion-bars"></div>
+    </div>
+  </div>
+
+  <!-- ──── GASTOS ──── -->
+  <div class="page" id="page-gastos">
+    <div class="page-header">
+      <div>
+        <h1>Gastos</h1>
+        <p>Control de egresos del negocio</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" onclick="abrirModal('gasto')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nuevo Gasto
+        </button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi red">
+        <div class="kpi-label">Total Gastos</div>
+        <div class="kpi-value" id="kpi-total-gastos">$0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Mayor Categoría</div>
+        <div class="kpi-value" style="font-size:1.1rem" id="kpi-cat-mayor">—</div>
+      </div>
+      <div class="kpi yellow">
+        <div class="kpi-label">Gastos este mes</div>
+        <div class="kpi-value" id="kpi-gastos-mes">$0</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Categoría</th>
+              <th>Descripción</th>
+              <th>Proveedor</th>
+              <th>Monto</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabla-gastos"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──── DOCUMENTOS ──── -->
+  <div class="page" id="page-documentos">
+    <div class="page-header">
+      <div>
+        <h1>Facturas y Boletas</h1>
+        <p>Gestión de documentos fiscales</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" onclick="abrirModal('documento')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nuevo Documento
+        </button>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi yellow">
+        <div class="kpi-label">Facturas</div>
+        <div class="kpi-value" id="kpi2-facturas">0</div>
+        <div class="kpi-sub"><span class="kpi-badge neg" id="kpi2-fact-pend">0 pendientes</span></div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Boletas</div>
+        <div class="kpi-value" id="kpi2-boletas">0</div>
+        <div class="kpi-sub"><span class="kpi-badge" id="kpi2-bol-pend">0 pagadas</span></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Monto Facturado</div>
+        <div class="kpi-value" id="kpi2-monto">$0</div>
+      </div>
+      <div class="kpi red">
+        <div class="kpi-label">Pendiente cobro</div>
+        <div class="kpi-value" id="kpi2-pendiente">$0</div>
+      </div>
+    </div>
+
+    <div class="platform-bar">
+      <span class="pill all active" onclick="filtrarDoc('all',this)">Todos</span>
+      <span class="pill" style="border-color:var(--yellow);color:var(--yellow)" onclick="filtrarDoc('Factura',this)">Facturas</span>
+      <span class="pill" style="border-color:var(--green);color:var(--green)" onclick="filtrarDoc('Boleta',this)">Boletas</span>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>N° Documento</th>
+              <th>Plataforma / Origen</th>
+              <th>Cliente / Proveedor</th>
+              <th>Monto</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tabla-docs"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ──── HAULMER EN VIVO ──── -->
+  <div class="page" id="page-haulmer">
+    <div class="page-header">
+      <div>
+        <h1>Datos en Vivo — Haulmer</h1>
+        <p id="haulmer-update-ts">Sin datos aún. Ejecutá el scraper o esperá las 21:00 hs.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="window.open('https://espacio.haulmer.com','_blank')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Abrir Haulmer
+        </button>
+      </div>
+    </div>
+
+    <!-- Banner sin datos -->
+    <div id="haulmer-no-data" class="card" style="text-align:center;padding:40px;display:none">
+      <div style="font-size:2rem;margin-bottom:12px">⚡</div>
+      <div style="font-size:1rem;font-weight:600;margin-bottom:8px">Datos no disponibles todavía</div>
+      <div style="color:var(--muted);font-size:0.85rem;margin-bottom:20px">
+        El scraper se ejecuta automáticamente de lunes a sábado a las 21:00 hs.<br>
+        También podés ejecutarlo manualmente con el botón de abajo.
+      </div>
+      <code style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 16px;font-size:0.82rem;display:inline-block">
+        python "C:\Users\fescobara\Agente Asistente\scraper.py"
+      </code>
+    </div>
+
+    <!-- Contenido con datos -->
+    <div id="haulmer-data-content">
+
+      <!-- KPIs del día -->
+      <div class="kpi-grid" id="haulmer-kpis-dia"></div>
+
+      <!-- Día / Semana / Mes -->
+      <div class="grid3" id="haulmer-periodos"></div>
+
+      <!-- Desglose por POS/Terminal -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">🖥️ Ventas por Terminal (POS) — Hoy</span>
+          <span class="card-muted" id="haulmer-pos-total"></span>
+        </div>
+        <div id="haulmer-pos-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:4px"></div>
+      </div>
+
+      <!-- Desglose método de pago + DTE -->
+      <div class="grid2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Medios de Pago — Mes actual</span>
+          </div>
+          <div class="chart-container"><canvas id="chart-haulmer-pagos"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Documentos Tributarios Emitidos</span>
+          </div>
+          <div id="haulmer-dte-resumen"></div>
+        </div>
+      </div>
+
+      <!-- Abonos netos -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Abonos Netos (después de comisiones Haulmer)</span>
+          <span class="card-muted" id="haulmer-abonos-total"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Fecha</th>
+              <th>Ventas abonadas</th>
+              <th>Comisión Haulmer</th>
+              <th>Total depositado</th>
+            </tr></thead>
+            <tbody id="tabla-abonos"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Últimas boletas/facturas -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Últimos Documentos Emitidos</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>N° Documento</th>
+              <th>Monto</th>
+            </tr></thead>
+            <tbody id="tabla-dte-docs"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ──── TOTEAT EN VIVO ──── -->
+  <div class="page" id="page-toteat">
+    <div class="page-header">
+      <div>
+        <h1>Datos en Vivo — Toteat</h1>
+        <p id="toteat-update-ts">Sin datos aún. Ejecutá scraper_toteat.py o esperá las 21:00 hs.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="window.open('https://res8.toteat.com','_blank')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Abrir Toteat
+        </button>
+      </div>
+    </div>
+
+    <div id="toteat-no-data" class="card" style="text-align:center;padding:40px;display:none">
+      <div style="font-size:2rem;margin-bottom:12px">🍽</div>
+      <div style="font-size:1rem;font-weight:600;margin-bottom:8px">Datos no disponibles todavía</div>
+      <div style="color:var(--muted);font-size:0.85rem;margin-bottom:20px">
+        El scraper se ejecuta automáticamente de lunes a sábado a las 21:00 hs.<br>
+        También podés ejecutarlo manualmente:
+      </div>
+      <code style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 16px;font-size:0.82rem;display:inline-block">
+        python "C:\Users\fescobara\Agente Asistente\scraper_toteat.py"
+      </code>
+    </div>
+
+    <div id="toteat-data-content">
+
+      <!-- KPIs del último cierre -->
+      <div class="kpi-grid" id="toteat-kpis"></div>
+
+      <!-- Métodos de pago + Top productos -->
+      <div class="grid2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Medios de Pago — Último Cierre</span>
+          </div>
+          <div class="chart-container"><canvas id="chart-toteat-pagos"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Top Productos</span>
+          </div>
+          <div id="toteat-top-productos"></div>
+        </div>
+      </div>
+
+      <!-- Historial de cierres -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Historial de Cierres (últimas 2 semanas)</span>
+          <span class="card-muted" id="toteat-historial-total"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Fecha</th>
+              <th>Turno</th>
+            </tr></thead>
+            <tbody id="tabla-toteat-cierres"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ──── PEDIDOSYA EN VIVO ──── -->
+  <div class="page" id="page-pedidosya">
+    <div class="page-header">
+      <div>
+        <h1>Datos en Vivo — PedidosYa</h1>
+        <p id="pya-update-ts">Sin datos aún. Esperá las 21:00 hs o ejecutá scraper_pedidosya.py.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="window.open('https://portal-app.pedidosya.com/dashboard','_blank')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Abrir Portal
+        </button>
+      </div>
+    </div>
+
+    <div id="pya-no-data" class="card" style="text-align:center;padding:40px;display:none">
+      <div style="font-size:2rem;margin-bottom:12px">🛵</div>
+      <div style="font-size:1rem;font-weight:600;margin-bottom:8px">Datos no disponibles</div>
+      <div style="color:var(--muted);font-size:0.85rem;margin-bottom:20px">
+        El scraper se ejecuta de lunes a sábado a las 21:00 hs.<br>
+        También podés ejecutarlo manualmente:
+      </div>
+      <code style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 16px;font-size:0.82rem;display:inline-block">
+        python "C:\Users\fescobara\Agente Asistente\scraper_pedidosya.py"
+      </code>
+    </div>
+
+    <div id="pya-data-content">
+      <!-- Estado del local -->
+      <div class="kpi-grid" id="pya-kpis"></div>
+
+      <!-- Tier de partner + métricas -->
+      <div class="grid2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Nivel de Partner</span>
+          </div>
+          <div id="pya-tier-content"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Benchmark — últimos 7 días</span>
+          </div>
+          <div id="pya-benchmark"></div>
+        </div>
+      </div>
+
+      <!-- Performance chart -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Ventas por Día</span>
+        </div>
+        <div class="chart-container" style="height:200px">
+          <canvas id="chart-pya-performance"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──── RAPPI EN VIVO ──── -->
+  <div class="page" id="page-rappi">
+    <div class="page-header">
+      <div>
+        <h1>Datos en Vivo — Rappi</h1>
+        <p id="rappi-update-ts">Sin datos aún. Esperá las 21:00 hs o ejecutá scraper_rappi.py.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline" onclick="window.open('https://partners.rappi.com/home','_blank')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Abrir Portal
+        </button>
+      </div>
+    </div>
+
+    <div id="rappi-no-data" class="card" style="text-align:center;padding:40px;display:none">
+      <div style="font-size:2rem;margin-bottom:12px">🟠</div>
+      <div style="font-size:1rem;font-weight:600;margin-bottom:8px">Datos no disponibles</div>
+      <div style="color:var(--muted);font-size:0.85rem;margin-bottom:20px">
+        El scraper se ejecuta de lunes a sábado a las 21:00 hs.<br>
+        También podés ejecutarlo manualmente:
+      </div>
+      <code style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:8px 16px;font-size:0.82rem;display:inline-block">
+        python "C:\Users\fescobara\Agente Asistente\scraper_rappi.py"
+      </code>
+    </div>
+
+    <div id="rappi-data-content">
+      <!-- KPIs -->
+      <div class="kpi-grid" id="rappi-kpis"></div>
+
+      <!-- Indicadores + Ventas -->
+      <div class="grid2">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Indicadores Operacionales</span>
+          </div>
+          <div id="rappi-indicadores"></div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Clientes — últimos 7 días</span>
+          </div>
+          <div id="rappi-clientes"></div>
+        </div>
+      </div>
+
+      <!-- Gráfico ventas diarias -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Ventas por Día</span>
+        </div>
+        <div class="chart-container" style="height:200px">
+          <canvas id="chart-rappi-ventas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──── MESES ANTERIORES ──── -->
+  <div class="page" id="page-historico">
+    <div class="page-header">
+      <div>
+        <h1>Meses Anteriores</h1>
+        <p>Resumen mensual de ventas y gastos registrados</p>
+      </div>
+    </div>
+
+    <div id="historico-empty" class="card" style="text-align:center;padding:40px;display:none">
+      <div style="font-size:2rem;margin-bottom:12px">📅</div>
+      <div style="font-size:1rem;font-weight:600;margin-bottom:8px">Sin datos históricos</div>
+      <div style="color:var(--muted);font-size:0.85rem">Registrá ventas y gastos para ver el resumen por mes.</div>
+    </div>
+
+    <div class="accordion" id="historico-accordion"></div>
+  </div>
+
+</main>
+
+<!-- ══════════════════ MODALES ══════════════════ -->
+
+<!-- Modal Venta -->
+<div class="modal-backdrop" id="modal-venta">
+  <div class="modal">
+    <h3>➕ Registrar Venta</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha</label>
+        <input type="date" id="v-fecha">
+      </div>
+      <div class="form-group">
+        <label>Plataforma</label>
+        <select id="v-plataforma">
+          <option value="PedidosYa">PedidosYa</option>
+          <option value="Rappi">Rappi</option>
+          <option value="Toteat">Toteat</option>
+          <option value="Haulmer">Espacio Haulmer</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Descripción / N° Pedido</label>
+      <input type="text" id="v-desc" placeholder="Ej: Pedido #2341, Hamburguesa combo...">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tipo de Documento</label>
+        <select id="v-tipdoc">
+          <option value="Boleta">Boleta</option>
+          <option value="Factura">Factura</option>
+          <option value="Sin documento">Sin documento</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>N° Documento</label>
+        <input type="text" id="v-ndoc" placeholder="Ej: B-0001234">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Monto ($)</label>
+        <input type="number" id="v-monto" placeholder="0.00" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Estado</label>
+        <select id="v-estado">
+          <option value="Pagado">Pagado</option>
+          <option value="Pendiente">Pendiente</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="cerrarModal('venta')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarVenta()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Gasto -->
+<div class="modal-backdrop" id="modal-gasto">
+  <div class="modal">
+    <h3>💸 Registrar Gasto</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha</label>
+        <input type="date" id="g-fecha">
+      </div>
+      <div class="form-group">
+        <label>Categoría</label>
+        <select id="g-cat">
+          <option>Insumos / Materia prima</option>
+          <option>Personal / Sueldos</option>
+          <option>Alquiler</option>
+          <option>Servicios (luz, gas, agua)</option>
+          <option>Comisiones plataformas</option>
+          <option>Packaging</option>
+          <option>Marketing</option>
+          <option>Mantenimiento</option>
+          <option>Impuestos</option>
+          <option>Otros</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Descripción</label>
+      <input type="text" id="g-desc" placeholder="Ej: Compra de verduras, gas mayo...">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Proveedor</label>
+        <input type="text" id="g-prov" placeholder="Nombre del proveedor">
+      </div>
+      <div class="form-group">
+        <label>Monto ($)</label>
+        <input type="number" id="g-monto" placeholder="0.00" step="0.01">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Estado</label>
+      <select id="g-estado">
+        <option value="Pagado">Pagado</option>
+        <option value="Pendiente">Pendiente</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="cerrarModal('gasto')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarGasto()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Documento -->
+<div class="modal-backdrop" id="modal-documento">
+  <div class="modal">
+    <h3>📄 Registrar Documento Fiscal</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha</label>
+        <input type="date" id="d-fecha">
+      </div>
+      <div class="form-group">
+        <label>Tipo</label>
+        <select id="d-tipo">
+          <option value="Factura">Factura</option>
+          <option value="Boleta">Boleta</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>N° Documento</label>
+        <input type="text" id="d-ndoc" placeholder="Ej: F-00001">
+      </div>
+      <div class="form-group">
+        <label>Plataforma / Origen</label>
+        <select id="d-plataforma">
+          <option value="PedidosYa">PedidosYa</option>
+          <option value="Rappi">Rappi</option>
+          <option value="Toteat">Toteat</option>
+          <option value="Haulmer">Espacio Haulmer</option>
+          <option value="Directo">Venta directa</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Cliente / Proveedor</label>
+      <input type="text" id="d-cliente" placeholder="Nombre o razón social">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Monto ($)</label>
+        <input type="number" id="d-monto" placeholder="0.00" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Estado</label>
+        <select id="d-estado">
+          <option value="Pagado">Pagado</option>
+          <option value="Pendiente">Pendiente</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="cerrarModal('documento')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarDocumento()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ SCRIPTS ══════════════════ -->
+<script>
+// ═══════════════════════════════════════
+// ESTADO GLOBAL
+// ═══════════════════════════════════════
+let db = { ventas: [], gastos: [], documentos: [] };
+let filtroPlataformaVenta = 'all';
+let filtroDoc = 'all';
+let charts = {};
+
+const PLAT_COLORS = {
+  PedidosYa: '#fa005a',
+  Rappi: '#ff441f',
+  Toteat: '#00b140',
+  Haulmer: '#6c63ff',
+  Directo: '#8892b0'
+};
+
+const PLAT_LABELS = {
+  PedidosYa: 'PedidosYa',
+  Rappi: 'Rappi',
+  Toteat: 'Toteat',
+  Haulmer: 'Espacio Haulmer',
+  Directo: 'Directo'
+};
+
+// ═══════════════════════════════════════
+// NAVEGACIÓN
+// ═══════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.currentTarget && event.currentTarget.classList.add('active');
+  // re-render charts on page show
+  if (id === 'resumen') renderResumen();
+  if (id === 'plataformas') renderPlataformas();
+  if (id === 'haulmer') renderHaulmer();
+  if (id === 'toteat') renderToteat();
+  if (id === 'pedidosya') renderPedidosYa();
+  if (id === 'rappi') renderRappi();
+  if (id === 'historico') renderHistorico();
+  if (id === 'ventas') renderVentas();
+  if (id === 'gastos') renderGastos();
+  if (id === 'documentos') renderDocumentos();
+}
+
+// ═══════════════════════════════════════
+// PERSISTENCIA
+// ═══════════════════════════════════════
+function guardarDB() {
+  localStorage.setItem('local_dashboard_db', JSON.stringify(db));
+}
+function cargarDB() {
+  const raw = localStorage.getItem('local_dashboard_db');
+  if (raw) db = JSON.parse(raw);
+}
+
+// ═══════════════════════════════════════
+// FILTROS DE FECHA
+// ═══════════════════════════════════════
+function _fechaLocalISO(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function initFechas() {
+  const hoy = new Date();
+  const primerDia = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  document.getElementById('filter-desde').value = _fechaLocalISO(primerDia);
+  document.getElementById('filter-hasta').value = _fechaLocalISO(hoy);
+  document.getElementById('resumen-fecha').textContent =
+    'Período: ' + primerDia.toLocaleDateString('es', {day:'2-digit',month:'long'}) +
+    ' — ' + hoy.toLocaleDateString('es', {day:'2-digit',month:'long',year:'numeric'});
+}
+
+function filtrarPorFecha(arr) {
+  const desde = document.getElementById('filter-desde').value;
+  const hasta = document.getElementById('filter-hasta').value;
+  return arr.filter(r => {
+    if (desde && r.fecha < desde) return false;
+    if (hasta && r.fecha > hasta) return false;
+    return true;
+  });
+}
+
+// ═══════════════════════════════════════
+// MODALES
+// ═══════════════════════════════════════
+function abrirModal(tipo) {
+  const hoy = new Date().toISOString().split('T')[0];
+  if (tipo === 'venta') document.getElementById('v-fecha').value = hoy;
+  if (tipo === 'gasto') document.getElementById('g-fecha').value = hoy;
+  if (tipo === 'documento') document.getElementById('d-fecha').value = hoy;
+  document.getElementById('modal-' + tipo).classList.add('open');
+}
+function cerrarModal(tipo) {
+  document.getElementById('modal-' + tipo).classList.remove('open');
+}
+document.querySelectorAll('.modal-backdrop').forEach(b => {
+  b.addEventListener('click', e => { if (e.target === b) b.classList.remove('open'); });
+});
+
+// ═══════════════════════════════════════
+// CRUD VENTAS
+// ═══════════════════════════════════════
+function guardarVenta() {
+  const v = {
+    id: Date.now(),
+    fecha: document.getElementById('v-fecha').value,
+    plataforma: document.getElementById('v-plataforma').value,
+    descripcion: document.getElementById('v-desc').value || 'Venta',
+    tipoDoc: document.getElementById('v-tipdoc').value,
+    nDoc: document.getElementById('v-ndoc').value,
+    monto: parseFloat(document.getElementById('v-monto').value) || 0,
+    estado: document.getElementById('v-estado').value
+  };
+  if (!v.fecha || v.monto <= 0) { alert('Completá la fecha y el monto.'); return; }
+  db.ventas.push(v);
+  guardarDB();
+  cerrarModal('venta');
+  renderAll();
+}
+function eliminarVenta(id) {
+  if (!confirm('¿Eliminar esta venta?')) return;
+  db.ventas = db.ventas.filter(v => v.id !== id);
+  guardarDB();
+  renderAll();
+}
+
+// ═══════════════════════════════════════
+// CRUD GASTOS
+// ═══════════════════════════════════════
+function guardarGasto() {
+  const g = {
+    id: Date.now(),
+    fecha: document.getElementById('g-fecha').value,
+    categoria: document.getElementById('g-cat').value,
+    descripcion: document.getElementById('g-desc').value || 'Gasto',
+    proveedor: document.getElementById('g-prov').value,
+    monto: parseFloat(document.getElementById('g-monto').value) || 0,
+    estado: document.getElementById('g-estado').value
+  };
+  if (!g.fecha || g.monto <= 0) { alert('Completá la fecha y el monto.'); return; }
+  db.gastos.push(g);
+  guardarDB();
+  cerrarModal('gasto');
+  renderAll();
+}
+function eliminarGasto(id) {
+  if (!confirm('¿Eliminar este gasto?')) return;
+  db.gastos = db.gastos.filter(g => g.id !== id);
+  guardarDB();
+  renderAll();
+}
+
+// ═══════════════════════════════════════
+// CRUD DOCUMENTOS
+// ═══════════════════════════════════════
+function guardarDocumento() {
+  const d = {
+    id: Date.now(),
+    fecha: document.getElementById('d-fecha').value,
+    tipo: document.getElementById('d-tipo').value,
+    nDoc: document.getElementById('d-ndoc').value,
+    plataforma: document.getElementById('d-plataforma').value,
+    cliente: document.getElementById('d-cliente').value,
+    monto: parseFloat(document.getElementById('d-monto').value) || 0,
+    estado: document.getElementById('d-estado').value
+  };
+  if (!d.fecha || d.monto <= 0) { alert('Completá la fecha y el monto.'); return; }
+  db.documentos.push(d);
+  guardarDB();
+  cerrarModal('documento');
+  renderAll();
+}
+function eliminarDoc(id) {
+  if (!confirm('¿Eliminar este documento?')) return;
+  db.documentos = db.documentos.filter(d => d.id !== id);
+  guardarDB();
+  renderAll();
+}
+
+// ═══════════════════════════════════════
+// FILTROS DE TABLA
+// ═══════════════════════════════════════
+function filtrarPlatVenta(plat, el) {
+  filtroPlataformaVenta = plat;
+  document.querySelectorAll('.pill').forEach(p => { if(p.closest('#page-ventas')) p.classList.remove('active'); });
+  el.classList.add('active');
+  renderVentas();
+}
+function filtrarDoc(tipo, el) {
+  filtroDoc = tipo;
+  document.querySelectorAll('.pill').forEach(p => { if(p.closest('#page-documentos')) p.classList.remove('active'); });
+  el.classList.add('active');
+  renderDocumentos();
+}
+
+// ═══════════════════════════════════════
+// RENDER HELPERS
+// ═══════════════════════════════════════
+function fmt(n) {
+  return '$' + (n || 0).toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function fmtFecha(s) {
+  if (!s) return '—';
+  const [y,m,d] = s.split('-');
+  return `${d}/${m}/${y}`;
+}
+function platBadge(p) {
+  const cls = { PedidosYa:'pedidosya', Rappi:'rappi', Toteat:'topeat', Haulmer:'haulmer', Directo:'haulmer' };
+  return `<span class="badge badge-${cls[p]||'haulmer'}">${PLAT_LABELS[p]||p}</span>`;
+}
+function estadoBadge(e) {
+  const cls = e === 'Pagado' ? 'pagado' : 'pendiente';
+  return `<span class="badge badge-${cls}">${e}</span>`;
+}
+function tipDocBadge(t) {
+  const cls = t === 'Factura' ? 'factura' : t === 'Boleta' ? 'boleta' : 'haulmer';
+  return `<span class="badge badge-${cls}">${t}</span>`;
+}
+function emptyState() {
+  return `<tr><td colspan="10"><div class="empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    <div>No hay registros todavía.<br>¡Agregá el primero!</div>
+  </div></td></tr>`;
+}
+
+// ═══════════════════════════════════════
+// RENDER RESUMEN
+// ═══════════════════════════════════════
+function renderResumen() {
+  // Banner Haulmer
+  const H = window.HAULMER_DATA;
+  const banner = document.getElementById('banner-haulmer');
+  if (H && !H.error) {
+    banner.style.display = 'flex';
+    document.getElementById('banner-haulmer-ts').textContent = `Actualizado: ${H.actualizadoEl}`;
+    document.getElementById('banner-haulmer-dia').textContent = fmt((H.informe_dia||{}).monto_ventas||0);
+    document.getElementById('banner-haulmer-mes').textContent = fmt((H.informe_mes||{}).monto_ventas||0);
+    document.getElementById('banner-haulmer-abono').textContent = fmt((H.abonos||{}).total_abonado||0);
+  } else {
+    banner.style.display = 'none';
+  }
+
+  // Banner Toteat
+  const T = window.TOTEAT_DATA;
+  const bannerT = document.getElementById('banner-toteat');
+  const fechaVista = window._FECHA_VISTA || new Date().toISOString().slice(0, 10);
+  if (T && !T.error) {
+    bannerT.style.display = 'flex';
+    const uc = T.ultimo_cierre || {};
+    const ucFechaIso = uc.fecha_iso || (uc.fecha ? uc.fecha.split('/').reverse().join('-') : '');
+    const toteatEsHoy = ucFechaIso === fechaVista;
+    document.getElementById('banner-toteat-ts').textContent = `Actualizado: ${T.actualizadoEl}`;
+    document.getElementById('banner-toteat-fecha').textContent = uc.fecha || '—';
+    document.getElementById('banner-toteat-ventas').textContent =
+      toteatEsHoy ? fmt(uc.total_ventas || 0) : `${fmt(uc.total_ventas || 0)} (no incluido — cierre de otro día)`;
+    document.getElementById('banner-toteat-ventas').style.color = toteatEsHoy ? '' : 'var(--muted)';
+    document.getElementById('banner-toteat-ordenes').textContent = (uc.n_ordenes || 0) + ' órdenes';
+  } else {
+    bannerT.style.display = 'none';
+  }
+
+  // Banner PedidosYa
+  const PYA = window.PEDIDOSYA_DATA;
+  const bannerPya = document.getElementById('banner-pedidosya');
+  if (PYA && !PYA.error) {
+    bannerPya.style.display = 'flex';
+    const isOpen = PYA.estado_local === 'OPEN';
+    document.getElementById('banner-pya-dot').style.background = isOpen ? 'var(--green)' : 'var(--red)';
+    document.getElementById('banner-pya-dot').style.boxShadow  = isOpen ? '0 0 6px var(--green)' : 'none';
+    document.getElementById('banner-pya-ts').textContent    = `Actualizado: ${PYA.actualizadoEl}`;
+    document.getElementById('banner-pya-estado').textContent = isOpen ? 'ABIERTO' : 'CERRADO';
+    document.getElementById('banner-pya-estado').style.color = isOpen ? 'var(--green)' : 'var(--red)';
+    document.getElementById('banner-pya-tier').textContent   = PYA.tier || 'NONE';
+  } else {
+    bannerPya.style.display = 'none';
+  }
+
+  // Banner Rappi
+  const RAP = window.RAPPI_DATA;
+  const bannerRappi = document.getElementById('banner-rappi');
+  if (RAP && !RAP.error) {
+    bannerRappi.style.display = 'flex';
+    const enabled = RAP.is_enabled;
+    document.getElementById('banner-rappi-dot').style.background = enabled ? 'var(--green)' : 'var(--red)';
+    document.getElementById('banner-rappi-dot').style.boxShadow  = enabled ? '0 0 6px var(--green)' : 'none';
+    document.getElementById('banner-rappi-ts').textContent      = `Actualizado: ${RAP.actualizadoEl}`;
+    document.getElementById('banner-rappi-estado').textContent  = enabled ? 'ACTIVO' : 'INACTIVO';
+    document.getElementById('banner-rappi-estado').style.color  = enabled ? 'var(--green)' : 'var(--red)';
+    const v7 = RAP.ventas_7d || {};
+    document.getElementById('banner-rappi-ventas').textContent  = '$' + Math.round(v7.total_amount || 0).toLocaleString('es-CL');
+  } else {
+    bannerRappi.style.display = 'none';
+  }
+
+  // ── Datos en vivo desde scrapers ──
+  const liveHaulmer = (H && !H.error) ? ((H.informe_dia||{}).monto_ventas  || 0) : 0;
+  const _ucT = (T && !T.error) ? (T.ultimo_cierre || {}) : {};
+  const _ucFechaIso = _ucT.fecha_iso || (_ucT.fecha ? _ucT.fecha.split('/').reverse().join('-') : '');
+  const liveToteat  = (_ucFechaIso === fechaVista) ? (_ucT.total_ventas || 0) : 0;
+  const livePya     = (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+(d.revenue||0),0) : 0;
+  const liveRappi   = (RAP && !RAP.error) ? ((RAP.ventas_7d||{}).total_amount || 0) : 0;
+  const liveByPlat  = { Haulmer: liveHaulmer, Toteat: liveToteat, PedidosYa: livePya, Rappi: liveRappi };
+
+  const ordToteat = (_ucFechaIso === fechaVista) ? (_ucT.n_ordenes || 0) : 0;
+  const ordPya    = (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+(d.orderCount||0),0) : 0;
+  const ordRappi  = (RAP && !RAP.error) ? ((RAP.ventas_7d||{}).total_orders || 0) : 0;
+
+  // ── Registros manuales ──
+  const ventas = filtrarPorFecha(db.ventas);
+  const gastos = filtrarPorFecha(db.gastos);
+  const docs   = filtrarPorFecha(db.documentos);
+  const ventasManual = ventas.reduce((s,v) => s + v.monto, 0);
+  const totalGastos  = gastos.reduce((s,g) => s + g.monto, 0);
+
+  // ── KPIs consolidados ──
+  // Sumar ventas históricas scrapeadas (días anteriores en cache)
+  const _histRows = filtrarPorFecha(getLiveVentas().filter(v => v._hist));
+  const _histTotal = _histRows.reduce((s,v) => s + v.monto, 0);
+  const totalVentas = liveHaulmer + liveToteat + livePya + liveRappi + ventasManual + _histTotal;
+  const totalOrdenes = ordToteat + ordPya + ordRappi + ventas.length;
+  const neto = totalVentas - totalGastos;
+
+  const factHaulmer = (H && !H.error) ? ((H.dte||{}).facturas || 0) : 0;
+  const bolHaulmer  = (H && !H.error) ? ((H.dte||{}).boletas  || 0) : 0;
+  const totalFact = factHaulmer + docs.filter(d => d.tipo === 'Factura').length;
+  const totalBol  = bolHaulmer  + docs.filter(d => d.tipo === 'Boleta').length;
+
+  document.getElementById('kpi-ventas').textContent = fmt(totalVentas);
+  document.getElementById('kpi-ventas-badge').textContent = totalOrdenes + ' pedidos';
+  document.getElementById('kpi-gastos').textContent = fmt(totalGastos);
+  document.getElementById('kpi-gastos-badge').textContent = gastos.length + ' ítems';
+  const netoEl = document.getElementById('kpi-neto');
+  netoEl.textContent = fmt(neto);
+  netoEl.style.color = neto >= 0 ? 'var(--green)' : 'var(--red)';
+  document.getElementById('kpi-facturas').textContent = totalFact;
+  document.getElementById('kpi-boletas-sub').textContent = totalBol + ' boletas';
+
+  // ── Tarjetas de plataforma con datos en vivo ──
+  const plats = ['Haulmer','Toteat','PedidosYa','Rappi'];
+  const platClasses = { PedidosYa:'pedidosya', Rappi:'rappi', Toteat:'topeat', Haulmer:'haulmer' };
+  const platEmoji   = { PedidosYa:'🛵', Rappi:'🟠', Toteat:'🍽', Haulmer:'📊' };
+  const platPeriod  = {
+    Haulmer:   (H   && !H.error)   ? 'Hoy'                                              : 'Sin datos',
+    Toteat:    (T   && !T.error)   ? (_ucFechaIso === fechaVista ? 'Cierre ' + (_ucT.fecha||'') : 'Sin cierre del día — último: ' + (_ucT.fecha||'')) : 'Sin datos',
+    PedidosYa: (PYA && !PYA.error) ? 'Últimos 7 días'                                   : 'Sin datos',
+    Rappi:     (RAP && !RAP.error) ? 'Últimos 7 días'                                   : 'Sin datos',
+  };
+  const pc = document.getElementById('platform-cards');
+  pc.innerHTML = plats.map(p => {
+    const manual = ventas.filter(v => v.plataforma === p).reduce((s,v) => s + v.monto, 0);
+    const total  = (liveByPlat[p] || 0) + manual;
+    return `<div class="platform-card ${platClasses[p]}">
+      <div class="platform-card-name">${platEmoji[p]} ${PLAT_LABELS[p]}</div>
+      <div class="platform-card-total">${fmt(total)}</div>
+      <div class="platform-card-orders" style="font-size:0.75rem;color:var(--muted)">${platPeriod[p]}</div>
+    </div>`;
+  }).join('');
+
+  // Últimas transacciones
+  const todas = [
+    ...ventas.map(v => ({...v, _tipo:'venta'})),
+    ...gastos.map(g => ({...g, _tipo:'gasto'}))
+  ].sort((a,b) => b.fecha.localeCompare(a.fecha)).slice(0, 10);
+
+  const tb = document.getElementById('tabla-ultimas');
+  document.getElementById('ultimas-count').textContent = 'Últimas 10 de ' + todas.length;
+  if (!todas.length) { tb.innerHTML = emptyState(); }
+  else {
+    tb.innerHTML = todas.map(r => {
+      if (r._tipo === 'venta') {
+        return `<tr>
+          <td>${fmtFecha(r.fecha)}</td>
+          <td>${platBadge(r.plataforma)}</td>
+          <td>${r.descripcion}</td>
+          <td>${tipDocBadge(r.tipoDoc)}</td>
+          <td class="text-green font-bold">${fmt(r.monto)}</td>
+        </tr>`;
+      } else {
+        return `<tr>
+          <td>${fmtFecha(r.fecha)}</td>
+          <td><span class="badge badge-gasto">Gasto</span></td>
+          <td>${r.descripcion}</td>
+          <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa">${r.categoria}</span></td>
+          <td class="text-red font-bold">-${fmt(r.monto)}</td>
+        </tr>`;
+      }
+    }).join('');
+  }
+
+  renderCharts(ventas, gastos, liveByPlat);
+}
+
+// ═══════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════
+function renderCharts(ventas, gastos, liveByPlat) {
+  liveByPlat = liveByPlat || {};
+  // Donut plataforma — combina datos en vivo + manuales
+  const plats = ['Haulmer','Toteat','PedidosYa','Rappi'];
+  const platTotals = plats.map(p => {
+    const manual = ventas.filter(v=>v.plataforma===p).reduce((s,v)=>s+v.monto,0);
+    return (liveByPlat[p] || 0) + manual;
+  });
+  const ctxPl = document.getElementById('chart-plataforma').getContext('2d');
+  if (charts.plataforma) charts.plataforma.destroy();
+  charts.plataforma = new Chart(ctxPl, {
+    type: 'doughnut',
+    data: {
+      labels: plats.map(p => PLAT_LABELS[p]),
+      datasets: [{
+        data: platTotals,
+        backgroundColor: plats.map(p => PLAT_COLORS[p]),
+        borderWidth: 0,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { color: '#8892b0', font: { size: 11 }, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.parsed)}` } }
+      }
+    }
+  });
+
+  // Bar ingreso vs gasto por mes
+  const meses = {};
+  [...ventas, ...gastos.map(g=>({...g,_gasto:true}))].forEach(r => {
+    const m = r.fecha ? r.fecha.slice(0,7) : 'Sin fecha';
+    if (!meses[m]) meses[m] = { ing: 0, gas: 0 };
+    r._gasto ? meses[m].gas += r.monto : meses[m].ing += r.monto;
+  });
+  const mLabels = Object.keys(meses).sort();
+  const ctxIG = document.getElementById('chart-ingreso-gasto').getContext('2d');
+  if (charts.ingresoGasto) charts.ingresoGasto.destroy();
+  charts.ingresoGasto = new Chart(ctxIG, {
+    type: 'bar',
+    data: {
+      labels: mLabels.map(m => { const [y,mo]=m.split('-'); return new Date(y,mo-1).toLocaleDateString('es',{month:'short',year:'2-digit'}); }),
+      datasets: [
+        { label: 'Ingresos', data: mLabels.map(m=>meses[m].ing), backgroundColor: 'rgba(34,197,94,.7)', borderRadius: 4 },
+        { label: 'Gastos',   data: mLabels.map(m=>meses[m].gas), backgroundColor: 'rgba(239,68,68,.7)', borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8892b0', font:{size:11} } } },
+      scales: {
+        x: { ticks: { color: '#8892b0' }, grid: { color: '#2e3250' } },
+        y: { ticks: { color: '#8892b0', callback: v=>'$'+v.toLocaleString('es-AR') }, grid: { color: '#2e3250' } }
+      }
+    }
+  });
+
+  // Line evolución últimos 30 días
+  const hoy = new Date();
+  const dias = Array.from({length:30}, (_,i) => {
+    const d = new Date(hoy); d.setDate(hoy.getDate()-29+i);
+    return d.toISOString().split('T')[0];
+  });
+  const dailySales = dias.map(d => ventas.filter(v=>v.fecha===d).reduce((s,v)=>s+v.monto,0));
+  const ctxEv = document.getElementById('chart-evolucion').getContext('2d');
+  if (charts.evolucion) charts.evolucion.destroy();
+  charts.evolucion = new Chart(ctxEv, {
+    type: 'line',
+    data: {
+      labels: dias.map(d => { const [,m,day]=d.split('-'); return `${day}/${m}`; }),
+      datasets: [{
+        label: 'Ventas diarias',
+        data: dailySales,
+        borderColor: '#6c63ff',
+        backgroundColor: 'rgba(108,99,255,.1)',
+        fill: true,
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 5
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8892b0', font:{size:11} } } },
+      scales: {
+        x: { ticks: { color: '#8892b0', maxTicksLimit:10 }, grid: { color: '#2e3250' } },
+        y: { ticks: { color: '#8892b0', callback: v=>'$'+v.toLocaleString('es-AR') }, grid: { color: '#2e3250' } }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════
+// RENDER VENTAS
+// ═══════════════════════════════════════
+// Convierte datos de scrapers en filas de ventas virtuales
+function getLiveVentas() {
+  const rows = [];
+  const H   = window.HAULMER_DATA;
+  const T   = window.TOTEAT_DATA;
+  const PYA = window.PEDIDOSYA_DATA;
+  const RAP = window.RAPPI_DATA;
+  const _hd = new Date(); const hoy = `${_hd.getFullYear()}-${String(_hd.getMonth()+1).padStart(2,'0')}-${String(_hd.getDate()).padStart(2,'0')}`;
+  // Fecha del dato capturado (dd/mm/yyyy hh:mm → yyyy-mm-dd); evita mostrar "mañana" por desfase UTC
+  const fechaDato = (H && H.actualizadoEl)
+    ? H.actualizadoEl.split(' ')[0].split('/').reverse().join('-')
+    : hoy;
+
+  if (H && !H.error) {
+    const d = H.informe_dia || {};
+    const posBreakdown = d.pos_breakdown || [];
+    if (posBreakdown.length > 0) {
+      posBreakdown.forEach(pos => {
+        if (!pos.total_ventas) return;
+        const nombre = pos.serial.startsWith('PB1T') ? 'Brina' : pos.serial.startsWith('6010B') ? "Parking O'Carrol" : pos.serial;
+        const partes = [];
+        if (pos.debito)   partes.push(`Débito $${Math.round(pos.debito).toLocaleString('es-CL')}`);
+        if (pos.credito)  partes.push(`Crédito $${Math.round(pos.credito).toLocaleString('es-CL')}`);
+        if (pos.efectivo) partes.push(`Efectivo $${Math.round(pos.efectivo).toLocaleString('es-CL')}`);
+        rows.push({ fecha: fechaDato, plataforma:'Haulmer',
+          descripcion: `${nombre} — Ventas del día` + (partes.length ? ' (' + partes.join(', ') + ')' : ''),
+          tipoDoc:'Sin documento', nDoc: nombre, monto: pos.total_ventas, estado:'Pagado', _live:true });
+      });
+    } else if (d.monto_ventas > 0) {
+      const partes = [];
+      if (d.debito)   partes.push(`Débito $${Math.round(d.debito).toLocaleString('es-CL')}`);
+      if (d.credito)  partes.push(`Crédito $${Math.round(d.credito).toLocaleString('es-CL')}`);
+      if (d.efectivo) partes.push(`Efectivo $${Math.round(d.efectivo).toLocaleString('es-CL')}`);
+      rows.push({ fecha: fechaDato, plataforma:'Haulmer',
+        descripcion: 'Ventas del día' + (partes.length ? ' — ' + partes.join(', ') : ''),
+        tipoDoc:'Sin documento', nDoc:'—', monto: d.monto_ventas, estado:'Pagado', _live:true });
+    }
+  }
+
+  if (T && !T.error) {
+    const uc = T.ultimo_cierre || {};
+    if (uc.total_ventas > 0) {
+      const fi = uc.fecha_iso || (uc.fecha ? uc.fecha.split('/').reverse().join('-') : hoy);
+      // Solo mostrar si el cierre es del mismo día que los datos de Haulmer
+      if (fi === fechaDato) {
+        rows.push({ fecha: fi, plataforma:'Toteat',
+          descripcion: `Cierre de caja ${uc.fecha||''} — ${uc.n_ordenes||0} órdenes`,
+          tipoDoc:'Sin documento', nDoc: uc.turno||'—', monto: uc.total_ventas, estado:'Pagado', _live:true });
+      }
+    }
+  }
+
+  if (PYA && !PYA.error) {
+    (PYA.performance_7d||[]).forEach(d => {
+      if (d.revenue > 0)
+        rows.push({ fecha: d.date, plataforma:'PedidosYa',
+          descripcion: `Ventas del día — ${d.orderCount||0} pedidos`,
+          tipoDoc:'Sin documento', nDoc:'—', monto: d.revenue, estado:'Pagado', _live:true });
+    });
+  }
+
+  if (RAP && !RAP.error) {
+    ((RAP.ventas_7d||{}).last_week||[]).forEach(d => {
+      if (d.amount > 0)
+        rows.push({ fecha: d.date, plataforma:'Rappi',
+          descripcion: `Ventas del día — ${d.orders||0} pedidos`,
+          tipoDoc:'Sin documento', nDoc:'—', monto: d.amount, estado:'Pagado', _live:true });
+    });
+  }
+
+  // ── Datos históricos desde cache (otros días scrapeados) ──
+  const _hoyStr = new Date().toISOString().split('T')[0];
+  if (window.HISTORICO_CACHE) {
+    for (const [fecha, datos] of Object.entries(window.HISTORICO_CACHE)) {
+      if (fecha === _hoyStr) continue;
+      // Haulmer histórico
+      const hH = datos.haulmer;
+      if (hH && !hH.error) {
+        const dH = hH.informe_dia || {};
+        if (dH.monto_ventas > 0) {
+          const partes = [];
+          if (dH.debito)   partes.push(`Déb $${Math.round(dH.debito).toLocaleString('es-CL')}`);
+          if (dH.credito)  partes.push(`Cré $${Math.round(dH.credito).toLocaleString('es-CL')}`);
+          if (dH.efectivo) partes.push(`Ef $${Math.round(dH.efectivo).toLocaleString('es-CL')}`);
+          rows.push({ fecha, plataforma:'Haulmer',
+            descripcion: 'Ventas del día' + (partes.length ? ' (' + partes.join(', ') + ')' : ''),
+            tipoDoc:'Sin documento', nDoc:'—', monto: dH.monto_ventas, estado:'Pagado', _live:true, _hist:true });
+        }
+      }
+      // Toteat histórico
+      const hT = datos.toteat;
+      if (hT && !hT.error) {
+        const uc = hT.ultimo_cierre || {};
+        const ucFecha = uc.fecha_iso || (uc.fecha ? uc.fecha.split('/').reverse().join('-') : '');
+        if (uc.total_ventas > 0 && ucFecha === fecha) {
+          rows.push({ fecha, plataforma:'Toteat',
+            descripcion: `Cierre de caja ${uc.fecha||''} — ${uc.n_ordenes||0} órdenes`,
+            tipoDoc:'Sin documento', nDoc: uc.turno||'—', monto: uc.total_ventas, estado:'Pagado', _live:true, _hist:true });
+        }
+      }
+      // PedidosYa histórico
+      const hPYA = datos.pedidosya;
+      if (hPYA && !hPYA.error) {
+        (hPYA.performance_7d||[]).forEach(d => {
+          if (d.revenue > 0 && d.date === fecha)
+            rows.push({ fecha, plataforma:'PedidosYa',
+              descripcion: `Ventas del día — ${d.orderCount||0} pedidos`,
+              tipoDoc:'Sin documento', nDoc:'—', monto: d.revenue, estado:'Pagado', _live:true, _hist:true });
+        });
+      }
+      // Rappi histórico
+      const hRAP = datos.rappi;
+      if (hRAP && !hRAP.error) {
+        ((hRAP.ventas_7d||{}).last_week||[]).forEach(d => {
+          if (d.amount > 0 && d.date === fecha)
+            rows.push({ fecha, plataforma:'Rappi',
+              descripcion: `Ventas del día — ${d.orders||0} pedidos`,
+              tipoDoc:'Sin documento', nDoc:'—', monto: d.amount, estado:'Pagado', _live:true, _hist:true });
+        });
+      }
+    }
+  }
+
+  return rows;
+}
+
+function renderVentas() {
+  const live   = getLiveVentas();
+  const manual = db.ventas.slice();
+  let todas = [...live, ...manual].sort((a,b) => b.fecha.localeCompare(a.fecha));
+  if (filtroPlataformaVenta !== 'all') todas = todas.filter(v => v.plataforma === filtroPlataformaVenta);
+
+  const tb = document.getElementById('tabla-ventas');
+  if (!todas.length) { tb.innerHTML = emptyState(); return; }
+
+  tb.innerHTML = todas.map(v => {
+    const liveBadge = v._live
+      ? `<span style="font-size:.65rem;background:rgba(100,255,180,.12);color:#4ade80;border:1px solid rgba(100,255,180,.3);border-radius:4px;padding:1px 5px;margin-left:4px">Live</span>`
+      : '';
+    const accion = v._live
+      ? `<span style="color:var(--muted);font-size:.75rem">auto</span>`
+      : `<button class="btn btn-danger btn-sm" onclick="eliminarVenta(${v.id})">✕</button>`;
+    return `<tr>
+      <td>${fmtFecha(v.fecha)}</td>
+      <td>${platBadge(v.plataforma)}${liveBadge}</td>
+      <td>${v.descripcion}</td>
+      <td>${tipDocBadge(v.tipoDoc)}</td>
+      <td>${v.nDoc || '—'}</td>
+      <td class="font-bold text-green">${fmt(v.monto)}</td>
+      <td>${estadoBadge(v.estado)}</td>
+      <td>${accion}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// RENDER PLATAFORMAS
+// ═══════════════════════════════════════
+function renderPlataformas() {
+  const H   = window.HAULMER_DATA;
+  const T   = window.TOTEAT_DATA;
+  const PYA = window.PEDIDOSYA_DATA;
+  const RAP = window.RAPPI_DATA;
+
+  // Totales en vivo por plataforma
+  const liveData = {
+    Haulmer: {
+      total:   (H && !H.error) ? ((H.informe_dia||{}).monto_ventas||0) : 0,
+      ordenes: 0,
+      detalle: (H && !H.error) ? [
+        { label:'Débito',   val: fmt((H.informe_dia||{}).debito||0) },
+        { label:'Crédito',  val: fmt((H.informe_dia||{}).credito||0) },
+        { label:'Efectivo', val: fmt((H.informe_dia||{}).efectivo||0) },
+        { label:'Propinas', val: fmt((H.informe_dia||{}).propinas||0) },
+      ] : [],
+      periodo: 'Hoy',
+    },
+    Toteat: {
+      total:   (T && !T.error) ? ((T.ultimo_cierre||{}).total_ventas||0) : 0,
+      ordenes: (T && !T.error) ? ((T.ultimo_cierre||{}).n_ordenes||0) : 0,
+      detalle: (T && !T.error) ? [
+        { label:'Efectivo',  val: fmt((T.ultimo_cierre||{}).efectivo||0) },
+        { label:'Tarjeta',   val: fmt((T.ultimo_cierre||{}).tarjeta||0) },
+        { label:'Anuladas',  val: (T.ultimo_cierre||{}).n_anuladas||0 },
+        { label:'Cierres históricos', val: T.total_cierres_historicos||0 },
+      ] : [],
+      periodo: (T && !T.error) ? 'Cierre ' + ((T.ultimo_cierre||{}).fecha||'') : '—',
+    },
+    PedidosYa: {
+      total:   (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+(d.revenue||0),0) : 0,
+      ordenes: (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+(d.orderCount||0),0) : 0,
+      detalle: (PYA && !PYA.error) ? [
+        { label:'Estado',    val: PYA.estado_local||'—' },
+        { label:'Tier',      val: PYA.tier||'NONE' },
+        { label:'Calificación', val: (PYA.metricas_tier||{}).calificacion||'—' },
+        { label:'Tasa fallo',   val: ((PYA.metricas_tier||{}).tasa_fallo||'0') + '%' },
+      ] : [],
+      periodo: 'Últimos 7 días',
+    },
+    Rappi: {
+      total:   (RAP && !RAP.error) ? ((RAP.ventas_7d||{}).total_amount||0) : 0,
+      ordenes: (RAP && !RAP.error) ? ((RAP.ventas_7d||{}).total_orders||0) : 0,
+      detalle: (RAP && !RAP.error) ? [
+        { label:'Estado',       val: RAP.is_enabled ? 'ACTIVO' : 'INACTIVO' },
+        { label:'Tier',         val: RAP.store_tier||'—' },
+        { label:'Cancelaciones', val: ((RAP.indicadores||{}).cancellation_pct||0) + '%' },
+        { label:'Errores',       val: ((RAP.indicadores||{}).error_pct||0) + '%' },
+      ] : [],
+      periodo: 'Últimos 7 días',
+    },
+  };
+
+  const plats = ['Haulmer','Toteat','PedidosYa','Rappi'];
+  const ids   = { Haulmer:'haulmer', Toteat:'topeat', PedidosYa:'pedidosya', Rappi:'rappi' };
+
+  // Total global para barras
+  const totalGlobal = plats.reduce((s,p) => {
+    const manual = db.ventas.filter(v=>v.plataforma===p).reduce((sv,v)=>sv+v.monto,0);
+    return s + (liveData[p].total||0) + manual;
+  }, 0) || 1;
+
+  plats.forEach(p => {
+    const ld  = liveData[p];
+    const pvs = db.ventas.filter(v=>v.plataforma===p);
+    const manual = pvs.reduce((s,v)=>s+v.monto,0);
+    const tot  = (ld.total||0) + manual;
+    const ords = (ld.ordenes||0) + pvs.length;
+    const avg  = ords > 0 ? tot / ords : 0;
+
+    const el = document.getElementById('stats-'+ids[p]);
+    if (!el) return;
+
+    const detalleRows = ld.detalle.map(d =>
+      `<div class="summary-row"><span style="color:var(--muted)">${d.label}</span><span class="font-bold">${d.val}</span></div>`
+    ).join('');
+
+    el.innerHTML = `
+      <div class="summary-row"><span>Total</span><span class="font-bold text-green">${fmt(tot)}</span></div>
+      <div class="summary-row"><span>N° pedidos / órdenes</span><span>${ords}</span></div>
+      <div class="summary-row"><span>Ticket promedio</span><span>${fmt(avg)}</span></div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border)">
+        <div style="font-size:.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">${ld.periodo}</div>
+        ${detalleRows}
+      </div>
+    `;
+  });
+
+  // Barras de participación
+  const bars = document.getElementById('participacion-bars');
+  bars.innerHTML = plats.map(p => {
+    const manual = db.ventas.filter(v=>v.plataforma===p).reduce((s,v)=>s+v.monto,0);
+    const tot = (liveData[p].total||0) + manual;
+    const pct = (tot / totalGlobal * 100).toFixed(1);
+    return `<div class="platform-stat">
+      <div class="platform-stat-label">${PLAT_LABELS[p]}</div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${pct}%;background:${PLAT_COLORS[p]}"></div>
+      </div>
+      <div class="platform-stat-value">${fmt(tot)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// RENDER GASTOS
+// ═══════════════════════════════════════
+function renderGastos() {
+  const gastos = db.gastos.slice().sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  const total = gastos.reduce((s,g)=>s+g.monto,0);
+
+  // Mayor categoría
+  const byCat = {};
+  gastos.forEach(g => byCat[g.categoria] = (byCat[g.categoria]||0) + g.monto);
+  const catMayor = Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+
+  // Este mes
+  const hoy = new Date();
+  const mesActual = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}`;
+  const gastosMes = gastos.filter(g=>g.fecha&&g.fecha.startsWith(mesActual)).reduce((s,g)=>s+g.monto,0);
+
+  document.getElementById('kpi-total-gastos').textContent = fmt(total);
+  document.getElementById('kpi-cat-mayor').textContent = catMayor ? catMayor[0].split(' ')[0] : '—';
+  document.getElementById('kpi-gastos-mes').textContent = fmt(gastosMes);
+
+  const tb = document.getElementById('tabla-gastos');
+  if (!gastos.length) { tb.innerHTML = emptyState(); return; }
+  tb.innerHTML = gastos.map(g => `<tr>
+    <td>${fmtFecha(g.fecha)}</td>
+    <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa;font-size:.7rem">${g.categoria}</span></td>
+    <td>${g.descripcion}</td>
+    <td>${g.proveedor||'—'}</td>
+    <td class="font-bold text-red">${fmt(g.monto)}</td>
+    <td>${estadoBadge(g.estado)}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="eliminarGasto(${g.id})">✕</button></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════
+// RENDER DOCUMENTOS
+// ═══════════════════════════════════════
+function renderDocumentos() {
+  let docs = db.documentos.slice().sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  const facturas = docs.filter(d=>d.tipo==='Factura');
+  const boletas = docs.filter(d=>d.tipo==='Boleta');
+  const pendFact = facturas.filter(d=>d.estado==='Pendiente').length;
+  const pagBol = boletas.filter(d=>d.estado==='Pagado').length;
+  const totalMonto = docs.reduce((s,d)=>s+d.monto,0);
+  const pendMonto = docs.filter(d=>d.estado==='Pendiente').reduce((s,d)=>s+d.monto,0);
+
+  document.getElementById('kpi2-facturas').textContent = facturas.length;
+  document.getElementById('kpi2-fact-pend').textContent = pendFact + ' pendiente' + (pendFact!==1?'s':'');
+  document.getElementById('kpi2-boletas').textContent = boletas.length;
+  document.getElementById('kpi2-bol-pend').textContent = pagBol + ' pagada' + (pagBol!==1?'s':'');
+  document.getElementById('kpi2-monto').textContent = fmt(totalMonto);
+  document.getElementById('kpi2-pendiente').textContent = fmt(pendMonto);
+
+  if (filtroDoc !== 'all') docs = docs.filter(d=>d.tipo===filtroDoc);
+
+  const tb = document.getElementById('tabla-docs');
+  if (!docs.length) { tb.innerHTML = emptyState(); return; }
+  tb.innerHTML = docs.map(d => `<tr>
+    <td>${fmtFecha(d.fecha)}</td>
+    <td>${tipDocBadge(d.tipo)}</td>
+    <td>${d.nDoc||'—'}</td>
+    <td>${platBadge(d.plataforma)}</td>
+    <td>${d.cliente||'—'}</td>
+    <td class="font-bold">${fmt(d.monto)}</td>
+    <td>${estadoBadge(d.estado)}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="eliminarDoc(${d.id})">✕</button></td>
+  </tr>`).join('');
+}
+
+// ═══════════════════════════════════════
+// ═══════════════════════════════════════
+// RENDER HAULMER LIVE
+// ═══════════════════════════════════════
+function renderHaulmer() {
+  const H = window.HAULMER_DATA;
+  const noData = document.getElementById('haulmer-no-data');
+  const content = document.getElementById('haulmer-data-content');
+
+  if (!H) {
+    noData.style.display = 'block';
+    content.style.display = 'none';
+    return;
+  }
+  noData.style.display = 'none';
+  content.style.display = 'block';
+
+  document.getElementById('haulmer-update-ts').textContent =
+    `Última actualización: ${H.actualizadoEl}${H.error ? ' ⚠️ (con errores — revisar scraper.log)' : ''}`;
+
+  const d = H.informe_dia    || {};
+  const s = H.informe_semana || {};
+  const m = H.informe_mes    || {};
+  const dte   = H.dte    || {};
+  const abonos = H.abonos || {};
+
+  // ── KPIs del día ──
+  const nTxTotal = d.n_tx_total   || 0;
+  const nTxDeb   = d.n_tx_debito  || 0;
+  const nTxCred  = d.n_tx_credito || 0;
+  const nTxEfec  = d.n_tx_efectivo|| 0;
+
+  // Abonos: transacciones ya liquidadas por Haulmer (tarjetas)
+  const nTxTarjeta = nTxDeb + nTxCred;
+  const nAbonadas  = abonos.n_transacciones_hoy || (abonos.abonos && abonos.abonos.length) || 0;
+  const pctLiquidado = nTxTarjeta > 0
+    ? Math.round((abonos.total_ventas_hoy || 0) / ((d.debito||0) + (d.credito||0)) * 100)
+    : 0;
+
+  document.getElementById('haulmer-kpis-dia').innerHTML = `
+    <div class="kpi green">
+      <div class="kpi-label">Ventas Hoy</div>
+      <div class="kpi-value">${fmt(d.monto_ventas||0)}</div>
+      <div class="kpi-sub"><span class="kpi-badge">Neto: ${fmt(d.monto_neto||0)}</span> &nbsp;IVA: ${fmt(d.iva||0)}</div>
+    </div>
+    <div class="kpi yellow">
+      <div class="kpi-label">Boletas / Comprobantes</div>
+      <div class="kpi-value">${nTxTotal}</div>
+      <div class="kpi-sub">
+        ${nTxDeb  ? `💳 Déb: ${nTxDeb}` : ''}
+        ${nTxCred ? ` · Cré: ${nTxCred}` : ''}
+        ${nTxEfec ? ` · 💵 Ef: ${nTxEfec}` : ''}
+      </div>
+    </div>
+    <div class="kpi" style="${(dte.boletas||0) === 0 ? 'opacity:0.55' : ''}">
+      <div class="kpi-label">DTE Electrónicos emitidos</div>
+      <div class="kpi-value">${(dte.boletas||0) + (dte.facturas||0)}</div>
+      <div class="kpi-sub">${dte.boletas||0} boletas · ${dte.facturas||0} facturas${(dte.boletas||0) === 0 ? '<br><span style="font-size:0.68rem;color:var(--muted)">Los comprobantes POS no son DTE</span>' : ''}</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">Liquidaciones tarjeta hoy</div>
+      <div class="kpi-value">${fmt(abonos.total_abonado||0)}</div>
+      <div class="kpi-sub">${abonos.n_transacciones_hoy||0} tx procesadas · Comisión: ${fmt(abonos.total_comision||0)}</div>
+    </div>
+  `;
+
+  // ── Cards período ──
+  const periodoCard = (titulo, datos, color) => `
+    <div class="card" style="border-top:3px solid ${color}">
+      <div class="card-header"><span class="card-title">${titulo}</span></div>
+      <div class="summary-row"><span>Total Ventas</span><span class="font-bold text-green">${fmt(datos.monto_ventas||0)}</span></div>
+      <div class="summary-row"><span>Monto Neto</span><span>${fmt(datos.monto_neto||0)}</span></div>
+      <div class="summary-row"><span>IVA</span><span>${fmt(datos.iva||0)}</span></div>
+      <div class="summary-row" style="border-bottom:none"></div>
+      <div class="summary-row"><span>💳 Débito</span><span>${fmt(datos.debito||0)}</span></div>
+      <div class="summary-row"><span>💳 Crédito</span><span>${fmt(datos.credito||0)}</span></div>
+      <div class="summary-row"><span>💵 Efectivo</span><span>${fmt(datos.efectivo||0)}</span></div>
+    </div>`;
+  document.getElementById('haulmer-periodos').innerHTML =
+    periodoCard('Hoy', d, 'var(--green)') +
+    periodoCard('Esta Semana', s, 'var(--accent)') +
+    periodoCard('Este Mes', m, 'var(--yellow)');
+
+  // ── Desglose por POS ──
+  const posBreakdown = d.pos_breakdown || [];
+  const posGrid = document.getElementById('haulmer-pos-grid');
+  const posTotalEl = document.getElementById('haulmer-pos-total');
+  if (!posBreakdown.length) {
+    posGrid.innerHTML = `<div style="color:var(--muted);font-size:0.85rem;padding:12px 0">Sin datos por terminal. Ejecutar scraper para obtener desglose.</div>`;
+    posTotalEl.textContent = '';
+  } else {
+    const totalPropinas = d.propinas || 0;
+    posTotalEl.textContent = `${posBreakdown.length} terminales · Propinas: ${fmt(totalPropinas)}`;
+    posGrid.innerHTML = posBreakdown.map((pos, idx) => {
+      const total = pos.total_ventas || 0;
+      const deb   = pos.debito     || 0;
+      const cred  = pos.credito    || 0;
+      const efec  = pos.efectivo   || 0;
+      const pctDeb  = total ? Math.round(deb  / total * 100) : 0;
+      const pctCred = total ? Math.round(cred / total * 100) : 0;
+      const pctEfec = total ? Math.round(efec / total * 100) : 0;
+      const colors = ['var(--accent)', 'var(--green)', '#ff6584', '#f59e0b'];
+      const color = colors[idx % colors.length];
+      return `
+      <div class="card" style="border-top:3px solid ${color};margin:0">
+        <div class="card-header" style="flex-direction:column;align-items:flex-start;gap:4px">
+          <span style="font-size:0.7rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">${pos.serial.startsWith('PB1T') ? 'Brina' : pos.serial.startsWith('6010B') ? "Parking O'Carrol" : 'Terminal ' + (idx + 1)}</span>
+          <span class="card-title" style="font-size:0.9rem;word-break:break-all">${pos.serial}</span>
+        </div>
+        <div class="summary-row" style="margin-top:8px">
+          <span style="font-weight:600">Total ventas</span>
+          <span class="font-bold text-green" style="font-size:1.1rem">${fmt(total)}</span>
+        </div>
+        <div style="height:1px;background:var(--border);margin:10px 0"></div>
+        <div class="summary-row">
+          <span>💳 Débito</span>
+          <span>${fmt(deb)} <span style="color:var(--muted);font-size:0.75rem">${pctDeb}%</span></span>
+        </div>
+        ${cred > 0 ? `<div class="summary-row">
+          <span>💳 Crédito</span>
+          <span>${fmt(cred)} <span style="color:var(--muted);font-size:0.75rem">${pctCred}%</span></span>
+        </div>` : ''}
+        <div class="summary-row">
+          <span>💵 Efectivo</span>
+          <span>${fmt(efec)} <span style="color:var(--muted);font-size:0.75rem">${pctEfec}%</span></span>
+        </div>
+        <div style="margin-top:10px;height:6px;border-radius:3px;background:var(--surface2);overflow:hidden;display:flex">
+          <div style="width:${pctDeb}%;background:var(--accent);transition:width .4s"></div>
+          ${cred > 0 ? `<div style="width:${pctCred}%;background:#ff6584;transition:width .4s"></div>` : ''}
+          <div style="width:${pctEfec}%;background:var(--green);transition:width .4s"></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Gráfico medios de pago (mes) ──
+  const ctxPagos = document.getElementById('chart-haulmer-pagos').getContext('2d');
+  if (charts.haulmerPagos) charts.haulmerPagos.destroy();
+  charts.haulmerPagos = new Chart(ctxPagos, {
+    type: 'doughnut',
+    data: {
+      labels: ['Débito', 'Crédito', 'Efectivo'],
+      datasets: [{
+        data: [m.debito||0, m.credito||0, m.efectivo||0],
+        backgroundColor: ['#6c63ff','#ff6584','#22c55e'],
+        borderWidth: 0,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { color:'#8892b0', font:{size:11}, padding:12 }},
+        tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.parsed)}` }}
+      }
+    }
+  });
+
+  // ── DTE resumen ──
+  document.getElementById('haulmer-dte-resumen').innerHTML = `
+    <div class="summary-row"><span>Total documentos</span><span class="font-bold">${dte.total||0}</span></div>
+    <div class="summary-row"><span>Boletas electrónicas</span><span>${dte.boletas||0} — ${fmt(dte.monto_boletas||0)}</span></div>
+    <div class="summary-row"><span>Facturas electrónicas</span><span>${dte.facturas||0} — ${fmt(dte.monto_facturas||0)}</span></div>
+    <div class="summary-row" style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px">
+      <span>Total facturado</span>
+      <span class="font-bold text-green">${fmt((dte.monto_boletas||0)+(dte.monto_facturas||0))}</span>
+    </div>
+  `;
+
+  // ── Tabla abonos ──
+  const tbAb = document.getElementById('tabla-abonos');
+  const listaAb = abonos.abonos || [];
+  document.getElementById('haulmer-abonos-total').textContent =
+    `Total abonado: ${fmt(abonos.total_abonado||0)}`;
+  if (!listaAb.length) {
+    tbAb.innerHTML = `<tr><td colspan="4" class="text-muted" style="text-align:center;padding:20px">Sin abonos registrados</td></tr>`;
+  } else {
+    tbAb.innerHTML = listaAb.map(a => `<tr>
+      <td>${a.fecha||'—'}</td>
+      <td>${fmt(a.ventas_abonadas||0)}</td>
+      <td class="text-red">-${fmt(a.comision||0)}</td>
+      <td class="font-bold text-green">${fmt(a.total_abonado||0)}</td>
+    </tr>`).join('');
+  }
+
+  // ── Tabla DTE docs ──
+  const tbDTE = document.getElementById('tabla-dte-docs');
+  const docs = dte.documentos || [];
+  if (!docs.length) {
+    tbDTE.innerHTML = `<tr><td colspan="4" class="text-muted" style="text-align:center;padding:20px">Sin documentos registrados</td></tr>`;
+  } else {
+    tbDTE.innerHTML = docs.map(doc => `<tr>
+      <td>${doc.fecha||'—'}</td>
+      <td>${tipDocBadge(doc.tipo)}</td>
+      <td>N° ${doc.numero||'—'}</td>
+      <td class="font-bold">${fmt(doc.monto||0)}</td>
+    </tr>`).join('');
+  }
+}
+
+// ═══════════════════════════════════════
+// RENDER TOTEAT LIVE
+// ═══════════════════════════════════════
+function renderToteat() {
+  const T = window.TOTEAT_DATA;
+  const noData = document.getElementById('toteat-no-data');
+  const content = document.getElementById('toteat-data-content');
+
+  if (!T) {
+    noData.style.display = 'block';
+    content.style.display = 'none';
+    return;
+  }
+  noData.style.display = 'none';
+  content.style.display = 'block';
+
+  document.getElementById('toteat-update-ts').textContent =
+    `Última actualización: ${T.actualizadoEl}${T.error ? ' ⚠️ (con errores)' : ''}`;
+
+  const uc = T.ultimo_cierre || {};
+
+  // ── KPIs ──
+  const efectivo = uc.efectivo || 0;
+  const tarjeta  = uc.tarjeta  || 0;
+  const ventas   = uc.total_ventas || (efectivo + tarjeta);
+  const neto     = uc.total_neto || 0;
+  const iva      = uc.total_iva  || 0;
+  document.getElementById('toteat-kpis').innerHTML = `
+    <div class="kpi green">
+      <div class="kpi-label">Ventas Último Cierre</div>
+      <div class="kpi-value">${fmt(ventas)}</div>
+      <div class="kpi-sub"><span class="kpi-badge">${uc.fecha || '—'}</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Monto Neto</div>
+      <div class="kpi-value">${fmt(neto)}</div>
+      <div class="kpi-sub">IVA: ${fmt(iva)}</div>
+    </div>
+    <div class="kpi yellow">
+      <div class="kpi-label">Órdenes</div>
+      <div class="kpi-value">${uc.n_ordenes || 0}</div>
+      <div class="kpi-sub"><span class="kpi-badge neg">${uc.n_anuladas || 0} anuladas</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Ticket Promedio</div>
+      <div class="kpi-value">${(uc.n_ordenes > 0) ? fmt(ventas / uc.n_ordenes) : fmt(0)}</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">💵 Efectivo</div>
+      <div class="kpi-value">${fmt(efectivo)}</div>
+      <div class="kpi-sub">${ventas > 0 ? Math.round(efectivo/ventas*100) : 0}% del total</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">💳 Tarjeta</div>
+      <div class="kpi-value">${fmt(tarjeta)}</div>
+      <div class="kpi-sub">${ventas > 0 ? Math.round(tarjeta/ventas*100) : 0}% del total</div>
+    </div>
+  `;
+
+  // ── Gráfico medios de pago ──
+  const ctxPagos = document.getElementById('chart-toteat-pagos').getContext('2d');
+  if (charts.toteatPagos) charts.toteatPagos.destroy();
+  charts.toteatPagos = new Chart(ctxPagos, {
+    type: 'doughnut',
+    data: {
+      labels: ['Efectivo', 'Tarjeta'],
+      datasets: [{
+        data: [efectivo, tarjeta],
+        backgroundColor: ['#22c55e', '#6c63ff'],
+        borderWidth: 0, hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { color:'#8892b0', font:{size:11}, padding:12 }},
+        tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.parsed)}` }}
+      }
+    }
+  });
+
+  // ── Top productos ──
+  const prods = uc.productos_top || [];
+  const topDiv = document.getElementById('toteat-top-productos');
+  if (!prods.length) {
+    topDiv.innerHTML = '<div class="text-muted" style="padding:20px;text-align:center">Sin datos de productos</div>';
+  } else {
+    const maxTotal = prods[0].total || 1;
+    topDiv.innerHTML = prods.map(p => `
+      <div class="platform-stat">
+        <div class="platform-stat-label">${p.nombre} <span style="color:var(--muted);font-size:0.75rem">x${p.cantidad}</span></div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width:${(p.total/maxTotal*100).toFixed(1)}%;background:var(--topeat)"></div>
+        </div>
+        <div class="platform-stat-value">${fmt(p.total)}</div>
+      </div>`).join('');
+  }
+
+  // ── Tabla historial cierres ──
+  const historial = T.historial_cierres || [];
+  document.getElementById('toteat-historial-total').textContent =
+    `Total histórico: ${T.total_cierres_historicos || 0} cierres`;
+  const tbCierres = document.getElementById('tabla-toteat-cierres');
+  if (!historial.length) {
+    tbCierres.innerHTML = `<tr><td colspan="2" class="text-muted" style="text-align:center;padding:20px">Sin historial</td></tr>`;
+  } else {
+    tbCierres.innerHTML = historial.map(c => {
+      const [y,m,d] = c.fecha.split('-');
+      const fechaDisp = `${d}/${m}/${y}`;
+      const turnoShort = c.turno.split('-').slice(-1)[0];
+      return `<tr>
+        <td>${fechaDisp}</td>
+        <td style="font-family:monospace;font-size:0.8rem;color:var(--muted)">${turnoShort}</td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+// ═══════════════════════════════════════
+// RENDER PEDIDOSYA LIVE
+// ═══════════════════════════════════════
+function renderPedidosYa() {
+  const P = window.PEDIDOSYA_DATA;
+  const noData  = document.getElementById('pya-no-data');
+  const content = document.getElementById('pya-data-content');
+
+  if (!P || P.error) {
+    noData.style.display  = 'block';
+    content.style.display = 'none';
+    if (P && P.error) {
+      document.getElementById('pya-update-ts').textContent = '⚠️ ' + P.error;
+    }
+    return;
+  }
+
+  noData.style.display  = 'none';
+  content.style.display = 'block';
+  document.getElementById('pya-update-ts').textContent =
+    `Última actualización: ${P.actualizadoEl}`;
+
+  const isOpen = P.estado_local === 'OPEN';
+  const dotColor = isOpen ? 'var(--green)' : 'var(--red)';
+  const estadoLabel = isOpen ? 'ABIERTO' : 'CERRADO';
+  const estadoColor = isOpen ? 'var(--green)' : 'var(--red)';
+
+  const TIER_COLORS = {
+    NONE:     'var(--muted)',
+    STARTER:  'var(--yellow)',
+    ADVANCED: 'var(--accent)',
+    EXPERT:   'var(--green)',
+  };
+  const tierColor = TIER_COLORS[P.tier] || 'var(--muted)';
+
+  const mt = P.metricas_tier || {};
+
+  // ── KPIs ──
+  document.getElementById('pya-kpis').innerHTML = `
+    <div class="kpi ${isOpen ? 'green' : 'red'}">
+      <div class="kpi-label">Estado del Local</div>
+      <div class="kpi-value" style="font-size:1.3rem;color:${estadoColor}">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${dotColor};margin-right:8px;vertical-align:middle${isOpen ? ';box-shadow:0 0 6px var(--green)' : ''}"></span>
+        ${estadoLabel}
+      </div>
+      <div class="kpi-sub">${P.cerrado_razon ? 'Razón: ' + P.cerrado_razon : (isOpen ? 'Recibiendo pedidos' : 'Sin razón especificada')}</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Tier de Partner</div>
+      <div class="kpi-value" style="font-size:1.3rem;color:${tierColor}">${P.tier}</div>
+      <div class="kpi-sub">${P.tier_periodo.desde ? P.tier_periodo.desde + ' → ' + P.tier_periodo.hasta : 'Sin período'}</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Calificación</div>
+      <div class="kpi-value">${mt.calificacion || '—'}</div>
+      <div class="kpi-sub">RATINGS_AND_REVIEWS</div>
+    </div>
+    <div class="kpi ${parseFloat(mt.tasa_fallo) > 5 ? 'red' : ''}">
+      <div class="kpi-label">Tasa de Fallo</div>
+      <div class="kpi-value">${mt.tasa_fallo || '—'}%</div>
+      <div class="kpi-sub">FAIL_RATE</div>
+    </div>
+  `;
+
+  // ── Tier card ──
+  document.getElementById('pya-tier-content').innerHTML = `
+    <div style="text-align:center;padding:16px 0 20px">
+      <div style="font-size:2rem;font-weight:800;color:${tierColor}">${P.tier}</div>
+      <div style="font-size:0.8rem;color:var(--muted);margin-top:4px">
+        ${P.tier_periodo.desde ? P.tier_periodo.desde + ' — ' + P.tier_periodo.hasta : 'Período no disponible'}
+      </div>
+    </div>
+    <div class="summary-row"><span>Calificación (RATINGS)</span><span class="font-bold">${mt.calificacion || '—'}</span></div>
+    <div class="summary-row"><span>Volumen de pedidos</span><span class="font-bold">${mt.pedidos_volumen || '—'}</span></div>
+    <div class="summary-row"><span>Tasa de fallo</span><span class="font-bold ${parseFloat(mt.tasa_fallo) > 5 ? 'text-red' : 'text-green'}">${mt.tasa_fallo || '—'}%</span></div>
+    <div class="summary-row"><span>Pedidos incorrectos</span><span class="font-bold">${mt.pedidos_incorrectos || '—'}</span></div>
+    <div class="summary-row"><span>Tiempo de espera evitable</span><span class="font-bold">${mt.tiempo_espera || '—'} seg</span></div>
+  `;
+
+  // ── Benchmark card ──
+  const bm = P.benchmark || {};
+  const fmtCLP = n => '$' + Math.round(n || 0).toLocaleString('es-CL');
+  document.getElementById('pya-benchmark').innerHTML = `
+    <div class="summary-row"><span style="color:var(--muted);font-size:0.75rem">Fecha datos</span><span>${bm.fecha_datos || '—'}</span></div>
+    <div class="summary-row"><span style="color:var(--muted);font-size:0.75rem">Área / Zona</span><span>${bm.area || '—'}</span></div>
+    <div class="summary-row"><span style="color:var(--muted);font-size:0.75rem">Cocina</span><span>${bm.cuisine || '—'}</span></div>
+    <div class="summary-row"><span style="color:var(--muted);font-size:0.75rem">Tamaño cohorte</span><span>${bm.cohort_size || 0} locales</span></div>
+    <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px">
+      <div style="font-size:0.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Percentil 90 (últimos ${bm.dias_agregados || 7} días)</div>
+      <div class="summary-row"><span>Revenue p90</span><span class="font-bold text-green">${fmtCLP(bm.revenue_percentil90)}</span></div>
+      <div class="summary-row"><span>Pedidos p90</span><span class="font-bold">${bm.orders_percentil90 || 0}</span></div>
+      <div class="summary-row"><span>Ticket promedio p90</span><span class="font-bold">${fmtCLP(bm.avg_basket_percentil90)}</span></div>
+    </div>
+  `;
+
+  // ── Chart performance ──
+  if (window._chartPyaPerf) window._chartPyaPerf.destroy();
+  const perf = P.performance_7d || [];
+  const ctxPerf = document.getElementById('chart-pya-performance').getContext('2d');
+  if (!perf.length) {
+    ctxPerf.canvas.parentElement.innerHTML =
+      '<div class="text-muted" style="text-align:center;padding:40px">Sin datos de performance disponibles</div>';
+  } else {
+    window._chartPyaPerf = new Chart(ctxPerf, {
+      type: 'bar',
+      data: {
+        labels: perf.map(d => { const p = d.date.split('-'); return p.length===3 ? `${p[2]}/${p[1]}` : d.date; }),
+        datasets: [
+          {
+            label: 'Revenue',
+            data: perf.map(d => d.revenue),
+            backgroundColor: 'rgba(250,0,90,.7)',
+            borderRadius: 4,
+            yAxisID: 'y',
+          },
+          {
+            label: 'Pedidos',
+            data: perf.map(d => d.orderCount),
+            backgroundColor: 'rgba(250,0,90,.25)',
+            borderRadius: 4,
+            yAxisID: 'y2',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#8892b0', font: { size: 11 } } } },
+        scales: {
+          x:  { ticks: { color: '#8892b0' }, grid: { color: '#2e3250' } },
+          y:  { position: 'left',  ticks: { color: '#8892b0', callback: v => '$' + v.toLocaleString('es-CL') }, grid: { color: '#2e3250' } },
+          y2: { position: 'right', ticks: { color: '#8892b0' }, grid: { drawOnChartArea: false } }
+        }
+      }
+    });
+  }
+}
+
+// ═══════════════════════════════════════
+// RENDER RAPPI LIVE
+// ═══════════════════════════════════════
+function renderRappi() {
+  const R = window.RAPPI_DATA;
+  const noData  = document.getElementById('rappi-no-data');
+  const content = document.getElementById('rappi-data-content');
+
+  if (!R || R.error) {
+    noData.style.display  = 'block';
+    content.style.display = 'none';
+    if (R && R.error) document.getElementById('rappi-update-ts').textContent = '⚠️ ' + R.error;
+    return;
+  }
+
+  noData.style.display  = 'none';
+  content.style.display = 'block';
+  document.getElementById('rappi-update-ts').textContent = `Última actualización: ${R.actualizadoEl}`;
+
+  const enabled = R.is_enabled;
+  const v7 = R.ventas_7d || {};
+  const ind = R.indicadores || {};
+  const fmt = n => '$' + Math.round(n || 0).toLocaleString('es-CL');
+
+  // ── KPIs ──
+  document.getElementById('rappi-kpis').innerHTML = `
+    <div class="kpi ${enabled ? 'green' : 'red'}">
+      <div class="kpi-label">Estado del Local</div>
+      <div class="kpi-value" style="font-size:1.3rem;color:${enabled ? 'var(--green)' : 'var(--red)'}">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${enabled ? 'var(--green)' : 'var(--red)'};margin-right:8px;vertical-align:middle${enabled ? ';box-shadow:0 0 6px var(--green)' : ''}"></span>
+        ${enabled ? 'ACTIVO' : 'INACTIVO'}
+      </div>
+      <div class="kpi-sub">Tier: ${R.store_tier || 'standard'}</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Ventas 7 días</div>
+      <div class="kpi-value">${fmt(v7.total_amount)}</div>
+      <div class="kpi-sub">${v7.total_orders || 0} pedidos</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Ticket Promedio</div>
+      <div class="kpi-value">${v7.total_orders ? fmt(v7.total_amount / v7.total_orders) : '$0'}</div>
+      <div class="kpi-sub">por pedido</div>
+    </div>
+    <div class="kpi ${parseFloat(ind.cancellation_pct) > 5 ? 'red' : ''}">
+      <div class="kpi-label">Cancelaciones</div>
+      <div class="kpi-value">${ind.cancellation_pct || 0}%</div>
+      <div class="kpi-sub">Errores: ${ind.error_pct || 0}%</div>
+    </div>
+  `;
+
+  // ── Indicadores card ──
+  document.getElementById('rappi-indicadores').innerHTML = `
+    <div class="summary-row"><span>Cancelaciones</span><span class="font-bold ${parseFloat(ind.cancellation_pct) > 5 ? 'text-red' : 'text-green'}">${ind.cancellation_pct || 0}%</span></div>
+    <div class="summary-row"><span>Errores de pedido</span><span class="font-bold ${parseFloat(ind.error_pct) > 5 ? 'text-red' : 'text-green'}">${ind.error_pct || 0}%</span></div>
+    <div class="summary-row"><span>Disponibilidad</span><span class="font-bold">${ind.availability_pct || 0}%</span></div>
+    <div class="summary-row"><span>Tiempo cocción prom.</span><span class="font-bold">${ind.cooking_time_avg || 0} min</span></div>
+    <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:12px">
+      <div style="font-size:0.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Tienda</div>
+      <div class="summary-row"><span>Nombre</span><span class="font-bold">${R.store_name || '—'}</span></div>
+      <div class="summary-row"><span>Tier</span><span class="font-bold">${R.store_tier || '—'}</span></div>
+    </div>
+  `;
+
+  // ── Clientes card ──
+  document.getElementById('rappi-clientes').innerHTML = `
+    <div class="summary-row"><span>Total usuarios</span><span class="font-bold">${v7.users_count || 0}</span></div>
+    <div class="summary-row"><span>Usuarios nuevos</span><span class="font-bold">${v7.new_users_count || 0}</span></div>
+    <div class="summary-row"><span>Pedidos promedio/día</span><span class="font-bold">${v7.orders_avg || 0}</span></div>
+  `;
+
+  // ── Gráfico ventas diarias ──
+  if (window._chartRappiVentas) window._chartRappiVentas.destroy();
+  const dias = v7.last_week || [];
+  const ctxR = document.getElementById('chart-rappi-ventas').getContext('2d');
+  if (!dias.length || dias.every(d => !d.amount)) {
+    ctxR.canvas.parentElement.innerHTML =
+      '<div class="text-muted" style="text-align:center;padding:40px">Sin datos de ventas disponibles</div>';
+  } else {
+    window._chartRappiVentas = new Chart(ctxR, {
+      type: 'bar',
+      data: {
+        labels: dias.map(d => { const p = d.date.split('-'); return p.length === 3 ? `${p[2]}/${p[1]}` : d.date; }),
+        datasets: [
+          {
+            label: 'Ventas ($)',
+            data: dias.map(d => d.amount),
+            backgroundColor: 'rgba(255,68,31,.7)',
+            borderRadius: 4,
+            yAxisID: 'y',
+          },
+          {
+            label: 'Pedidos',
+            data: dias.map(d => d.orders),
+            backgroundColor: 'rgba(255,68,31,.25)',
+            borderRadius: 4,
+            yAxisID: 'y2',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#8892b0', font: { size: 11 } } } },
+        scales: {
+          x:  { ticks: { color: '#8892b0' }, grid: { color: '#2e3250' } },
+          y:  { position: 'left',  ticks: { color: '#8892b0', callback: v => '$' + v.toLocaleString('es-CL') }, grid: { color: '#2e3250' } },
+          y2: { position: 'right', ticks: { color: '#8892b0' }, grid: { drawOnChartArea: false } }
+        }
+      }
+    });
+  }
+}
+
+// ═══════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════
+// ═══════════════════════════════════════
+// HISTÓRICO MENSUAL
+// ═══════════════════════════════════════
+function renderHistorico() {
+  const accordion = document.getElementById('historico-accordion');
+  const empty     = document.getElementById('historico-empty');
+
+  // Agrupa todos los registros por mes YYYY-MM (sin filtro de fecha)
+  const meses = {};
+  const addToMes = (key, tipo, item) => {
+    if (!meses[key]) meses[key] = { ventas:[], gastos:[] };
+    meses[key][tipo].push(item);
+  };
+  db.ventas.forEach(v  => addToMes(v.fecha.slice(0,7), 'ventas', v));
+  db.gastos.forEach(g  => addToMes(g.fecha.slice(0,7), 'gastos', g));
+
+  // Incluir datos scrapeados de meses anteriores desde el cache
+  const _mesActualH = new Date().toISOString().slice(0,7);
+  if (window.HISTORICO_CACHE) {
+    for (const [fecha, datos] of Object.entries(window.HISTORICO_CACHE)) {
+      const mes = fecha.slice(0,7);
+      if (mes >= _mesActualH) continue; // solo meses anteriores
+      const hH = datos.haulmer;
+      if (hH && !hH.error && (hH.informe_dia||{}).monto_ventas > 0) {
+        addToMes(mes, 'ventas', { fecha, plataforma:'Haulmer',
+          monto: hH.informe_dia.monto_ventas, descripcion:'Ventas del día (scraper)', _hist:true });
+      }
+      const hT = datos.toteat;
+      if (hT && !hT.error) {
+        const uc = hT.ultimo_cierre || {};
+        const ucF = uc.fecha_iso || (uc.fecha ? uc.fecha.split('/').reverse().join('-') : '');
+        if (uc.total_ventas > 0 && ucF === fecha)
+          addToMes(mes, 'ventas', { fecha, plataforma:'Toteat',
+            monto: uc.total_ventas, descripcion:`Cierre Toteat — ${uc.n_ordenes||0} órdenes`, _hist:true });
+      }
+    }
+  }
+
+  const keys = Object.keys(meses).sort().reverse();
+
+  // Excluir el mes actual (ya está en el resumen general)
+  const mesActual = new Date().toISOString().slice(0,7);
+  const keysPrev  = keys.filter(k => k < mesActual);
+
+  if (!keysPrev.length) {
+    empty.style.display = 'block';
+    accordion.innerHTML = '';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const PLAT_COLORS = {
+    PedidosYa:'var(--pedidosya)', Rappi:'var(--rappi)',
+    Toteat:'var(--topeat)', Haulmer:'var(--haulmer)', Directo:'var(--haulmer)'
+  };
+  const mesNombre = k => {
+    const [y,m] = k.split('-');
+    return new Date(+y, +m-1, 1).toLocaleString('es-CL', {month:'long', year:'numeric'});
+  };
+
+  accordion.innerHTML = keysPrev.map((k, idx) => {
+    const { ventas, gastos } = meses[k];
+    const totalV = ventas.reduce((s,v) => s+v.monto, 0);
+    const totalG = gastos.reduce((s,g) => s+g.monto, 0);
+    const neto   = totalV - totalG;
+    const netoColor = neto >= 0 ? 'var(--green)' : 'var(--red)';
+
+    // Breakdown por plataforma
+    const byPlat = {};
+    ventas.forEach(v => { byPlat[v.plataforma] = (byPlat[v.plataforma]||0) + v.monto; });
+    const platEntries = Object.entries(byPlat).sort((a,b) => b[1]-a[1]);
+    const maxPlat = platEntries[0]?.[1] || 1;
+
+    const platRows = platEntries.map(([p, tot]) => {
+      const pct = Math.round(tot/maxPlat*100);
+      const col = PLAT_COLORS[p] || 'var(--accent)';
+      return `<div class="acc-plat-row">
+        <span style="min-width:110px;font-size:0.8rem">${PLAT_LABELS[p]||p}</span>
+        <div class="acc-plat-bar"><div class="acc-plat-bar-fill" style="width:${pct}%;background:${col}"></div></div>
+        <span style="min-width:80px;text-align:right;font-weight:600">${fmt(tot)}</span>
+        <span style="min-width:30px;text-align:right;color:var(--muted);font-size:0.78rem">${ventas.filter(v=>v.plataforma===p).length}v</span>
+      </div>`;
+    }).join('');
+
+    // Top 3 gastos por categoría
+    const byCat = {};
+    gastos.forEach(g => { byCat[g.categoria] = (byCat[g.categoria]||0) + g.monto; });
+    const topCats = Object.entries(byCat).sort((a,b)=>b[1]-a[1]).slice(0,4);
+    const catRows = topCats.map(([c,t]) =>
+      `<div class="summary-row"><span>${c}</span><span class="text-red">-${fmt(t)}</span></div>`
+    ).join('');
+
+    // Toteat cierres del mes
+    let toteatRows = '';
+    if (window.TOTEAT_DATA && !window.TOTEAT_DATA.error) {
+      const cierresMes = (window.TOTEAT_DATA.historial_cierres||[]).filter(c => c.fecha.slice(0,7) === k);
+      if (cierresMes.length) {
+        toteatRows = `<div style="margin-top:12px;font-size:0.8rem;color:var(--muted)">
+          🍽 <strong style="color:var(--topeat)">${cierresMes.length} cierre${cierresMes.length!==1?'s':''} Toteat</strong>
+          registrado${cierresMes.length!==1?'s':''} en este mes
+        </div>`;
+      }
+    }
+
+    return `<div class="accordion-item" id="acc-${k}">
+      <div class="accordion-header" onclick="toggleAcc('${k}')">
+        <div class="acc-left">
+          <span class="acc-mes">${mesNombre(k)}</span>
+          <div class="acc-kpis">
+            <span>Ventas <strong class="text-green">${fmt(totalV)}</strong></span>
+            <span>Gastos <strong class="text-red">-${fmt(totalG)}</strong></span>
+            <span>Neto <strong style="color:${netoColor}">${fmt(neto)}</strong></span>
+            <span style="color:var(--muted)">${ventas.length} reg.</span>
+          </div>
+        </div>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="accordion-body">
+        <div class="acc-grid">
+          <div class="acc-kpi">
+            <div class="label">Ventas totales</div>
+            <div class="value text-green">${fmt(totalV)}</div>
+          </div>
+          <div class="acc-kpi">
+            <div class="label">Gastos totales</div>
+            <div class="value text-red">-${fmt(totalG)}</div>
+          </div>
+          <div class="acc-kpi">
+            <div class="label">Resultado neto</div>
+            <div class="value" style="color:${netoColor}">${fmt(neto)}</div>
+          </div>
+          <div class="acc-kpi">
+            <div class="label">Transacciones</div>
+            <div class="value">${ventas.length + gastos.length}</div>
+          </div>
+        </div>
+        ${platRows ? `<div style="margin-bottom:4px;font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em">Ventas por plataforma</div>${platRows}` : ''}
+        ${catRows ? `<div style="margin-top:12px;margin-bottom:4px;font-size:0.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em">Gastos por categoría</div>${catRows}` : ''}
+        ${toteatRows}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleAcc(k) {
+  const el = document.getElementById('acc-' + k);
+  el.classList.toggle('open');
+}
+
+// ═══════════════════════════════════════
+// CACHE DE HISTÓRICOS (JSON scrapeados)
+// ═══════════════════════════════════════
+window.HISTORICO_CACHE = {};
+
+async function precargarHistorico() {
+  let fechas = [];
+  try {
+    const r = await fetch('historico/index.json');
+    if (r.ok) fechas = await r.json();
+  } catch(_) { return; }
+
+  const hoy = new Date().toISOString().split('T')[0];
+  await Promise.all(fechas.filter(f => f !== hoy).map(async fecha => {
+    try {
+      const r = await fetch(`historico/${fecha}.json`);
+      if (r.ok) window.HISTORICO_CACHE[fecha] = await r.json();
+    } catch(_) {}
+  }));
+
+  // Re-renderizar con los datos históricos cargados
+  renderResumen();
+  renderVentas();
+  renderHistorico();
+}
+
+function renderAll() {
+  renderResumen();
+  renderVentas();
+  renderGastos();
+  renderDocumentos();
+  renderPlataformas();
+  renderHaulmer();
+  renderToteat();
+  renderPedidosYa();
+  renderRappi();
+  renderHistorico();
+}
+
+// ═══════════════════════════════════════
+// SELECTOR DE FECHA HISTÓRICA
+// ═══════════════════════════════════════
+
+// Snapshot de los datos "en vivo" cargados al inicio
+const DATOS_HOY = {
+  haulmer:   window.HAULMER_DATA,
+  toteat:    window.TOTEAT_DATA,
+  pedidosya: window.PEDIDOSYA_DATA,
+  rappi:     window.RAPPI_DATA,
+};
+// Fecha que se está visualizando (YYYY-MM-DD); se actualiza al cambiar selector
+window._FECHA_VISTA = new Date().toISOString().slice(0, 10);
+
+function _fmtFechaOpt(iso) {
+  // "2026-05-04" -> "Lun 04/05/2026"
+  // Usar mediodía (12:00) para evitar que zonas horarias con offset negativo
+  // desplacen la fecha al día anterior y devuelvan el día de semana incorrecto
+  const dias = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const [y, m, d] = iso.split('-').map(Number);
+  const fecha = new Date(y, m - 1, d, 12, 0, 0);
+  const dd = String(d).padStart(2,'0');
+  const mm = String(m).padStart(2,'0');
+  return `${dias[fecha.getDay()]} ${dd}/${mm}/${y}`;
+}
+
+async function iniciarDatePicker() {
+  const sel = document.getElementById('date-select');
+  let fechas = [];
+
+  // 1. Intentar datos embebidos (dashboard-compartido.html)
+  if (window.HISTORICO_INDEX) {
+    fechas = window.HISTORICO_INDEX;
+  } else {
+    // 2. Intentar fetch desde GitHub Pages
+    try {
+      const r = await fetch('historico/index.json');
+      if (r.ok) fechas = await r.json();
+    } catch (_) {}
+  }
+
+  // Mostrar la fecha real de los datos actuales en la opción "Hoy"
+  const H = window.HAULMER_DATA;
+  const tsHoy = H && H.actualizadoEl ? ` — ${H.actualizadoEl.split(' ')[0]}` : '';
+  sel.options[0].textContent = `Hoy${tsHoy} (en vivo)`;
+
+  // Excluir la fecha de hoy del historial — ya está cubierta por "Hoy (en vivo)"
+  const fechaHoy = new Date().toISOString().split('T')[0]; // "2026-05-05"
+  fechas.filter(f => f !== fechaHoy).forEach(f => {
+    const opt = document.createElement('option');
+    opt.value = f;
+    opt.textContent = _fmtFechaOpt(f);
+    sel.appendChild(opt);
+  });
+}
+
+async function cargarFechaHistorica(fecha) {
+  if (fecha === 'hoy') {
+    volverAHoy();
+    return;
+  }
+
+  const spin = document.getElementById('date-spin');
+  spin.style.display = 'inline';
+
+  try {
+    let datos = null;
+
+    // 1. Datos embebidos en el HTML
+    if (window.HISTORICO_DATOS && window.HISTORICO_DATOS[fecha]) {
+      datos = window.HISTORICO_DATOS[fecha];
+    } else {
+      // 2. Fetch dinámico (dashboard-ventas.html local o GitHub Pages)
+      const r = await fetch(`historico/${fecha}.json`);
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      datos = await r.json();
+    }
+
+    if (datos.haulmer)   window.HAULMER_DATA   = datos.haulmer;
+    if (datos.toteat)    window.TOTEAT_DATA     = datos.toteat;
+    if (datos.pedidosya) window.PEDIDOSYA_DATA  = datos.pedidosya;
+    if (datos.rappi)     window.RAPPI_DATA      = datos.rappi;
+    window._FECHA_VISTA = fecha;
+
+    const [y, m, d] = fecha.split('-');
+    document.getElementById('hist-aviso-fecha').textContent = `${d}/${m}/${y}`;
+    document.getElementById('hist-aviso').style.display = 'flex';
+
+    renderAll();
+  } catch (e) {
+    alert(`No se encontraron datos para ${fecha}.`);
+    document.getElementById('date-select').value = 'hoy';
+  } finally {
+    spin.style.display = 'none';
+  }
+}
+
+function volverAHoy() {
+  window.HAULMER_DATA   = DATOS_HOY.haulmer;
+  window.TOTEAT_DATA    = DATOS_HOY.toteat;
+  window.PEDIDOSYA_DATA = DATOS_HOY.pedidosya;
+  window.RAPPI_DATA     = DATOS_HOY.rappi;
+  window._FECHA_VISTA   = new Date().toISOString().slice(0, 10);
+  document.getElementById('hist-aviso').style.display = 'none';
+  document.getElementById('date-select').value = 'hoy';
+  renderAll();
+}
+
+// ═══════════════════════════════════════
+// EXPORTAR CSV
+// ═══════════════════════════════════════
+function exportarCSV() {
+  const rows = [
+    ['Tipo','Fecha','Plataforma','Descripcion','Documento','Monto','Estado'],
+    ...db.ventas.map(v => ['Venta',v.fecha,v.plataforma,v.descripcion,`${v.tipoDoc} ${v.nDoc}`,v.monto,v.estado]),
+    ...db.gastos.map(g => ['Gasto',g.fecha,'—',g.descripcion,g.categoria,g.monto,g.estado]),
+    ...db.documentos.map(d => ['Documento',d.fecha,d.plataforma,d.cliente,`${d.tipo} ${d.nDoc}`,d.monto,d.estado])
+  ];
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='ventas-local.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ═══════════════════════════════════════
+// DATOS DEMO
+// ═══════════════════════════════════════
+function importarDemo() {
+  if (!confirm('¿Cargar datos de ejemplo? Esto reemplazará los datos actuales.')) return;
+  const hoy = new Date();
+  const d = (offset=0) => {
+    const date = new Date(hoy); date.setDate(hoy.getDate()-offset);
+    return date.toISOString().split('T')[0];
+  };
+  db.ventas = [
+    {id:1,fecha:d(0),plataforma:'PedidosYa',descripcion:'Pedido #4521 - Hamburguesa doble',tipoDoc:'Boleta',nDoc:'B-001234',monto:2850,estado:'Pagado'},
+    {id:2,fecha:d(0),plataforma:'Rappi',descripcion:'Pedido #8832 - Combo pizza mediana',tipoDoc:'Boleta',nDoc:'B-001235',monto:3200,estado:'Pagado'},
+    {id:3,fecha:d(1),plataforma:'Toteat',descripcion:'Mesa 5 - Menú ejecutivo x2',tipoDoc:'Factura',nDoc:'F-00089',monto:5600,estado:'Pagado'},
+    {id:4,fecha:d(1),plataforma:'Haulmer',descripcion:'Facturación Haulmer - Mayo W1',tipoDoc:'Factura',nDoc:'F-00090',monto:18400,estado:'Pagado'},
+    {id:5,fecha:d(2),plataforma:'PedidosYa',descripcion:'Pedido #4498 - Ensalada + bebida',tipoDoc:'Boleta',nDoc:'B-001236',monto:1950,estado:'Pagado'},
+    {id:6,fecha:d(2),plataforma:'Rappi',descripcion:'Pedido #8801 - Pasta carbonara',tipoDoc:'Boleta',nDoc:'B-001237',monto:2400,estado:'Pendiente'},
+    {id:7,fecha:d(3),plataforma:'Toteat',descripcion:'Reserva corporativa x8',tipoDoc:'Factura',nDoc:'F-00091',monto:24000,estado:'Pendiente'},
+    {id:8,fecha:d(4),plataforma:'PedidosYa',descripcion:'Pedido #4455 - Sushi combo',tipoDoc:'Boleta',nDoc:'B-001238',monto:4100,estado:'Pagado'},
+    {id:9,fecha:d(5),plataforma:'Rappi',descripcion:'Pedido #8750 - Empanadas x12',tipoDoc:'Boleta',nDoc:'B-001239',monto:1800,estado:'Pagado'},
+    {id:10,fecha:d(6),plataforma:'Haulmer',descripcion:'Control semanal - ventas directas',tipoDoc:'Factura',nDoc:'F-00092',monto:31500,estado:'Pagado'},
+    {id:11,fecha:d(7),plataforma:'PedidosYa',descripcion:'Pedido #4420 - Milanesa napolitana',tipoDoc:'Boleta',nDoc:'B-001240',monto:2650,estado:'Pagado'},
+    {id:12,fecha:d(8),plataforma:'Toteat',descripcion:'Evento privado - cena 15 personas',tipoDoc:'Factura',nDoc:'F-00093',monto:42000,estado:'Pagado'},
+    {id:13,fecha:d(10),plataforma:'Rappi',descripcion:'Pedido #8700 - Combo familiar',tipoDoc:'Boleta',nDoc:'B-001241',monto:5500,estado:'Pagado'},
+    {id:14,fecha:d(12),plataforma:'PedidosYa',descripcion:'Pedido #4390 - Wrap vegano',tipoDoc:'Boleta',nDoc:'B-001242',monto:1600,estado:'Pagado'},
+    {id:15,fecha:d(15),plataforma:'Haulmer',descripcion:'Liquidación quincenal',tipoDoc:'Factura',nDoc:'F-00094',monto:28700,estado:'Pagado'},
+  ];
+  db.gastos = [
+    {id:101,fecha:d(1),categoria:'Insumos / Materia prima',descripcion:'Compra verduras y carnes',proveedor:'Distribuidora El Campo',monto:12000,estado:'Pagado'},
+    {id:102,fecha:d(3),categoria:'Packaging',descripcion:'Cajas y bolsas delivery',proveedor:'PackPlus SA',monto:3400,estado:'Pagado'},
+    {id:103,fecha:d(5),categoria:'Servicios (luz, gas, agua)',descripcion:'Boleta de gas mayo',proveedor:'Metrogas',monto:8200,estado:'Pagado'},
+    {id:104,fecha:d(7),categoria:'Comisiones plataformas',descripcion:'Comisión PedidosYa - abril',proveedor:'PedidosYa',monto:5800,estado:'Pagado'},
+    {id:105,fecha:d(8),categoria:'Comisiones plataformas',descripcion:'Comisión Rappi - abril',proveedor:'Rappi',monto:4100,estado:'Pendiente'},
+    {id:106,fecha:d(10),categoria:'Personal / Sueldos',descripcion:'Sueldo cocinero mayo',proveedor:'Juan García',monto:35000,estado:'Pagado'},
+    {id:107,fecha:d(10),categoria:'Personal / Sueldos',descripcion:'Sueldo mozo mayo',proveedor:'Ana Martínez',monto:28000,estado:'Pagado'},
+    {id:108,fecha:d(12),categoria:'Insumos / Materia prima',descripcion:'Bebidas y lácteos',proveedor:'Distribuidora Norte',monto:7500,estado:'Pagado'},
+    {id:109,fecha:d(15),categoria:'Alquiler',descripcion:'Alquiler local mayo',proveedor:'Inmobiliaria Sol',monto:45000,estado:'Pagado'},
+    {id:110,fecha:d(18),categoria:'Marketing',descripcion:'Publicidad Instagram',proveedor:'Meta Ads',monto:2000,estado:'Pagado'},
+  ];
+  db.documentos = [
+    {id:201,fecha:d(0),tipo:'Boleta',nDoc:'B-001234',plataforma:'PedidosYa',cliente:'Consumidor final',monto:2850,estado:'Pagado'},
+    {id:202,fecha:d(0),tipo:'Boleta',nDoc:'B-001235',plataforma:'Rappi',cliente:'Consumidor final',monto:3200,estado:'Pagado'},
+    {id:203,fecha:d(1),tipo:'Factura',nDoc:'F-00089',plataforma:'Toteat',cliente:'Empresa ABC SRL',monto:5600,estado:'Pagado'},
+    {id:204,fecha:d(1),tipo:'Factura',nDoc:'F-00090',plataforma:'Haulmer',cliente:'Espacio Haulmer SA',monto:18400,estado:'Pagado'},
+    {id:205,fecha:d(3),tipo:'Factura',nDoc:'F-00091',plataforma:'Toteat',cliente:'Consultora XYZ',monto:24000,estado:'Pendiente'},
+    {id:206,fecha:d(6),tipo:'Factura',nDoc:'F-00092',plataforma:'Haulmer',cliente:'Espacio Haulmer SA',monto:31500,estado:'Pagado'},
+    {id:207,fecha:d(8),tipo:'Factura',nDoc:'F-00093',plataforma:'Toteat',cliente:'Evento privado',monto:42000,estado:'Pagado'},
+    {id:208,fecha:d(15),tipo:'Factura',nDoc:'F-00094',plataforma:'Haulmer',cliente:'Espacio Haulmer SA',monto:28700,estado:'Pagado'},
+    {id:209,fecha:d(2),tipo:'Boleta',nDoc:'B-001236',plataforma:'PedidosYa',cliente:'Consumidor final',monto:1950,estado:'Pagado'},
+    {id:210,fecha:d(2),tipo:'Boleta',nDoc:'B-001237',plataforma:'Rappi',cliente:'Consumidor final',monto:2400,estado:'Pendiente'},
+  ];
+  guardarDB();
+  renderAll();
+  alert('✅ Datos demo cargados correctamente.');
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+(function init() {
+  cargarDB();
+  initFechas();
+  renderAll();
+  iniciarDatePicker();
+  precargarHistorico(); // carga históricos en background y re-renderiza
+})();
+</script>
+</body>
+</html>
