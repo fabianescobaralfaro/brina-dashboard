@@ -44,7 +44,44 @@
     "ventas_hoy": {
       "total_dia": 103330,
       "transacciones": []
-    }
+    },
+    "ventas_por_hora": [
+      {
+        "hora": 7,
+        "monto": 5000,
+        "acumulado": 5000
+      },
+      {
+        "hora": 8,
+        "monto": 13700,
+        "acumulado": 18700
+      },
+      {
+        "hora": 9,
+        "monto": 7350,
+        "acumulado": 26050
+      },
+      {
+        "hora": 10,
+        "monto": 19330,
+        "acumulado": 45380
+      },
+      {
+        "hora": 11,
+        "monto": 26400,
+        "acumulado": 71780
+      },
+      {
+        "hora": 12,
+        "monto": 9450,
+        "acumulado": 81230
+      },
+      {
+        "hora": 13,
+        "monto": 28650,
+        "acumulado": 109880
+      }
+    ]
   },
   "toteat": null,
   "rappi": null,
