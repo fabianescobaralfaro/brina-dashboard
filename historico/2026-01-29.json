@@ -44,7 +44,69 @@
     "ventas_hoy": {
       "total_dia": 0,
       "transacciones": []
-    }
+    },
+    "ventas_por_hora": [
+      {
+        "hora": 8,
+        "monto": 15000,
+        "acumulado": 15000
+      },
+      {
+        "hora": 9,
+        "monto": 19700,
+        "acumulado": 34700
+      },
+      {
+        "hora": 10,
+        "monto": 4650,
+        "acumulado": 39350
+      },
+      {
+        "hora": 11,
+        "monto": 13200,
+        "acumulado": 52550
+      },
+      {
+        "hora": 12,
+        "monto": 26270,
+        "acumulado": 78820
+      },
+      {
+        "hora": 13,
+        "monto": 18250,
+        "acumulado": 97070
+      },
+      {
+        "hora": 14,
+        "monto": 3300,
+        "acumulado": 100370
+      },
+      {
+        "hora": 15,
+        "monto": 8590,
+        "acumulado": 108960
+      },
+      {
+        "hora": 16,
+        "monto": 11180,
+        "acumulado": 120140
+      },
+      {
+        "hora": 17,
+        "monto": 13550,
+        "acumulado": 133690
+      },
+      {
+        "hora": 18,
+        "monto": 9050,
+        "acumulado": 142740
+      },
+      {
+        "hora": 19,
+        "monto": 11100,
+        "acumulado": 153840
+      }
+    ]
   },
   "toteat": null,
   "rappi": null,
