@@ -217,5 +217,9 @@ window.HAULMER_DATA = {
         "monto": 2600
       }
     ]
-  }
+  },
+  "ventas_por_hora": [
+    {"hora": 11, "monto": 5350, "acumulado": 5350},
+    {"hora": 12, "monto": 9450, "acumulado": 14800}
+  ]
 };
