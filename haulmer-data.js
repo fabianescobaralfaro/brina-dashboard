@@ -1,31 +1,22 @@
 /* Generado automáticamente por scraper.py — NO editar manualmente */
 window.HAULMER_DATA = {
-  "actualizadoEl": "14/05/2026 00:00",
+  "actualizadoEl": "15/05/2026 13:30",
   "error": null,
   "informe_dia": {
     "periodo": "Día",
-    "monto_neto": 0,
-    "iva": 0,
-    "monto_ventas": 0,
-    "monto_exento": 0,
-    "propinas": 0,
-    "debito": 0,
-    "credito": 0,
-    "efectivo": 0,
-    "pos_breakdown": [
-      {
-        "serial": "PB1T238420182",
-        "total_ventas": 0,
-        "debito": 0,
-        "credito": 0,
-        "efectivo": 0,
-        "propinas": 0
-      }
-    ],
+    "monto_neto": 86827,
+    "iva": 16503,
+    "monto_ventas": 103330,
+    "monto_exento": 103330,
+    "propinas": 3100,
+    "debito": 70880,
+    "credito": 5850,
+    "efectivo": 29700,
+    "pos_breakdown": [],
     "n_tx_debito": 0,
     "n_tx_credito": 0,
     "n_tx_efectivo": 0,
-    "n_tx_total": 0
+    "n_tx_total": 43
   },
   "informe_semana": {
     "periodo": "Semana",
@@ -114,7 +105,7 @@ window.HAULMER_DATA = {
     "n_transacciones_hoy": 0
   },
   "ventas_hoy": {
-    "total_dia": 85919,
+    "total_dia": 103330,
     "transacciones": [
       {
         "descripcion": "Venta débito",
@@ -219,7 +210,12 @@ window.HAULMER_DATA = {
     ]
   },
   "ventas_por_hora": [
-    {"hora": 11, "monto": 5350, "acumulado": 5350},
-    {"hora": 12, "monto": 9450, "acumulado": 14800}
+    {"hora": 7,  "monto": 5000,  "acumulado": 5000},
+    {"hora": 8,  "monto": 13700, "acumulado": 18700},
+    {"hora": 9,  "monto": 7350,  "acumulado": 26050},
+    {"hora": 10, "monto": 19330, "acumulado": 45380},
+    {"hora": 11, "monto": 26400, "acumulado": 71780},
+    {"hora": 12, "monto": 9450,  "acumulado": 81230},
+    {"hora": 13, "monto": 22100, "acumulado": 103330}
   ]
 };
