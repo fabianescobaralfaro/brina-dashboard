@@ -209,7 +209,69 @@
           "monto": 2600
         }
       ]
-    }
+    },
+    "ventas_por_hora": [
+      {
+        "hora": 8,
+        "monto": 13440,
+        "acumulado": 13440
+      },
+      {
+        "hora": 9,
+        "monto": 15300,
+        "acumulado": 28740
+      },
+      {
+        "hora": 10,
+        "monto": 27130,
+        "acumulado": 55870
+      },
+      {
+        "hora": 11,
+        "monto": 19300,
+        "acumulado": 75170
+      },
+      {
+        "hora": 12,
+        "monto": 24400,
+        "acumulado": 99570
+      },
+      {
+        "hora": 13,
+        "monto": 26000,
+        "acumulado": 125570
+      },
+      {
+        "hora": 14,
+        "monto": 27240,
+        "acumulado": 152810
+      },
+      {
+        "hora": 15,
+        "monto": 64870,
+        "acumulado": 217680
+      },
+      {
+        "hora": 16,
+        "monto": 26250,
+        "acumulado": 243930
+      },
+      {
+        "hora": 17,
+        "monto": 21950,
+        "acumulado": 265880
+      },
+      {
+        "hora": 18,
+        "monto": 9450,
+        "acumulado": 275330
+      },
+      {
+        "hora": 19,
+        "monto": 32430,
+        "acumulado": 307760
+      }
+    ]
   },
   "toteat": {
     "error": null,
