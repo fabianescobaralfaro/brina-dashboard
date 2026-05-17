@@ -1704,14 +1704,26 @@ function renderResumen() {
   const totalGastos  = gastos.reduce((s,g) => s + g.monto, 0);
 
   // ── KPIs consolidados ──
-  // Sumar ventas históricas scrapeadas (días anteriores en cache)
-  // IMPORTANTE: excluir del historico la fecha ya cubierta por liveHaulmer (evita doble conteo)
+  // Si el período cubre el mes actual completo, usar informe_mes de Haulmer directamente
+  // (evita discrepancias entre la suma de días históricos y el total real del POS)
+  const _kpiDesde = document.getElementById('filter-desde').value;
+  const _kpiHasta = document.getElementById('filter-hasta').value;
+  const _kpiHoy   = new Date().toISOString().slice(0,10);
+  const _primerDiaMes = _kpiHoy.slice(0,7) + '-01';
+  const _usarMesHaulmer = !!(H && !H.error && (H.informe_mes||{}).monto_ventas)
+      && (_kpiDesde <= _primerDiaMes) && (!_kpiHasta || _kpiHasta >= _kpiHoy);
+
   const _allLiveVentas = getLiveVentas();
+  // Excluir filas históricas de Haulmer si usamos informe_mes (ya incluye todos los días del mes)
   const _histRows = filtrarPorFecha(
-      _allLiveVentas.filter(v => v._hist && !(v.plataforma === 'Haulmer' && v.fecha === _fechaDatoH))
+      _allLiveVentas.filter(v => v._hist
+          && !(v.plataforma === 'Haulmer' && v.fecha === _fechaDatoH)
+          && !(_usarMesHaulmer && v.plataforma === 'Haulmer')
+      )
   );
-  const _histTotal = _histRows.reduce((s,v) => s + v.monto, 0);
-  const totalVentas = liveHaulmer + liveToteat + livePya + liveRappi + ventasManual + _histTotal;
+  const _histTotal   = _histRows.reduce((s,v) => s + v.monto, 0);
+  const haulmerKPI   = _usarMesHaulmer ? ((H.informe_mes||{}).monto_ventas || 0) : liveHaulmer;
+  const totalVentas  = haulmerKPI + liveToteat + livePya + liveRappi + ventasManual + _histTotal;
   const totalOrdenes = ordToteat + ordPya + ordRappi + ventas.length;
   const neto = totalVentas - totalGastos;
 
