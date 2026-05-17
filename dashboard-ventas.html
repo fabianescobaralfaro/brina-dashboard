@@ -1894,12 +1894,20 @@ function renderCharts(ventas, gastos, liveByPlat) {
 // Fecha actualmente seleccionada en el gráfico de horas (null = hoy)
 let _horasFechaSeleccionada = null;
 
-function onHorasFechaChange(val) {
+async function onHorasFechaChange(val) {
   const hoy = new Date().toISOString().split('T')[0];
   _horasFechaSeleccionada = (val === 'hoy' || val === hoy) ? null : val;
   // Sincronizar picker
   const picker = document.getElementById('horas-fecha-picker');
   if (picker) picker.value = _horasFechaSeleccionada || hoy;
+  // Si la fecha histórica no está en cache, intentar cargarla en el momento
+  const fecha = _horasFechaSeleccionada;
+  if (fecha && !window.HISTORICO_CACHE[fecha]) {
+    try {
+      const r = await fetch(`historico/${fecha}.json`);
+      if (r.ok) window.HISTORICO_CACHE[fecha] = await r.json();
+    } catch(_) {}
+  }
   renderHorasChart();
 }
 
