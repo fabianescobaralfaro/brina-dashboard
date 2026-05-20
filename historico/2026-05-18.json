@@ -1,0 +1,119 @@
+{
+  "fecha": "2026-05-18",
+  "haulmer": {
+    "actualizadoEl": "18/05/2026 00:00",
+    "error": null,
+    "informe_dia": {
+      "periodo": "Dia",
+      "monto_ventas": 151200,
+      "monto_neto": 127059,
+      "iva": 24141,
+      "monto_exento": 151200,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "informe_semana": {},
+    "informe_mes": {},
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 0,
+      "nota": "(generado)"
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 151200,
+      "transacciones": []
+    },
+    "ventas_por_hora": [
+      {
+        "hora": 7,
+        "monto": 10000,
+        "acumulado": 10000
+      },
+      {
+        "hora": 8,
+        "monto": 20000,
+        "acumulado": 30000
+      },
+      {
+        "hora": 9,
+        "monto": 5000,
+        "acumulado": 35000
+      },
+      {
+        "hora": 10,
+        "monto": 7250,
+        "acumulado": 42250
+      },
+      {
+        "hora": 11,
+        "monto": 11300,
+        "acumulado": 53550
+      },
+      {
+        "hora": 12,
+        "monto": 16000,
+        "acumulado": 69550
+      },
+      {
+        "hora": 13,
+        "monto": 15500,
+        "acumulado": 85050
+      },
+      {
+        "hora": 14,
+        "monto": 10200,
+        "acumulado": 95250
+      },
+      {
+        "hora": 15,
+        "monto": 11750,
+        "acumulado": 107000
+      },
+      {
+        "hora": 16,
+        "monto": 1700,
+        "acumulado": 108700
+      },
+      {
+        "hora": 17,
+        "monto": 16100,
+        "acumulado": 124800
+      },
+      {
+        "hora": 18,
+        "monto": 8250,
+        "acumulado": 133050
+      },
+      {
+        "hora": 19,
+        "monto": 18150,
+        "acumulado": 151200
+      }
+    ]
+  },
+  "toteat": null,
+  "rappi": null,
+  "pedidosya": null
+}
