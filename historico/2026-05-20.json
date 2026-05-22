@@ -282,8 +282,33 @@
       },
       {
         "hora": 15,
-        "monto": 29800,
-        "acumulado": 178930
+        "monto": 32400,
+        "acumulado": 181530
+      },
+      {
+        "hora": 16,
+        "monto": 17100,
+        "acumulado": 198630
+      },
+      {
+        "hora": 17,
+        "monto": 20030,
+        "acumulado": 218660
+      },
+      {
+        "hora": 18,
+        "monto": 14100,
+        "acumulado": 232760
+      },
+      {
+        "hora": 19,
+        "monto": 10350,
+        "acumulado": 243110
+      },
+      {
+        "hora": 20,
+        "monto": 400,
+        "acumulado": 243510
       }
     ]
   },
