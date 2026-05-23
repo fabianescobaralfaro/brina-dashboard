@@ -833,6 +833,7 @@
               <th>Descripción</th>
               <th>Proveedor</th>
               <th>Monto</th>
+              <th>Foto</th>
               <th>Estado</th>
               <th></th>
             </tr>
@@ -1320,6 +1321,19 @@
         <option value="Pendiente">Pendiente</option>
       </select>
     </div>
+    <div class="form-group">
+      <label>Foto / Comprobante <span style="color:#4a5568;font-weight:400">(opcional)</span></label>
+      <div id="g-foto-upload-area" style="border:2px dashed #2e3250;border-radius:8px;padding:14px;text-align:center;cursor:pointer;position:relative;transition:border-color .2s">
+        <input type="file" id="g-foto" accept="image/*" capture="environment" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%" onchange="onDashFotoSelected(this)">
+        <div style="font-size:22px;margin-bottom:4px">📷</div>
+        <div style="font-size:12px;color:#8892b0">Toca para adjuntar foto</div>
+      </div>
+      <div id="g-foto-preview" style="display:none;margin-top:8px;position:relative;border-radius:8px;overflow:hidden;border:1px solid #2e3250">
+        <img id="g-foto-preview-img" src="" style="width:100%;max-height:160px;object-fit:cover;display:block">
+        <button onclick="quitarFotoDash()" style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);color:#fff;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:13px">✕</button>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);padding:4px 8px;font-size:11px;color:#64ffda" id="g-foto-nombre"></div>
+      </div>
+    </div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="cerrarModal('gasto')">Cancelar</button>
       <button class="btn btn-primary" onclick="guardarGasto()">Guardar</button>
@@ -1513,9 +1527,56 @@ function eliminarVenta(id) {
 }
 
 // ═══════════════════════════════════════
-// CRUD GASTOS
+// CRUD GASTOS — foto upload
 // ═══════════════════════════════════════
-function guardarGasto() {
+let _dashFotoFile = null;
+
+function onDashFotoSelected(input) {
+  const file = input.files[0];
+  if (!file) return;
+  _dashFotoFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('g-foto-preview-img').src = e.target.result;
+    document.getElementById('g-foto-nombre').textContent = file.name;
+    document.getElementById('g-foto-upload-area').style.display = 'none';
+    document.getElementById('g-foto-preview').style.display     = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function quitarFotoDash() {
+  _dashFotoFile = null;
+  document.getElementById('g-foto').value = '';
+  document.getElementById('g-foto-preview-img').src = '';
+  document.getElementById('g-foto-upload-area').style.display = '';
+  document.getElementById('g-foto-preview').style.display     = 'none';
+}
+
+async function subirFotoDash(file) {
+  if (!_sbClient || !file) return '';
+  const ext  = file.name.split('.').pop() || 'jpg';
+  const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  try {
+    const { error } = await _sbClient.storage.from('comprobantes').upload(path, file, {
+      contentType: file.type, cacheControl: '3600',
+    });
+    if (error) return '';
+    const { data } = _sbClient.storage.from('comprobantes').getPublicUrl(path);
+    return data.publicUrl || '';
+  } catch(e) { return ''; }
+}
+
+async function guardarGasto() {
+  const btn = document.querySelector('#modal-gasto .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = _dashFotoFile ? 'Subiendo foto...' : 'Guardando...'; }
+
+  let fotoUrl = '';
+  if (_dashFotoFile) {
+    fotoUrl = await subirFotoDash(_dashFotoFile);
+    if (btn) btn.textContent = 'Guardando...';
+  }
+
   const g = {
     id: Date.now(),
     fecha: document.getElementById('g-fecha').value,
@@ -1523,11 +1584,14 @@ function guardarGasto() {
     descripcion: document.getElementById('g-desc').value || 'Gasto',
     proveedor: document.getElementById('g-prov').value,
     monto: parseFloat(document.getElementById('g-monto').value) || 0,
-    estado: document.getElementById('g-estado').value
+    estado: document.getElementById('g-estado').value,
+    foto_url: fotoUrl,
   };
+  if (btn) { btn.disabled = false; btn.textContent = 'Guardar'; }
   if (!g.fecha || g.monto <= 0) { alert('Completá la fecha y el monto.'); return; }
   db.gastos.push(g);
   guardarDB();
+  quitarFotoDash();
   cerrarModal('gasto');
   renderAll();
 }
@@ -1786,10 +1850,13 @@ function renderResumen() {
           <td class="text-green font-bold">${fmt(r.monto)}</td>
         </tr>`;
       } else {
+        const fotoLink = r.foto_url
+          ? `<a href="${r.foto_url}" target="_blank" title="Ver comprobante" style="margin-left:6px;font-size:14px;text-decoration:none">📎</a>`
+          : '';
         return `<tr>
           <td>${fmtFecha(r.fecha)}</td>
           <td><span class="badge badge-gasto">Gasto</span></td>
-          <td>${r.descripcion}</td>
+          <td>${r.descripcion}${fotoLink}</td>
           <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa">${r.categoria}</span></td>
           <td class="text-red font-bold">-${fmt(r.monto)}</td>
         </tr>`;
@@ -2353,15 +2420,29 @@ function renderGastos() {
 
   const tb = document.getElementById('tabla-gastos');
   if (!gastos.length) { tb.innerHTML = emptyState(); return; }
-  tb.innerHTML = gastos.map(g => `<tr>
-    <td>${fmtFecha(g.fecha)}</td>
-    <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa;font-size:.7rem">${g.categoria}</span></td>
-    <td>${g.descripcion}</td>
-    <td>${g.proveedor||'—'}</td>
-    <td class="font-bold text-red">${fmt(g.monto)}</td>
-    <td>${estadoBadge(g.estado)}</td>
-    <td><button class="btn btn-danger btn-sm" onclick="eliminarGasto(${g.id})">✕</button></td>
-  </tr>`).join('');
+  tb.innerHTML = gastos.map(g => {
+    const fotoBtn = g.foto_url
+      ? `<a href="${g.foto_url}" target="_blank" title="Ver comprobante"
+           style="display:inline-flex;align-items:center;gap:4px;background:rgba(108,99,255,.12);
+                  border:1px solid rgba(108,99,255,.3);color:#a78bfa;border-radius:6px;
+                  padding:3px 8px;font-size:11px;text-decoration:none;cursor:pointer">
+           📎 Foto
+         </a>`
+      : '<span style="color:#4a5568;font-size:11px">—</span>';
+    const deleteId = typeof g.id === 'string'
+      ? `"${g.id}"`   // uuid de Supabase
+      : g.id;          // timestamp local
+    return `<tr>
+      <td>${fmtFecha(g.fecha)}</td>
+      <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa;font-size:.7rem">${g.categoria}</span></td>
+      <td>${g.descripcion}${g.trabajador ? `<span style="font-size:10px;color:#4a5568;margin-left:5px">${g.trabajador}</span>` : ''}</td>
+      <td>${g.proveedor||'—'}</td>
+      <td class="font-bold text-red">${fmt(g.monto)}</td>
+      <td>${fotoBtn}</td>
+      <td>${estadoBadge(g.estado||'Pagado')}</td>
+      <td>${g._supabase ? '<span title="Registrado por trabajador" style="color:#8892b0;font-size:13px">👤</span>' : `<button class="btn btn-danger btn-sm" onclick="eliminarGasto(${deleteId})">✕</button>`}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ═══════════════════════════════════════
