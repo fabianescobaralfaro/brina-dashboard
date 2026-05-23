@@ -386,7 +386,7 @@
       <div class="form-group">
         <label>Foto / Comprobante <span style="color:var(--muted);font-weight:400">(opcional)</span></label>
         <div id="foto-upload-area" class="foto-upload-area">
-          <input type="file" id="f-foto" accept="image/*" capture="environment" onchange="onFotoSelected(this)">
+          <input type="file" id="f-foto" accept="image/*" onchange="onFotoSelected(this)">
           <div class="foto-upload-icon">📷</div>
           <div class="foto-upload-txt">Toca para sacar foto o <span>elegir imagen</span></div>
         </div>
@@ -487,28 +487,33 @@ function quitarFoto() {
 }
 
 async function subirFoto(file) {
-  if (!sb || !file) return '';
-  const ext  = file.name.split('.').pop() || 'jpg';
+  if (!sb || !file) return { url: '', error: null };
+  const ext  = (file.name.split('.').pop() || 'jpg').toLowerCase();
   const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-  // Mostrar barra de progreso
   const prog = document.getElementById('foto-progress');
   const bar  = document.getElementById('foto-progress-bar');
   prog.style.display = 'block';
-  bar.style.width = '30%';
+  bar.style.width = '20%';
   try {
+    bar.style.width = '50%';
     const { error } = await sb.storage.from('comprobantes').upload(path, file, {
-      contentType: file.type,
+      contentType: file.type || 'image/jpeg',
       cacheControl: '3600',
+      upsert: false,
     });
-    bar.style.width = '100%';
-    if (error) { console.warn('Error subiendo foto:', error); return ''; }
+    bar.style.width = '90%';
+    if (error) {
+      console.warn('Storage error:', error);
+      return { url: '', error: error.message || 'Error al subir foto' };
+    }
     const { data } = sb.storage.from('comprobantes').getPublicUrl(path);
-    return data.publicUrl || '';
+    bar.style.width = '100%';
+    return { url: data.publicUrl || '', error: null };
   } catch(e) {
     console.warn('Error subiendo foto:', e);
-    return '';
+    return { url: '', error: e.message || 'Error al subir foto' };
   } finally {
-    setTimeout(() => { prog.style.display = 'none'; bar.style.width = '0%'; }, 800);
+    setTimeout(() => { prog.style.display = 'none'; bar.style.width = '0%'; }, 600);
   }
 }
 
@@ -551,7 +556,13 @@ async function guardar() {
   // Subir foto si hay una
   let fotoUrl = '';
   if (fotoFile) {
-    fotoUrl = await subirFoto(fotoFile);
+    const resultado = await subirFoto(fotoFile);
+    fotoUrl = resultado.url;
+    if (resultado.error) {
+      // Advertir pero NO bloquear — el gasto se guarda igual sin foto
+      console.warn('Foto no subida:', resultado.error);
+      mostrarAdvertencia('⚠️ La foto no pudo subirse (' + resultado.error + '), pero el gasto se guardará igual.');
+    }
     btn.textContent = 'Guardando...';
   }
 
@@ -619,7 +630,21 @@ function nuevoGasto() {
 function mostrarError(txt) {
   document.getElementById('msg-err-text').textContent = txt;
   document.getElementById('msg-err').classList.add('show');
-  setTimeout(() => document.getElementById('msg-err').classList.remove('show'), 4000);
+  setTimeout(() => document.getElementById('msg-err').classList.remove('show'), 5000);
+}
+function mostrarAdvertencia(txt) {
+  const el = document.getElementById('msg-err');
+  el.style.background = 'rgba(246,201,14,.08)';
+  el.style.borderColor = 'rgba(246,201,14,.3)';
+  el.style.color = '#f6c90e';
+  document.getElementById('msg-err-text').textContent = txt;
+  el.classList.add('show');
+  setTimeout(() => {
+    el.classList.remove('show');
+    el.style.background = '';
+    el.style.borderColor = '';
+    el.style.color = '';
+  }, 6000);
 }
 
 // ── Historial reciente ──
