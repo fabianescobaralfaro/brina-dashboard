@@ -9,6 +9,9 @@
 <script src="pedidosya-data.js" onerror="console.warn('pedidosya-data.js no encontrado')"></script>
 <script src="rappi-data.js" onerror="console.warn('rappi-data.js no encontrado')"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- Supabase (gastos en tiempo real) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-config.js" onerror="console.warn('supabase-config.js no encontrado')"></script>
 <style>
   :root {
     --bg: #0f1117;
@@ -3339,6 +3342,58 @@ function importarDemo() {
 }
 
 // ═══════════════════════════════════════
+// SUPABASE — GASTOS EN TIEMPO REAL
+// ═══════════════════════════════════════
+let _sbClient = null;
+
+function initSupabaseGastos() {
+  const url  = window.SUPABASE_URL  || '';
+  const anon = window.SUPABASE_ANON || '';
+  if (!url || url.includes('TU-PROYECTO') || !anon || anon.includes('tu-anon-key')) return;
+  if (typeof supabase === 'undefined') return;
+  try {
+    _sbClient = supabase.createClient(url, anon);
+    cargarGastosSupabase();
+    suscribirGastosRealtime();
+  } catch(e) { console.warn('Supabase init error:', e); }
+}
+
+async function cargarGastosSupabase() {
+  if (!_sbClient) return;
+  try {
+    const { data, error } = await _sbClient
+      .from('gastos')
+      .select('*')
+      .order('fecha', { ascending: false });
+    if (error || !data) return;
+    // Convertir al formato de db.gastos (id numérico → string uuid)
+    const remoteGastos = data.map(g => ({
+      id:          g.id,
+      fecha:       g.fecha,
+      categoria:   g.categoria || 'Otros',
+      descripcion: g.descripcion || '',
+      proveedor:   g.proveedor  || '',
+      monto:       g.monto      || 0,
+      trabajador:  g.trabajador || '',
+      _supabase:   true,  // marca para distinguir de gastos locales
+    }));
+    // Mezclar: conservar gastos locales (sin _supabase) + todos los remotos
+    const locales = (db.gastos || []).filter(g => !g._supabase);
+    db.gastos = [...locales, ...remoteGastos];
+    renderAll();
+  } catch(e) { console.warn('Error cargando gastos Supabase:', e); }
+}
+
+function suscribirGastosRealtime() {
+  if (!_sbClient) return;
+  _sbClient.channel('gastos-dashboard')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'gastos' }, () => {
+      cargarGastosSupabase();
+    })
+    .subscribe();
+}
+
+// ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
 (function init() {
@@ -3347,6 +3402,7 @@ function importarDemo() {
   renderAll();
   iniciarDatePicker();
   precargarHistorico(); // carga históricos en background y re-renderiza
+  initSupabaseGastos(); // carga gastos desde Supabase y suscribe a cambios
 })();
 </script>
 </body>
