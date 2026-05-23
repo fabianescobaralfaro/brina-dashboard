@@ -224,6 +224,55 @@
 
     .empty-hist { color: var(--muted); font-size: 13px; text-align: center; padding: 20px 0; }
 
+    /* ── Foto upload ── */
+    .foto-upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .foto-upload-area:hover { border-color: var(--purple); background: var(--purpleL); }
+    .foto-upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .foto-upload-icon { font-size: 28px; margin-bottom: 6px; }
+    .foto-upload-txt  { font-size: 13px; color: var(--muted); }
+    .foto-upload-txt span { color: var(--purple); }
+
+    .foto-preview-wrap {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--card2);
+      border: 1px solid var(--border);
+    }
+    .foto-preview-wrap img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .foto-preview-remove {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,.7); color: #fff;
+      border: none; border-radius: 50%;
+      width: 28px; height: 28px; font-size: 14px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+    }
+    .foto-progress {
+      height: 4px; background: var(--border); border-radius: 2px;
+      margin-top: 8px; overflow: hidden; display: none;
+    }
+    .foto-progress-bar {
+      height: 100%; background: var(--purple);
+      border-radius: 2px; width: 0%;
+      transition: width .3s;
+    }
+
     /* ── Success overlay ── */
     .success-screen {
       display: none;
@@ -333,6 +382,23 @@
         <input type="text" id="f-prov" placeholder="Nombre del proveedor (opcional)">
       </div>
 
+      <!-- Foto comprobante -->
+      <div class="form-group">
+        <label>Foto / Comprobante <span style="color:var(--muted);font-weight:400">(opcional)</span></label>
+        <div id="foto-upload-area" class="foto-upload-area">
+          <input type="file" id="f-foto" accept="image/*" capture="environment" onchange="onFotoSelected(this)">
+          <div class="foto-upload-icon">📷</div>
+          <div class="foto-upload-txt">Toca para sacar foto o <span>elegir imagen</span></div>
+        </div>
+        <div id="foto-preview-wrap" class="foto-preview-wrap" style="display:none;margin-top:8px">
+          <img id="foto-preview-img" src="" alt="Vista previa">
+          <button class="foto-preview-remove" onclick="quitarFoto()" title="Quitar foto">✕</button>
+        </div>
+        <div class="foto-progress" id="foto-progress">
+          <div class="foto-progress-bar" id="foto-progress-bar"></div>
+        </div>
+      </div>
+
     </div><!-- /card -->
 
     <!-- Quién registra -->
@@ -396,6 +462,55 @@ function initSupabase() {
 // ── Estado del formulario ──
 let categoriaSeleccionada = 'Insumos / Materia prima';
 let trabajadorSeleccionado = 'Encargado';
+let fotoFile = null;
+
+// ── Manejo de foto ──
+function onFotoSelected(input) {
+  const file = input.files[0];
+  if (!file) return;
+  fotoFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('foto-preview-img').src = e.target.result;
+    document.getElementById('foto-upload-area').style.display  = 'none';
+    document.getElementById('foto-preview-wrap').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function quitarFoto() {
+  fotoFile = null;
+  document.getElementById('f-foto').value = '';
+  document.getElementById('foto-preview-img').src = '';
+  document.getElementById('foto-upload-area').style.display  = '';
+  document.getElementById('foto-preview-wrap').style.display = 'none';
+}
+
+async function subirFoto(file) {
+  if (!sb || !file) return '';
+  const ext  = file.name.split('.').pop() || 'jpg';
+  const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  // Mostrar barra de progreso
+  const prog = document.getElementById('foto-progress');
+  const bar  = document.getElementById('foto-progress-bar');
+  prog.style.display = 'block';
+  bar.style.width = '30%';
+  try {
+    const { error } = await sb.storage.from('comprobantes').upload(path, file, {
+      contentType: file.type,
+      cacheControl: '3600',
+    });
+    bar.style.width = '100%';
+    if (error) { console.warn('Error subiendo foto:', error); return ''; }
+    const { data } = sb.storage.from('comprobantes').getPublicUrl(path);
+    return data.publicUrl || '';
+  } catch(e) {
+    console.warn('Error subiendo foto:', e);
+    return '';
+  } finally {
+    setTimeout(() => { prog.style.display = 'none'; bar.style.width = '0%'; }, 800);
+  }
+}
 
 // Inicializar fecha de hoy
 document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
@@ -431,7 +546,14 @@ async function guardar() {
 
   const btn = document.getElementById('btn-guardar');
   btn.disabled = true;
-  btn.textContent = 'Guardando...';
+  btn.textContent = fotoFile ? 'Subiendo foto...' : 'Guardando...';
+
+  // Subir foto si hay una
+  let fotoUrl = '';
+  if (fotoFile) {
+    fotoUrl = await subirFoto(fotoFile);
+    btn.textContent = 'Guardando...';
+  }
 
   const gasto = {
     fecha,
@@ -440,6 +562,7 @@ async function guardar() {
     proveedor:   prov,
     monto,
     trabajador:  trabajadorSeleccionado,
+    foto_url:    fotoUrl,
   };
 
   try {
@@ -478,6 +601,7 @@ function nuevoGasto() {
   document.getElementById('f-desc').value   = '';
   document.getElementById('f-prov').value   = '';
   document.getElementById('f-fecha').value  = new Date().toISOString().split('T')[0];
+  quitarFoto();
 
   // Reset chips
   document.querySelectorAll('#chips-cat .chip').forEach((c,i) => c.classList.toggle('active', i === 0));
@@ -533,6 +657,7 @@ async function cargarHistorial() {
       <div class="hist-info">
         <div class="hist-desc">${g.descripcion}</div>
         <div class="hist-meta">${fmtFecha(g.fecha)} · ${g.categoria}${g.trabajador ? ' · ' + g.trabajador : ''}</div>
+        ${g.foto_url ? `<a href="${g.foto_url}" target="_blank" style="font-size:11px;color:var(--purple);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:4px">📎 Ver comprobante</a>` : ''}
       </div>
       <div class="hist-monto">-$${(g.monto||0).toLocaleString('es-CL')}</div>
     </div>
