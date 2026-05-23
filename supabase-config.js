@@ -31,5 +31,5 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-window.SUPABASE_URL  = 'https://TU-PROYECTO.supabase.co';  // ← reemplazar
-window.SUPABASE_ANON = 'eyJ...tu-anon-key-aqui...';        // ← reemplazar
+window.SUPABASE_URL  = 'https://ojzppugidhlkulhflfck.supabase.co';
+window.SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qenBwdWdpZGhsa3VsaGZsZmNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NTkwNzQsImV4cCI6MjA5NTEzNTA3NH0.q77LvLkH6G9SNaZAOJN_q8YFP7ExL5k2ytEr6wt3fmo';
