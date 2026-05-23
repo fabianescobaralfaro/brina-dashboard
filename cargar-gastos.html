@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Registrar Gasto — Brina</title>
+  <style>
+    :root {
+      --bg:       #0d0f1a;
+      --card:     #141626;
+      --card2:    #1a1d30;
+      --border:   #2e3250;
+      --text:     #ccd6f6;
+      --muted:    #8892b0;
+      --purple:   #6c63ff;
+      --purpleL:  rgba(108,99,255,.18);
+      --green:    #64ffda;
+      --greenL:   rgba(100,255,218,.12);
+      --red:      #ff6b6b;
+      --redL:     rgba(255,107,107,.12);
+      --yellow:   #f6c90e;
+      --radius:   14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 0 60px;
+    }
+
+    /* ── Header ── */
+    .header {
+      width: 100%;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-logo {
+      width: 40px; height: 40px;
+      background: var(--purpleL);
+      border: 1px solid rgba(108,99,255,.4);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .header-title { font-size: 18px; font-weight: 700; color: var(--text); }
+    .header-sub   { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Main container ── */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 16px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 16px;
+    }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 14px; }
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    label .req { color: var(--red); margin-left: 3px; }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 11px 13px;
+      font-size: 15px;
+      font-family: inherit;
+      appearance: none;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--purple);
+    }
+    select option { background: #1a1d30; }
+    textarea { resize: vertical; min-height: 72px; }
+
+    /* Monto — destacado */
+    .monto-wrap { position: relative; }
+    .monto-prefix {
+      position: absolute; left: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--green);
+      font-weight: 700;
+      font-size: 16px;
+      pointer-events: none;
+    }
+    .monto-wrap input { padding-left: 30px; font-size: 20px; font-weight: 700; color: var(--green); }
+
+    /* ── Categoria chips ── */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 7px 13px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .15s;
+      user-select: none;
+    }
+    .chip:hover  { border-color: var(--purple); color: var(--text); }
+    .chip.active { border-color: var(--purple); background: var(--purpleL); color: #a78bfa; }
+
+    /* ── Trabajador select ── */
+    .worker-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .worker-chip {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .15s;
+      user-select: none;
+    }
+    .worker-chip:hover  { border-color: var(--green); color: var(--text); }
+    .worker-chip.active { border-color: var(--green); background: var(--greenL); color: var(--green); }
+
+    /* ── Botón ── */
+    .btn-submit {
+      width: 100%;
+      background: var(--purple);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+      letter-spacing: .02em;
+    }
+    .btn-submit:hover   { opacity: .88; }
+    .btn-submit:active  { transform: scale(.98); }
+    .btn-submit:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* ── Mensajes estado ── */
+    .msg {
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .msg.ok    { background: var(--greenL); border: 1px solid rgba(100,255,218,.3); color: var(--green); }
+    .msg.error { background: var(--redL);   border: 1px solid rgba(255,107,107,.3); color: var(--red); }
+    .msg.show  { display: block; }
+
+    /* ── Historial ── */
+    .hist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .hist-item:last-child { border-bottom: none; }
+    .hist-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--purple);
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+    .hist-info { flex: 1; min-width: 0; }
+    .hist-desc { font-size: 14px; color: var(--text); font-weight: 500; }
+    .hist-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+    .hist-monto { font-size: 15px; font-weight: 700; color: var(--red); white-space: nowrap; }
+
+    /* ── Config missing banner ── */
+    .config-banner {
+      background: rgba(246,201,14,.08);
+      border: 1px solid rgba(246,201,14,.3);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--yellow);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .config-banner a { color: var(--yellow); }
+
+    .empty-hist { color: var(--muted); font-size: 13px; text-align: center; padding: 20px 0; }
+
+    /* ── Success overlay ── */
+    .success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .success-screen.show { display: flex; }
+    .success-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      animation: pop .4s ease;
+    }
+    @keyframes pop {
+      0%   { transform: scale(.5); opacity: 0; }
+      70%  { transform: scale(1.2); }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .success-title { font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
+    .success-sub   { font-size: 14px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
+    .btn-nuevo {
+      background: var(--purpleL);
+      border: 1px solid rgba(108,99,255,.4);
+      color: #a78bfa;
+      border-radius: 10px;
+      padding: 13px 32px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .btn-nuevo:hover { opacity: .8; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">🍕</div>
+  <div>
+    <div class="header-title">Brina Pizzería</div>
+    <div class="header-sub">Registro de Gastos</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Banner si Supabase no está configurado -->
+  <div class="config-banner" id="config-warn" style="display:none">
+    ⚠️ <strong>Supabase no configurado.</strong> Para que los gastos se sincronicen con el dashboard,
+    actualiza <code>supabase-config.js</code> con tu URL y anon key.
+    <a href="https://supabase.com" target="_blank">Ver instrucciones →</a>
+  </div>
+
+  <!-- Mensaje de estado -->
+  <div class="msg ok"    id="msg-ok">✅ Gasto registrado correctamente.</div>
+  <div class="msg error" id="msg-err">❌ <span id="msg-err-text">Error al guardar. Intenta nuevamente.</span></div>
+
+  <!-- ── Formulario ── -->
+  <div id="form-view">
+
+    <div class="card">
+      <div class="card-title">Nuevo Gasto</div>
+
+      <!-- Fecha -->
+      <div class="form-group">
+        <label>Fecha <span class="req">*</span></label>
+        <input type="date" id="f-fecha">
+      </div>
+
+      <!-- Monto -->
+      <div class="form-group">
+        <label>Monto <span class="req">*</span></label>
+        <div class="monto-wrap">
+          <span class="monto-prefix">$</span>
+          <input type="number" id="f-monto" placeholder="0" min="1" step="1">
+        </div>
+      </div>
+
+      <!-- Categoría (chips) -->
+      <div class="form-group">
+        <label>Categoría <span class="req">*</span></label>
+        <div class="chips" id="chips-cat">
+          <div class="chip active" data-val="Insumos / Materia prima">🥩 Insumos</div>
+          <div class="chip" data-val="Personal / Sueldos">👤 Personal</div>
+          <div class="chip" data-val="Alquiler">🏠 Alquiler</div>
+          <div class="chip" data-val="Servicios (luz, gas, agua)">💡 Servicios</div>
+          <div class="chip" data-val="Packaging">📦 Packaging</div>
+          <div class="chip" data-val="Marketing">📣 Marketing</div>
+          <div class="chip" data-val="Mantenimiento">🔧 Mantención</div>
+          <div class="chip" data-val="Comisiones plataformas">📱 Plataformas</div>
+          <div class="chip" data-val="Impuestos">🏛️ Impuestos</div>
+          <div class="chip" data-val="Otros">• Otros</div>
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="form-group">
+        <label>Descripción</label>
+        <input type="text" id="f-desc" placeholder="Ej: Compra de harina, gas mayo...">
+      </div>
+
+      <!-- Proveedor -->
+      <div class="form-group">
+        <label>Proveedor</label>
+        <input type="text" id="f-prov" placeholder="Nombre del proveedor (opcional)">
+      </div>
+
+    </div><!-- /card -->
+
+    <!-- Quién registra -->
+    <div class="card">
+      <div class="card-title">¿Quién registra?</div>
+      <div class="worker-chips" id="chips-worker">
+        <div class="worker-chip active" data-val="Encargado">Encargado</div>
+        <div class="worker-chip" data-val="Cocina">Cocina</div>
+        <div class="worker-chip" data-val="Caja">Caja</div>
+        <div class="worker-chip" data-val="Delivery">Delivery</div>
+        <div class="worker-chip" data-val="Administración">Administración</div>
+      </div>
+    </div>
+
+    <button class="btn-submit" id="btn-guardar" onclick="guardar()">
+      Registrar Gasto
+    </button>
+
+  </div><!-- /form-view -->
+
+  <!-- ── Pantalla de éxito ── -->
+  <div class="success-screen" id="success-view">
+    <div class="success-icon">✅</div>
+    <div class="success-title">¡Gasto registrado!</div>
+    <div class="success-sub" id="success-detail"></div>
+    <button class="btn-nuevo" onclick="nuevoGasto()">+ Registrar otro</button>
+  </div>
+
+  <!-- ── Historial reciente ── -->
+  <div class="card" id="hist-card">
+    <div class="card-title">Últimos registros</div>
+    <div id="hist-list"><div class="empty-hist">Cargando...</div></div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-config.js"></script>
+<script>
+
+// ── Inicializar Supabase ──
+let sb = null;
+
+function initSupabase() {
+  const url  = window.SUPABASE_URL  || '';
+  const anon = window.SUPABASE_ANON || '';
+  if (!url || url.includes('TU-PROYECTO') || !anon || anon.includes('tu-anon-key')) {
+    document.getElementById('config-warn').style.display = 'block';
+    return false;
+  }
+  try {
+    sb = supabase.createClient(url, anon);
+    return true;
+  } catch(e) {
+    document.getElementById('config-warn').style.display = 'block';
+    return false;
+  }
+}
+
+// ── Estado del formulario ──
+let categoriaSeleccionada = 'Insumos / Materia prima';
+let trabajadorSeleccionado = 'Encargado';
+
+// Inicializar fecha de hoy
+document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
+
+// ── Chips de categoría ──
+document.querySelectorAll('#chips-cat .chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#chips-cat .chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    categoriaSeleccionada = c.dataset.val;
+  });
+});
+
+// ── Chips de trabajador ──
+document.querySelectorAll('#chips-worker .worker-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#chips-worker .worker-chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    trabajadorSeleccionado = c.dataset.val;
+  });
+});
+
+// ── Guardar gasto ──
+async function guardar() {
+  const fecha = document.getElementById('f-fecha').value;
+  const monto = parseInt(document.getElementById('f-monto').value, 10);
+  const desc  = (document.getElementById('f-desc').value || '').trim();
+  const prov  = (document.getElementById('f-prov').value || '').trim();
+
+  // Validar
+  if (!fecha) return mostrarError('Por favor ingresa una fecha.');
+  if (!monto || monto <= 0) return mostrarError('El monto debe ser mayor a $0.');
+
+  const btn = document.getElementById('btn-guardar');
+  btn.disabled = true;
+  btn.textContent = 'Guardando...';
+
+  const gasto = {
+    fecha,
+    categoria:   categoriaSeleccionada,
+    descripcion: desc || 'Sin descripción',
+    proveedor:   prov,
+    monto,
+    trabajador:  trabajadorSeleccionado,
+  };
+
+  try {
+    if (sb) {
+      const { error } = await sb.from('gastos').insert([gasto]);
+      if (error) throw error;
+    } else {
+      // Fallback: guardar en localStorage si no hay Supabase
+      const local = JSON.parse(localStorage.getItem('gastos_local') || '[]');
+      local.push({ ...gasto, id: Date.now(), created_at: new Date().toISOString() });
+      localStorage.setItem('gastos_local', JSON.stringify(local));
+    }
+
+    // Mostrar éxito
+    const fmtMonto = '$' + monto.toLocaleString('es-CL');
+    document.getElementById('success-detail').innerHTML =
+      `<strong>${fmtMonto}</strong> — ${gasto.descripcion}<br>
+       Categoría: ${categoriaSeleccionada}<br>
+       Registrado por: ${trabajadorSeleccionado}`;
+
+    document.getElementById('form-view').style.display    = 'none';
+    document.getElementById('success-view').classList.add('show');
+    cargarHistorial();
+
+  } catch(e) {
+    mostrarError('Error al guardar: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Registrar Gasto';
+  }
+}
+
+// ── Nuevo gasto ──
+function nuevoGasto() {
+  document.getElementById('f-monto').value  = '';
+  document.getElementById('f-desc').value   = '';
+  document.getElementById('f-prov').value   = '';
+  document.getElementById('f-fecha').value  = new Date().toISOString().split('T')[0];
+
+  // Reset chips
+  document.querySelectorAll('#chips-cat .chip').forEach((c,i) => c.classList.toggle('active', i === 0));
+  document.querySelectorAll('#chips-worker .worker-chip').forEach((c,i) => c.classList.toggle('active', i === 0));
+  categoriaSeleccionada  = 'Insumos / Materia prima';
+  trabajadorSeleccionado = 'Encargado';
+
+  document.getElementById('msg-ok').classList.remove('show');
+  document.getElementById('msg-err').classList.remove('show');
+  document.getElementById('success-view').classList.remove('show');
+  document.getElementById('form-view').style.display = '';
+}
+
+// ── Mensajes ──
+function mostrarError(txt) {
+  document.getElementById('msg-err-text').textContent = txt;
+  document.getElementById('msg-err').classList.add('show');
+  setTimeout(() => document.getElementById('msg-err').classList.remove('show'), 4000);
+}
+
+// ── Historial reciente ──
+async function cargarHistorial() {
+  const listEl = document.getElementById('hist-list');
+  let items = [];
+
+  try {
+    if (sb) {
+      const { data, error } = await sb
+        .from('gastos')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(8);
+      if (!error && data) items = data;
+    } else {
+      const local = JSON.parse(localStorage.getItem('gastos_local') || '[]');
+      items = local.slice(-8).reverse();
+    }
+  } catch(e) { items = []; }
+
+  if (!items.length) {
+    listEl.innerHTML = '<div class="empty-hist">Aún no hay gastos registrados.</div>';
+    return;
+  }
+
+  const fmtFecha = iso => {
+    const [y,m,d] = iso.split('-');
+    return `${d}/${m}/${y}`;
+  };
+
+  listEl.innerHTML = items.map(g => `
+    <div class="hist-item">
+      <div class="hist-dot"></div>
+      <div class="hist-info">
+        <div class="hist-desc">${g.descripcion}</div>
+        <div class="hist-meta">${fmtFecha(g.fecha)} · ${g.categoria}${g.trabajador ? ' · ' + g.trabajador : ''}</div>
+      </div>
+      <div class="hist-monto">-$${(g.monto||0).toLocaleString('es-CL')}</div>
+    </div>
+  `).join('');
+}
+
+// ── Suscripción en tiempo real (historial se actualiza solo) ──
+function suscribirRealtime() {
+  if (!sb) return;
+  sb.channel('gastos-changes')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'gastos' }, () => {
+      cargarHistorial();
+    })
+    .subscribe();
+}
+
+// ── Inicializar ──
+initSupabase();
+cargarHistorial();
+suscribirRealtime();
+
+</script>
+</body>
+</html>
