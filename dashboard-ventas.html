@@ -1341,6 +1341,26 @@
   </div>
 </div>
 
+<!-- Modal Visor Foto Comprobante -->
+<div class="modal-backdrop" id="modal-foto-comprobante" onclick="cerrarModalFoto(event)" style="display:none;z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#1a1f3a;border-radius:14px;padding:20px;max-width:92vw;max-height:90vh;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+      <span style="font-size:15px;font-weight:600;color:#e2e8f0">📷 Comprobante</span>
+      <button onclick="cerrarModalFoto()" style="background:rgba(255,255,255,.08);border:none;color:#8892b0;cursor:pointer;border-radius:6px;padding:4px 10px;font-size:18px;line-height:1">✕</button>
+    </div>
+    <div style="overflow:auto;max-height:75vh;border-radius:8px;background:#0d1117;display:flex;align-items:center;justify-content:center;min-height:200px">
+      <img id="foto-comprobante-img" src="" alt="Comprobante"
+        style="max-width:100%;max-height:72vh;border-radius:8px;object-fit:contain;display:block">
+    </div>
+    <div style="text-align:center">
+      <a id="foto-comprobante-link" href="" target="_blank"
+        style="font-size:12px;color:#a78bfa;text-decoration:none;opacity:.7">
+        Abrir en pestaña nueva ↗
+      </a>
+    </div>
+  </div>
+</div>
+
 <!-- Modal Documento -->
 <div class="modal-backdrop" id="modal-documento">
   <div class="modal">
@@ -1594,6 +1614,18 @@ async function guardarGasto() {
   quitarFotoDash();
   cerrarModal('gasto');
   renderAll();
+}
+function verFotoComprobante(url) {
+  const modal = document.getElementById('modal-foto-comprobante');
+  document.getElementById('foto-comprobante-img').src = url;
+  document.getElementById('foto-comprobante-link').href = url;
+  modal.style.display = 'flex';
+}
+function cerrarModalFoto(e) {
+  if (e && e.target !== document.getElementById('modal-foto-comprobante')) return;
+  const modal = document.getElementById('modal-foto-comprobante');
+  modal.style.display = 'none';
+  document.getElementById('foto-comprobante-img').src = '';
 }
 async function eliminarGasto(id) {
   if (!confirm('¿Eliminar este gasto?')) return;
@@ -2431,12 +2463,12 @@ function renderGastos() {
   if (!gastos.length) { tb.innerHTML = emptyState(); return; }
   tb.innerHTML = gastos.map(g => {
     const fotoBtn = g.foto_url
-      ? `<a href="${g.foto_url}" target="_blank" title="Ver comprobante"
-           style="display:inline-flex;align-items:center;gap:4px;background:rgba(108,99,255,.12);
+      ? `<button onclick="verFotoComprobante('${g.foto_url}')" title="Ver comprobante"
+           style="display:inline-flex;align-items:center;gap:5px;background:rgba(108,99,255,.12);
                   border:1px solid rgba(108,99,255,.3);color:#a78bfa;border-radius:6px;
-                  padding:3px 8px;font-size:11px;text-decoration:none;cursor:pointer">
-           📎 Foto
-         </a>`
+                  padding:4px 10px;font-size:12px;cursor:pointer">
+           📷 Ver
+         </button>`
       : '<span style="color:#4a5568;font-size:11px">—</span>';
     const deleteId = typeof g.id === 'string'
       ? `"${g.id}"`   // uuid de Supabase
