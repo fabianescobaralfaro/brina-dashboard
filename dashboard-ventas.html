@@ -1627,18 +1627,20 @@ function cerrarModalFoto(e) {
   modal.style.display = 'none';
   document.getElementById('foto-comprobante-img').src = '';
 }
-async function eliminarGasto(id) {
+async function eliminarGasto(rawId) {
   if (!confirm('¿Eliminar este gasto?')) return;
-  // Si el gasto viene de Supabase (id es string/uuid), borrarlo allá también
-  const gasto = db.gastos.find(g => g.id === id);
+  // rawId llega siempre como string desde data-id; convertir a número si corresponde a gasto local
+  const id = isNaN(rawId) ? rawId : Number(rawId);
+  // Si el gasto viene de Supabase (uuid string), borrarlo allá también
+  const gasto = db.gastos.find(g => String(g.id) === String(rawId));
   if (gasto && gasto._supabase && _sbClient) {
-    const { error } = await _sbClient.from('gastos').delete().eq('id', id);
+    const { error } = await _sbClient.from('gastos').delete().eq('id', rawId);
     if (error) {
       alert('Error al eliminar gasto de Supabase: ' + error.message);
       return;
     }
   }
-  db.gastos = db.gastos.filter(g => g.id !== id);
+  db.gastos = db.gastos.filter(g => String(g.id) !== String(rawId));
   guardarDB();
   renderAll();
 }
@@ -2462,17 +2464,16 @@ function renderGastos() {
   const tb = document.getElementById('tabla-gastos');
   if (!gastos.length) { tb.innerHTML = emptyState(); return; }
   tb.innerHTML = gastos.map(g => {
+    const safeUrl = (g.foto_url || '').replace(/"/g, '%22');
+    const safeId  = String(g.id).replace(/"/g, '');
     const fotoBtn = g.foto_url
-      ? `<button onclick="verFotoComprobante('${g.foto_url}')" title="Ver comprobante"
+      ? `<button data-url="${safeUrl}" onclick="verFotoComprobante(this.dataset.url)" title="Ver comprobante"
            style="display:inline-flex;align-items:center;gap:5px;background:rgba(108,99,255,.12);
                   border:1px solid rgba(108,99,255,.3);color:#a78bfa;border-radius:6px;
                   padding:4px 10px;font-size:12px;cursor:pointer">
            📷 Ver
          </button>`
       : '<span style="color:#4a5568;font-size:11px">—</span>';
-    const deleteId = typeof g.id === 'string'
-      ? `'${g.id}'`   // uuid de Supabase — comillas simples para no romper el atributo onclick
-      : g.id;          // timestamp local (número)
     return `<tr>
       <td>${fmtFecha(g.fecha)}</td>
       <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa;font-size:.7rem">${g.categoria}</span></td>
@@ -2481,7 +2482,7 @@ function renderGastos() {
       <td class="font-bold text-red">${fmt(g.monto)}</td>
       <td>${fotoBtn}</td>
       <td>${estadoBadge(g.estado||'Pagado')}</td>
-      <td style="white-space:nowrap">${g._supabase ? `<span title="Registrado por trabajador" style="color:#8892b0;font-size:12px;margin-right:4px">👤</span>` : ''}<button class="btn btn-danger btn-sm" onclick="eliminarGasto(${deleteId})" title="Eliminar gasto">✕</button></td>
+      <td style="white-space:nowrap">${g._supabase ? '<span title="Registrado por trabajador" style="color:#8892b0;font-size:12px;margin-right:4px">👤</span>' : ''}<button class="btn btn-danger btn-sm" data-id="${safeId}" onclick="eliminarGasto(this.dataset.id)" title="Eliminar gasto">✕</button></td>
     </tr>`;
   }).join('');
 }
