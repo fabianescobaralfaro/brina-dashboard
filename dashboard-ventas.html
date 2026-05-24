@@ -1595,8 +1595,17 @@ async function guardarGasto() {
   cerrarModal('gasto');
   renderAll();
 }
-function eliminarGasto(id) {
+async function eliminarGasto(id) {
   if (!confirm('¿Eliminar este gasto?')) return;
+  // Si el gasto viene de Supabase (id es string/uuid), borrarlo allá también
+  const gasto = db.gastos.find(g => g.id === id);
+  if (gasto && gasto._supabase && _sbClient) {
+    const { error } = await _sbClient.from('gastos').delete().eq('id', id);
+    if (error) {
+      alert('Error al eliminar gasto de Supabase: ' + error.message);
+      return;
+    }
+  }
   db.gastos = db.gastos.filter(g => g.id !== id);
   guardarDB();
   renderAll();
@@ -2440,7 +2449,7 @@ function renderGastos() {
       <td class="font-bold text-red">${fmt(g.monto)}</td>
       <td>${fotoBtn}</td>
       <td>${estadoBadge(g.estado||'Pagado')}</td>
-      <td>${g._supabase ? '<span title="Registrado por trabajador" style="color:#8892b0;font-size:13px">👤</span>' : `<button class="btn btn-danger btn-sm" onclick="eliminarGasto(${deleteId})">✕</button>`}</td>
+      <td style="white-space:nowrap">${g._supabase ? `<span title="Registrado por trabajador" style="color:#8892b0;font-size:12px;margin-right:4px">👤</span>` : ''}<button class="btn btn-danger btn-sm" onclick="eliminarGasto(${deleteId})" title="Eliminar gasto">✕</button></td>
     </tr>`;
   }).join('');
 }
