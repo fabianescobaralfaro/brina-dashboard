@@ -2471,8 +2471,8 @@ function renderGastos() {
          </button>`
       : '<span style="color:#4a5568;font-size:11px">—</span>';
     const deleteId = typeof g.id === 'string'
-      ? `"${g.id}"`   // uuid de Supabase
-      : g.id;          // timestamp local
+      ? `'${g.id}'`   // uuid de Supabase — comillas simples para no romper el atributo onclick
+      : g.id;          // timestamp local (número)
     return `<tr>
       <td>${fmtFecha(g.fecha)}</td>
       <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa;font-size:.7rem">${g.categoria}</span></td>
