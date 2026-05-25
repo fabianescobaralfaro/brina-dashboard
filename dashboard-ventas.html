@@ -1342,7 +1342,7 @@
 </div>
 
 <!-- Modal Visor Foto Comprobante -->
-<div class="modal-backdrop" id="modal-foto-comprobante" onclick="cerrarModalFoto(event)" style="display:none;z-index:9999;align-items:center;justify-content:center">
+<div class="modal-backdrop" id="modal-foto-comprobante" style="z-index:9999">
   <div style="background:#1a1f3a;border-radius:14px;padding:20px;max-width:92vw;max-height:90vh;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative" onclick="event.stopPropagation()">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
       <span style="font-size:15px;font-weight:600;color:#e2e8f0">📷 Comprobante</span>
@@ -1616,16 +1616,13 @@ async function guardarGasto() {
   renderAll();
 }
 function verFotoComprobante(url) {
-  const modal = document.getElementById('modal-foto-comprobante');
   document.getElementById('foto-comprobante-img').src = url;
   document.getElementById('foto-comprobante-link').href = url;
-  modal.style.display = 'flex';
+  document.getElementById('modal-foto-comprobante').classList.add('open');
 }
-function cerrarModalFoto(e) {
-  if (e && e.target !== document.getElementById('modal-foto-comprobante')) return;
-  const modal = document.getElementById('modal-foto-comprobante');
-  modal.style.display = 'none';
-  document.getElementById('foto-comprobante-img').src = '';
+function cerrarModalFoto() {
+  document.getElementById('modal-foto-comprobante').classList.remove('open');
+  setTimeout(() => { document.getElementById('foto-comprobante-img').src = ''; }, 300);
 }
 async function eliminarGasto(rawId) {
   if (!confirm('¿Eliminar este gasto?')) return;
