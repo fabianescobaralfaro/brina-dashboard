@@ -504,13 +504,17 @@ async function subirFoto(file) {
     bar.style.width = '90%';
     if (error) {
       console.warn('Storage error:', error);
+      alert('ERROR FOTO: ' + (error.message || JSON.stringify(error)));
       return { url: '', error: error.message || 'Error al subir foto' };
     }
     const { data } = sb.storage.from('comprobantes').getPublicUrl(path);
     bar.style.width = '100%';
-    return { url: data.publicUrl || '', error: null };
+    const url = data.publicUrl || '';
+    if (!url) alert('ERROR FOTO: getPublicUrl no devolvió URL. Path: ' + path);
+    return { url, error: null };
   } catch(e) {
     console.warn('Error subiendo foto:', e);
+    alert('ERROR FOTO (catch): ' + (e.message || String(e)));
     return { url: '', error: e.message || 'Error al subir foto' };
   } finally {
     setTimeout(() => { prog.style.display = 'none'; bar.style.width = '0%'; }, 600);
