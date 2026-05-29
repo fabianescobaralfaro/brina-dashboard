@@ -1,0 +1,130 @@
+{
+  "fecha": "2026-05-27",
+  "toteat": {
+    "error": null,
+    "ultimo_cierre": {
+      "fecha": "27/05/2026",
+      "fecha_iso": "2026-05-27",
+      "turno": "1494747985014084-00001-20260527TB.001",
+      "apertura": "2026-05-27T12:48:46",
+      "cierre": "",
+      "total_ventas": 0,
+      "total_neto": 0,
+      "total_iva": 0,
+      "n_ordenes": 0,
+      "n_anuladas": 0,
+      "efectivo": 0,
+      "tarjeta": 0,
+      "productos_top": []
+    },
+    "historial_cierres": [
+      {
+        "fecha": "2026-05-27",
+        "turno": "1494747985014084-00001-20260527TB.001"
+      },
+      {
+        "fecha": "2026-05-26",
+        "turno": "1494747985014084-00001-20260526TB.002"
+      },
+      {
+        "fecha": "2026-05-25",
+        "turno": "1494747985014084-00001-20260525TB.001"
+      },
+      {
+        "fecha": "2026-05-23",
+        "turno": "1494747985014084-00001-20260523TB.002"
+      },
+      {
+        "fecha": "2026-05-22",
+        "turno": "1494747985014084-00001-20260522TB.002"
+      },
+      {
+        "fecha": "2026-05-20",
+        "turno": "1494747985014084-00001-20260520TB.002"
+      },
+      {
+        "fecha": "2026-05-19",
+        "turno": "1494747985014084-00001-20260519TB.002"
+      },
+      {
+        "fecha": "2026-05-18",
+        "turno": "1494747985014084-00001-20260518TB.001"
+      },
+      {
+        "fecha": "2026-05-16",
+        "turno": "1494747985014084-00001-20260516TB.002"
+      }
+    ],
+    "total_cierres_historicos": 54,
+    "actualizadoEl": "27/05/2026 09:14"
+  },
+  "haulmer": {
+    "ventas_por_hora": [
+      {
+        "hora": 8,
+        "monto": 19150,
+        "acumulado": 19150
+      },
+      {
+        "hora": 9,
+        "monto": 14880,
+        "acumulado": 34030
+      },
+      {
+        "hora": 10,
+        "monto": 20200,
+        "acumulado": 54230
+      },
+      {
+        "hora": 11,
+        "monto": 17150,
+        "acumulado": 71380
+      },
+      {
+        "hora": 12,
+        "monto": 17040,
+        "acumulado": 88420
+      },
+      {
+        "hora": 13,
+        "monto": 42790,
+        "acumulado": 131210
+      },
+      {
+        "hora": 14,
+        "monto": 12920,
+        "acumulado": 144130
+      },
+      {
+        "hora": 15,
+        "monto": 58360,
+        "acumulado": 202490
+      },
+      {
+        "hora": 16,
+        "monto": 17100,
+        "acumulado": 219590
+      },
+      {
+        "hora": 17,
+        "monto": 9600,
+        "acumulado": 229190
+      },
+      {
+        "hora": 18,
+        "monto": 10300,
+        "acumulado": 239490
+      },
+      {
+        "hora": 19,
+        "monto": 2150,
+        "acumulado": 241640
+      },
+      {
+        "hora": 20,
+        "monto": 17360,
+        "acumulado": 259000
+      }
+    ]
+  }
+}
