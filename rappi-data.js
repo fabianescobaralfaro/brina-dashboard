@@ -5,11 +5,11 @@ window.RAPPI_DATA = {
   "is_enabled": true,
   "store_tier": "standard",
   "ventas_7d": {
-    "total_amount": 3110.0,
-    "total_orders": 1,
-    "orders_avg": 3110.0,
-    "users_count": 1,
-    "new_users_count": 1,
+    "total_amount": 31130.0,
+    "total_orders": 2,
+    "orders_avg": 15565.0,
+    "users_count": 2,
+    "new_users_count": 2,
     "last_week": [
       {
         "date": "2026-05-21",
@@ -48,8 +48,8 @@ window.RAPPI_DATA = {
       },
       {
         "date": "2026-05-28",
-        "amount": 0,
-        "orders": 0
+        "amount": 28020.0,
+        "orders": 1
       }
     ]
   },
@@ -59,5 +59,5 @@ window.RAPPI_DATA = {
     "availability_pct": 48.72,
     "cooking_time_avg": 0
   },
-  "actualizadoEl": "29/05/2026 13:26"
+  "actualizadoEl": "29/05/2026 15:30"
 };
