@@ -1815,7 +1815,9 @@ function renderResumen() {
   // (evita discrepancias entre la suma de días históricos y el total real del POS)
   const _kpiDesde = document.getElementById('filter-desde').value;
   const _kpiHasta = document.getElementById('filter-hasta').value;
-  const _kpiHoy   = new Date().toISOString().slice(0,10);
+  // Usar fecha LOCAL (no UTC) para evitar desfase de zona horaria (Chile = UTC-4)
+  const _hoy = new Date();
+  const _kpiHoy = `${_hoy.getFullYear()}-${String(_hoy.getMonth()+1).padStart(2,'0')}-${String(_hoy.getDate()).padStart(2,'0')}`;
   const _primerDiaMes = _kpiHoy.slice(0,7) + '-01';
   const _usarMesHaulmer = !!(H && !H.error && (H.informe_mes||{}).monto_ventas)
       && (_kpiDesde <= _primerDiaMes) && (!_kpiHasta || _kpiHasta >= _kpiHoy);
