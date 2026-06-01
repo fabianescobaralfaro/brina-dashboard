@@ -1952,10 +1952,35 @@ function renderCharts(ventas, gastos, liveByPlat) {
   const meses = {};
   [...ventas, ...gastos.map(g=>({...g,_gasto:true}))].forEach(r => {
     const m = r.fecha ? r.fecha.slice(0,7) : 'Sin fecha';
-    if (!meses[m]) meses[m] = { ing: 0, gas: 0 };
-    r._gasto ? meses[m].gas += r.monto : meses[m].ing += r.monto;
+    if (!meses[m]) meses[m] = { ing: 0, gas: 0, haulmerContrib: 0 };
+    if (r._gasto) {
+      meses[m].gas += r.monto;
+    } else {
+      meses[m].ing += r.monto;
+      if (r.plataforma === 'Haulmer') meses[m].haulmerContrib += r.monto;
+    }
   });
-  const mLabels = Object.keys(meses).sort();
+
+  // Aplicar correcciones mensuales verificadas (sobreescriben suma de días individuales Haulmer)
+  const _hoyObj = new Date();
+  const _mesActualStr = `${_hoyObj.getFullYear()}-${String(_hoyObj.getMonth()+1).padStart(2,'0')}`;
+  const H_chart = window.HAULMER_DATA;
+
+  Object.keys(meses).forEach(mes => {
+    let haulmerReal = null;
+    if (mes === _mesActualStr && H_chart && !H_chart.error && (H_chart.informe_mes||{}).monto_ventas) {
+      // Mes actual: usar informe_mes en tiempo real
+      haulmerReal = H_chart.informe_mes.monto_ventas;
+    } else if (window.CORRECCIONES_MENSUALES[mes] && window.CORRECCIONES_MENSUALES[mes].haulmer) {
+      // Meses pasados: usar corrección verificada si existe
+      haulmerReal = window.CORRECCIONES_MENSUALES[mes].haulmer;
+    }
+    if (haulmerReal !== null) {
+      meses[mes].ing = meses[mes].ing - meses[mes].haulmerContrib + haulmerReal;
+    }
+  });
+
+  const mLabels = Object.keys(meses).filter(m => m !== 'Sin fecha').sort();
   const ctxIG = document.getElementById('chart-ingreso-gasto').getContext('2d');
   if (charts.ingresoGasto) charts.ingresoGasto.destroy();
   charts.ingresoGasto = new Chart(ctxIG, {
@@ -3247,6 +3272,7 @@ function toggleAcc(k) {
 // CACHE DE HISTÓRICOS (JSON scrapeados)
 // ═══════════════════════════════════════
 window.HISTORICO_CACHE = {};
+window.CORRECCIONES_MENSUALES = {}; // { "2026-05": { haulmer: 6540865 }, ... }
 
 async function precargarHistorico() {
   let fechas = [];
@@ -3254,6 +3280,16 @@ async function precargarHistorico() {
     const r = await fetch('historico/index.json');
     if (r.ok) fechas = await r.json();
   } catch(_) { return; }
+
+  // Cargar correcciones mensuales verificadas
+  try {
+    const rc = await fetch('historico/correcciones-mensuales.json');
+    if (rc.ok) {
+      const corr = await rc.json();
+      // Filtrar la clave _nota
+      Object.entries(corr).forEach(([k,v]) => { if (!k.startsWith('_')) window.CORRECCIONES_MENSUALES[k] = v; });
+    }
+  } catch(_) {}
 
   const hoy = new Date().toISOString().split('T')[0];
   await Promise.all(fechas.filter(f => f !== hoy).map(async fecha => {
