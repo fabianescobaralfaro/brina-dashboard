@@ -1912,7 +1912,10 @@ function renderResumen() {
       ? [{ fecha: fechaVista, plataforma:'Haulmer', monto: liveHaulmer }] : [];
   const _allHistParaCharts = _allLiveVentas.filter(v => v._hist);
   const _ventasParaCharts = [..._allHistParaCharts, ..._haulmerHoyRow, ...ventas];
-  renderCharts(_ventasParaCharts, gastos, liveByPlat);
+  // Para el gráfico mensual pasar TODOS los gastos (sin filtro de período)
+  // para que meses anteriores también muestren sus gastos
+  const _todosLosGastos = db.gastos || [];
+  renderCharts(_ventasParaCharts, _todosLosGastos, liveByPlat);
 }
 
 // ═══════════════════════════════════════
@@ -3281,9 +3284,9 @@ async function precargarHistorico() {
     if (r.ok) fechas = await r.json();
   } catch(_) { return; }
 
-  // Cargar correcciones mensuales verificadas
+  // Cargar correcciones mensuales verificadas (cache-bust para forzar versión fresca)
   try {
-    const rc = await fetch('historico/correcciones-mensuales.json');
+    const rc = await fetch(`historico/correcciones-mensuales.json?v=${Date.now()}`);
     if (rc.ok) {
       const corr = await rc.json();
       // Filtrar la clave _nota
@@ -3533,6 +3536,7 @@ async function cargarGastosSupabase() {
       proveedor:   g.proveedor  || '',
       monto:       g.monto      || 0,
       trabajador:  g.trabajador || '',
+      foto_url:    g.foto_url   || '',
       _supabase:   true,  // marca para distinguir de gastos locales
     }));
     // Mezclar: conservar gastos locales (sin _supabase) + todos los remotos
