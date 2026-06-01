@@ -1,0 +1,99 @@
+{
+  "fecha": "2026-05-31",
+  "haulmer": {
+    "actualizadoEl": "31/05/2026 00:00",
+    "error": null,
+    "informe_dia": {
+      "periodo": "Dia",
+      "monto_ventas": 166260,
+      "monto_neto": 139714,
+      "iva": 26546,
+      "monto_exento": 166260,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "informe_semana": {},
+    "informe_mes": {},
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 0,
+      "nota": "(generado)"
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 166260,
+      "transacciones": []
+    },
+    "ventas_por_hora": [
+      {
+        "hora": 11,
+        "monto": 4470,
+        "acumulado": 4470
+      },
+      {
+        "hora": 12,
+        "monto": 5750,
+        "acumulado": 10220
+      },
+      {
+        "hora": 13,
+        "monto": 19490,
+        "acumulado": 29710
+      },
+      {
+        "hora": 14,
+        "monto": 10750,
+        "acumulado": 40460
+      },
+      {
+        "hora": 15,
+        "monto": 29400,
+        "acumulado": 69860
+      },
+      {
+        "hora": 16,
+        "monto": 45350,
+        "acumulado": 115210
+      },
+      {
+        "hora": 17,
+        "monto": 25650,
+        "acumulado": 140860
+      },
+      {
+        "hora": 18,
+        "monto": 23450,
+        "acumulado": 164310
+      },
+      {
+        "hora": 19,
+        "monto": 1950,
+        "acumulado": 166260
+      }
+    ]
+  },
+  "toteat": null,
+  "rappi": null,
+  "pedidosya": null
+}
