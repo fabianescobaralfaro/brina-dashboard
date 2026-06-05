@@ -4,20 +4,14 @@
     "actualizadoEl": "02/06/2026 09:34",
     "error": null,
     "informe_dia": {
-      "periodo": "Día",
+      "monto_ventas": 266735,
+      "debito": 177100,
+      "credito": 11550,
+      "efectivo": 86860,
       "monto_neto": 0,
       "iva": 0,
-      "monto_ventas": 0,
-      "monto_exento": 0,
-      "propinas": 0,
-      "debito": 0,
-      "credito": 0,
-      "efectivo": 0,
-      "pos_breakdown": [],
-      "n_tx_debito": 0,
-      "n_tx_credito": 0,
-      "n_tx_efectivo": 0,
-      "n_tx_total": 0
+      "propinas": 8775,
+      "periodo": "Personalizado"
     },
     "informe_semana": {
       "periodo": "Semana",
