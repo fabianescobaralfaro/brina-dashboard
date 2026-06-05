@@ -4,20 +4,14 @@
     "actualizadoEl": "03/06/2026 11:17",
     "error": null,
     "informe_dia": {
-      "periodo": "Día",
+      "monto_ventas": 201133,
+      "debito": 121410,
+      "credito": 12250,
+      "efectivo": 71200,
       "monto_neto": 0,
       "iva": 0,
-      "monto_ventas": 0,
-      "monto_exento": 0,
-      "propinas": 0,
-      "debito": 0,
-      "credito": 0,
-      "efectivo": 0,
-      "pos_breakdown": [],
-      "n_tx_debito": 0,
-      "n_tx_credito": 0,
-      "n_tx_efectivo": 0,
-      "n_tx_total": 0
+      "propinas": 3727,
+      "periodo": "Personalizado"
     },
     "informe_semana": {
       "periodo": "Semana",
@@ -245,8 +239,53 @@
       },
       {
         "hora": 11,
-        "monto": 3600,
-        "acumulado": 36290
+        "monto": 12850,
+        "acumulado": 45540
+      },
+      {
+        "hora": 12,
+        "monto": 13250,
+        "acumulado": 58790
+      },
+      {
+        "hora": 13,
+        "monto": 22130,
+        "acumulado": 80920
+      },
+      {
+        "hora": 14,
+        "monto": 22040,
+        "acumulado": 102960
+      },
+      {
+        "hora": 15,
+        "monto": 35650,
+        "acumulado": 138610
+      },
+      {
+        "hora": 16,
+        "monto": 21600,
+        "acumulado": 160210
+      },
+      {
+        "hora": 17,
+        "monto": 18550,
+        "acumulado": 178760
+      },
+      {
+        "hora": 18,
+        "monto": 4800,
+        "acumulado": 183560
+      },
+      {
+        "hora": 19,
+        "monto": 13000,
+        "acumulado": 196560
+      },
+      {
+        "hora": 20,
+        "monto": 8300,
+        "acumulado": 204860
       }
     ]
   },
