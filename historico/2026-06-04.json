@@ -1,0 +1,90 @@
+{
+  "fecha": "2026-06-04",
+  "haulmer": {
+    "informe_dia": {
+      "monto_ventas": 365203,
+      "debito": 268900,
+      "credito": 33880,
+      "efectivo": 78480,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 16057,
+      "periodo": "Personalizado"
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    },
+    "ventas_por_hora": [
+      {
+        "hora": 8,
+        "monto": 5000,
+        "acumulado": 5000
+      },
+      {
+        "hora": 9,
+        "monto": 13200,
+        "acumulado": 18200
+      },
+      {
+        "hora": 10,
+        "monto": 12850,
+        "acumulado": 31050
+      },
+      {
+        "hora": 11,
+        "monto": 18000,
+        "acumulado": 49050
+      },
+      {
+        "hora": 12,
+        "monto": 15350,
+        "acumulado": 64400
+      },
+      {
+        "hora": 13,
+        "monto": 26550,
+        "acumulado": 90950
+      },
+      {
+        "hora": 14,
+        "monto": 122650,
+        "acumulado": 213600
+      },
+      {
+        "hora": 15,
+        "monto": 50200,
+        "acumulado": 263800
+      },
+      {
+        "hora": 16,
+        "monto": 17730,
+        "acumulado": 281530
+      },
+      {
+        "hora": 17,
+        "monto": 34800,
+        "acumulado": 316330
+      },
+      {
+        "hora": 18,
+        "monto": 25000,
+        "acumulado": 341330
+      },
+      {
+        "hora": 19,
+        "monto": 14200,
+        "acumulado": 355530
+      },
+      {
+        "hora": 20,
+        "monto": 25730,
+        "acumulado": 381260
+      }
+    ],
+    "informe_mes": {}
+  },
+  "toteat": null,
+  "rappi": null,
+  "pedidosya": null
+}
