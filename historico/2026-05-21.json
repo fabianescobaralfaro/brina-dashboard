@@ -2,7 +2,14 @@
   "fecha": "2026-05-21",
   "haulmer": {
     "informe_dia": {
-      "propinas": 0
+      "monto_ventas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 0,
+      "periodo": "Personalizado"
     },
     "informe_mes": {},
     "ventas_hoy": {},
