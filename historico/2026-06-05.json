@@ -35,37 +35,14 @@
     "actualizadoEl": "05/06/2026 11:59",
     "error": null,
     "informe_dia": {
-      "periodo": "Día",
-      "monto_neto": 44286,
-      "iva": 8414,
-      "monto_ventas": 52700,
-      "monto_exento": 52700,
-      "propinas": 0,
-      "debito": 26850,
-      "credito": 1400,
-      "efectivo": 24450,
-      "pos_breakdown": [
-        {
-          "serial": "PB1T238420182",
-          "total_ventas": 52700,
-          "debito": 26850,
-          "credito": 1400,
-          "efectivo": 24450,
-          "propinas": 0
-        },
-        {
-          "serial": "6010B232511900275",
-          "total_ventas": 0,
-          "debito": 0,
-          "credito": 0,
-          "efectivo": 0,
-          "propinas": 0
-        }
-      ],
-      "n_tx_debito": 11,
-      "n_tx_credito": 1,
-      "n_tx_efectivo": 16,
-      "n_tx_total": 28
+      "monto_ventas": 307600,
+      "debito": 186890,
+      "credito": 59000,
+      "efectivo": 61710,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 13482,
+      "periodo": "Personalizado"
     },
     "informe_semana": {
       "periodo": "Semana",
