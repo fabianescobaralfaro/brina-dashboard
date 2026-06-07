@@ -624,6 +624,11 @@
         <div class="kpi-value" id="kpi-facturas">0</div>
         <div class="kpi-sub"><span class="kpi-badge" id="kpi-boletas-sub">0 boletas</span></div>
       </div>
+      <div class="kpi" style="border-color:rgba(246,201,14,.5);background:rgba(246,201,14,.07)">
+        <div class="kpi-label" style="color:#f6c90e">🍽️ Propinas del mes</div>
+        <div class="kpi-value" id="kpi-propinas-mes" style="color:#f6c90e">$0</div>
+        <div class="kpi-sub"><span id="kpi-propinas-dias" style="color:#8892b0;font-size:.7rem"></span></div>
+      </div>
     </div>
 
     <!-- Plataformas resumen -->
@@ -820,11 +825,6 @@
       <div class="kpi yellow">
         <div class="kpi-label">Gastos este mes</div>
         <div class="kpi-value" id="kpi-gastos-mes">$0</div>
-      </div>
-      <div class="kpi" style="border-color:rgba(246,201,14,.4);background:rgba(246,201,14,.06)">
-        <div class="kpi-label" style="color:#f6c90e">Propinas este mes</div>
-        <div class="kpi-value" id="kpi-propinas-mes" style="color:#f6c90e">$0</div>
-        <div class="kpi-sub"><span id="kpi-propinas-dias" style="color:#8892b0;font-size:.7rem"></span></div>
       </div>
     </div>
 
@@ -2080,10 +2080,10 @@ function renderCharts(ventas, gastos, liveByPlat) {
           backgroundColor: 'rgba(246,201,14,.08)',
           fill: false,
           tension: 0.4,
-          pointRadius: 2,
-          pointHoverRadius: 5,
-          borderWidth: 2,
-          borderDash: [],
+          pointRadius: 3,
+          pointHoverRadius: 6,
+          borderWidth: 2.5,
+          yAxisID: 'y2',
           order: 1,
         }
       ]
@@ -2091,7 +2091,7 @@ function renderCharts(ventas, gastos, liveByPlat) {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#8892b0', font:{size:11} } },
+        legend: { labels: { color: '#8892b0', font:{size:11}, boxWidth: 14 } },
         tooltip: {
           callbacks: {
             label: ctx => `${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString('es-CL')}`
@@ -2100,7 +2100,17 @@ function renderCharts(ventas, gastos, liveByPlat) {
       },
       scales: {
         x: { ticks: { color: '#8892b0', maxTicksLimit:10 }, grid: { color: '#2e3250' } },
-        y: { ticks: { color: '#8892b0', callback: v=>'$'+v.toLocaleString('es-AR') }, grid: { color: '#2e3250' } }
+        y: {
+          type: 'linear', position: 'left',
+          ticks: { color: '#8892b0', callback: v=>'$'+v.toLocaleString('es-AR') },
+          grid: { color: '#2e3250' }
+        },
+        y2: {
+          type: 'linear', position: 'right',
+          ticks: { color: '#f6c90e', callback: v=>'$'+v.toLocaleString('es-AR') },
+          grid: { drawOnChartArea: false },
+          title: { display: true, text: 'Propinas', color: '#f6c90e', font:{size:10} }
+        }
       }
     }
   });
