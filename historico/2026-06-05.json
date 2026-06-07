@@ -295,6 +295,51 @@
         "hora": 11,
         "monto": 14600,
         "acumulado": 52700
+      },
+      {
+        "hora": 12,
+        "monto": 49550,
+        "acumulado": 102250
+      },
+      {
+        "hora": 13,
+        "monto": 50520,
+        "acumulado": 152770
+      },
+      {
+        "hora": 14,
+        "monto": 120880,
+        "acumulado": 273650
+      },
+      {
+        "hora": 15,
+        "monto": 16000,
+        "acumulado": 289650
+      },
+      {
+        "hora": 16,
+        "monto": 6650,
+        "acumulado": 296300
+      },
+      {
+        "hora": 17,
+        "monto": 2700,
+        "acumulado": 299000
+      },
+      {
+        "hora": 18,
+        "monto": 1550,
+        "acumulado": 300550
+      },
+      {
+        "hora": 19,
+        "monto": 2900,
+        "acumulado": 303450
+      },
+      {
+        "hora": 20,
+        "monto": 4150,
+        "acumulado": 307600
       }
     ]
   },
