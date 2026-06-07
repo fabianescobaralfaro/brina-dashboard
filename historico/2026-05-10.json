@@ -2,20 +2,14 @@
   "fecha": "2026-05-10",
   "haulmer": {
     "informe_dia": {
-      "periodo": "Dia",
       "monto_ventas": 0,
-      "monto_neto": 0,
-      "iva": 0,
-      "monto_exento": 0,
-      "propinas": 0,
       "debito": 0,
       "credito": 0,
       "efectivo": 0,
-      "pos_breakdown": [],
-      "n_tx_debito": 0,
-      "n_tx_credito": 0,
-      "n_tx_efectivo": 0,
-      "n_tx_total": 0
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 0,
+      "periodo": "Personalizado"
     },
     "actualizadoEl": "13/05/2026 23:33",
     "error": null,
@@ -44,7 +38,8 @@
     "ventas_hoy": {
       "total_dia": 0,
       "transacciones": []
-    }
+    },
+    "ventas_por_hora": []
   },
   "toteat": null,
   "rappi": null,
