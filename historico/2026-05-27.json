@@ -127,7 +127,19 @@
       }
     ],
     "informe_dia": {
-      "propinas": 6481
-    }
+      "monto_ventas": 259000,
+      "debito": 151780,
+      "credito": 22040,
+      "efectivo": 85180,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 6481,
+      "periodo": "Personalizado"
+    },
+    "ventas_hoy": {
+      "total_dia": 259000,
+      "transacciones": []
+    },
+    "informe_mes": {}
   }
 }
