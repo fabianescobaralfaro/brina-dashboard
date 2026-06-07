@@ -125,6 +125,9 @@
         "monto": 17360,
         "acumulado": 259000
       }
-    ]
+    ],
+    "informe_dia": {
+      "propinas": 6481
+    }
   }
 }
