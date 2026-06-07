@@ -1,5 +1,5 @@
 /* Generado automaticamente por scraper_toteat.py — NO editar manualmente */
 window.TOTEAT_DATA = {
-  "error": "No se obtuvieron cierres. Verificar acceso.",
-  "actualizadoEl": "05/06/2026 12:00"
+  "error": "Login fallido: Page.fill: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"input[type=\\\"email\\\"], input[name=\\\"email\\\"]\")\n",
+  "actualizadoEl": "07/06/2026 10:21"
 };
