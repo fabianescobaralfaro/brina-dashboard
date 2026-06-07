@@ -821,6 +821,11 @@
         <div class="kpi-label">Gastos este mes</div>
         <div class="kpi-value" id="kpi-gastos-mes">$0</div>
       </div>
+      <div class="kpi" style="border-color:rgba(246,201,14,.4);background:rgba(246,201,14,.06)">
+        <div class="kpi-label" style="color:#f6c90e">Propinas este mes</div>
+        <div class="kpi-value" id="kpi-propinas-mes" style="color:#f6c90e">$0</div>
+        <div class="kpi-sub"><span id="kpi-propinas-dias" style="color:#8892b0;font-size:.7rem"></span></div>
+      </div>
     </div>
 
     <div class="card">
@@ -1845,6 +1850,29 @@ function renderResumen() {
   document.getElementById('kpi-ventas-badge').textContent = totalOrdenes + ' pedidos';
   document.getElementById('kpi-gastos').textContent = fmt(totalGastos);
   document.getElementById('kpi-gastos-badge').textContent = gastos.length + ' ítems';
+
+  // ── KPI Propinas del mes ──
+  {
+    const _hoyProp = new Date();
+    const _mesProp = `${_hoyProp.getFullYear()}-${String(_hoyProp.getMonth()+1).padStart(2,'0')}`;
+    let propinasMes = 0;
+    let diasConPropinas = 0;
+    // Desde historico
+    if (window.HISTORICO_CACHE) {
+      Object.entries(window.HISTORICO_CACHE).forEach(([fecha, datos]) => {
+        if (!fecha.startsWith(_mesProp)) return;
+        const p = ((datos.haulmer || {}).informe_dia || {}).propinas || 0;
+        if (p > 0) { propinasMes += p; diasConPropinas++; }
+      });
+    }
+    // Dato live de hoy
+    if (H && !H.error) {
+      const pHoy = (H.informe_dia || {}).propinas || 0;
+      if (pHoy > 0) { propinasMes += pHoy; diasConPropinas++; }
+    }
+    document.getElementById('kpi-propinas-mes').textContent = fmt(propinasMes);
+    document.getElementById('kpi-propinas-dias').textContent = diasConPropinas > 0 ? `${diasConPropinas} días con propinas` : '';
+  }
   const netoEl = document.getElementById('kpi-neto');
   netoEl.textContent = fmt(neto);
   netoEl.style.color = neto >= 0 ? 'var(--green)' : 'var(--red)';
@@ -2005,33 +2033,71 @@ function renderCharts(ventas, gastos, liveByPlat) {
     }
   });
 
-  // Line evolución últimos 30 días
+  // Line evolución últimos 30 días + propinas
   const hoy = new Date();
+  const _hoyStr30 = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
   const dias = Array.from({length:30}, (_,i) => {
     const d = new Date(hoy); d.setDate(hoy.getDate()-29+i);
-    return d.toISOString().split('T')[0];
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   });
   const dailySales = dias.map(d => ventas.filter(v=>v.fecha===d).reduce((s,v)=>s+v.monto,0));
+
+  // Propinas por día: desde historico cache + dato live de hoy
+  const H_evo = window.HAULMER_DATA;
+  const dailyPropinas = dias.map(d => {
+    if (d === _hoyStr30 && H_evo && !H_evo.error) {
+      return (H_evo.informe_dia || {}).propinas || 0;
+    }
+    const cache = window.HISTORICO_CACHE && window.HISTORICO_CACHE[d];
+    if (cache && cache.haulmer && !cache.haulmer.error) {
+      return (cache.haulmer.informe_dia || {}).propinas || 0;
+    }
+    return 0;
+  });
+
   const ctxEv = document.getElementById('chart-evolucion').getContext('2d');
   if (charts.evolucion) charts.evolucion.destroy();
   charts.evolucion = new Chart(ctxEv, {
     type: 'line',
     data: {
       labels: dias.map(d => { const [,m,day]=d.split('-'); return `${day}/${m}`; }),
-      datasets: [{
-        label: 'Ventas diarias',
-        data: dailySales,
-        borderColor: '#6c63ff',
-        backgroundColor: 'rgba(108,99,255,.1)',
-        fill: true,
-        tension: 0.4,
-        pointRadius: 2,
-        pointHoverRadius: 5
-      }]
+      datasets: [
+        {
+          label: 'Ventas diarias',
+          data: dailySales,
+          borderColor: '#6c63ff',
+          backgroundColor: 'rgba(108,99,255,.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          order: 2,
+        },
+        {
+          label: 'Propinas',
+          data: dailyPropinas,
+          borderColor: '#f6c90e',
+          backgroundColor: 'rgba(246,201,14,.08)',
+          fill: false,
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          borderWidth: 2,
+          borderDash: [],
+          order: 1,
+        }
+      ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { labels: { color: '#8892b0', font:{size:11} } } },
+      plugins: {
+        legend: { labels: { color: '#8892b0', font:{size:11} } },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString('es-CL')}`
+          }
+        }
+      },
       scales: {
         x: { ticks: { color: '#8892b0', maxTicksLimit:10 }, grid: { color: '#2e3250' } },
         y: { ticks: { color: '#8892b0', callback: v=>'$'+v.toLocaleString('es-AR') }, grid: { color: '#2e3250' } }
