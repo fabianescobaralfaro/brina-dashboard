@@ -4,10 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard de Ventas — Mi Local</title>
-<script src="haulmer-data.js" onerror="console.warn('haulmer-data.js no encontrado')"></script>
-<script src="toteat-data.js" onerror="console.warn('toteat-data.js no encontrado — ejecutá scraper_toteat.py primero')"></script>
-<script src="pedidosya-data.js" onerror="console.warn('pedidosya-data.js no encontrado')"></script>
-<script src="rappi-data.js" onerror="console.warn('rappi-data.js no encontrado')"></script>
+<script>
+// Cache-bust: usa timestamp del minuto actual para forzar datos frescos
+var _cbv = (function(){ var d=new Date(); return d.getFullYear()+''+(d.getMonth()+1+'').padStart(2,'0')+''+(''+d.getDate()).padStart(2,'0')+''+(''+d.getHours()).padStart(2,'0')+''+(''+Math.floor(d.getMinutes()/10)).padStart(1,'0'); })();
+document.write('<scr'+'ipt src="haulmer-data.js?v='+_cbv+'" onerror="console.warn(\'haulmer-data.js no encontrado\')"><\/scr'+'ipt>');
+document.write('<scr'+'ipt src="toteat-data.js?v='+_cbv+'" onerror="console.warn(\'toteat-data.js no encontrado\')"><\/scr'+'ipt>');
+document.write('<scr'+'ipt src="pedidosya-data.js?v='+_cbv+'" onerror="console.warn(\'pedidosya-data.js no encontrado\')"><\/scr'+'ipt>');
+document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(\'rappi-data.js no encontrado\')"><\/scr'+'ipt>');
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <!-- Supabase (gastos en tiempo real) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
