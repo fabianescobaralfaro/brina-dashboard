@@ -11,7 +11,26 @@
       "debito": 123343,
       "credito": 29150,
       "efectivo": 55690,
-      "pos_breakdown": [],
+      "pos_breakdown": [
+        {
+          "serial": "6010B232511900275",
+          "device_id": 59922,
+          "total_ventas": 79333,
+          "debito": 48130,
+          "credito": 21760,
+          "efectivo": 3290,
+          "propinas": 6153
+        },
+        {
+          "serial": "PB1T238420182",
+          "device_id": 24092,
+          "total_ventas": 128850,
+          "debito": 70400,
+          "credito": 6050,
+          "efectivo": 52400,
+          "propinas": 0
+        }
+      ],
       "n_tx_debito": 0,
       "n_tx_credito": 0,
       "n_tx_efectivo": 0,
