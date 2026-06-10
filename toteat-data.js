@@ -2,21 +2,41 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "08/06/2026",
-    "fecha_iso": "2026-06-08",
-    "turno": "1494747985014084-00001-20260608TB.002",
-    "apertura": "2026-06-08T23:09:14",
+    "fecha": "09/06/2026",
+    "fecha_iso": "2026-06-09",
+    "turno": "1494747985014084-00001-20260609TB.002",
+    "apertura": "",
     "cierre": "",
-    "total_ventas": 0,
-    "total_neto": 0,
-    "total_iva": 0,
-    "n_ordenes": 0,
+    "total_ventas": 12780.0,
+    "total_neto": 10739.0,
+    "total_iva": 2041.0,
+    "n_ordenes": 1,
     "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 0,
-    "productos_top": []
+    "tarjeta": 14058.0,
+    "productos_top": [
+      {
+        "nombre": "Quattro Formaggi",
+        "cantidad": 1,
+        "total": 8390.0
+      },
+      {
+        "nombre": "Latte",
+        "cantidad": 1,
+        "total": 2490.0
+      },
+      {
+        "nombre": "Americano",
+        "cantidad": 1,
+        "total": 1900.0
+      }
+    ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-06-09",
+      "turno": "1494747985014084-00001-20260609TB.002"
+    },
     {
       "fecha": "2026-06-08",
       "turno": "1494747985014084-00001-20260608TB.002"
@@ -44,12 +64,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-06-01",
       "turno": "1494747985014084-00001-20260601TB.001"
-    },
-    {
-      "fecha": "2026-05-30",
-      "turno": "1494747985014084-00001-20260530TB.002"
     }
   ],
-  "total_cierres_historicos": 72,
-  "actualizadoEl": "08/06/2026 22:05"
+  "total_cierres_historicos": 74,
+  "actualizadoEl": "09/06/2026 22:19"
 };
