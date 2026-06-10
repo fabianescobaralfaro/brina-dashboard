@@ -12,11 +12,6 @@ window.RAPPI_DATA = {
     "new_users_count": 0,
     "last_week": [
       {
-        "date": "2026-06-01",
-        "amount": 0,
-        "orders": 0
-      },
-      {
         "date": "2026-06-02",
         "amount": 0,
         "orders": 0
@@ -50,14 +45,19 @@ window.RAPPI_DATA = {
         "date": "2026-06-08",
         "amount": 0,
         "orders": 0
+      },
+      {
+        "date": "2026-06-09",
+        "amount": 0,
+        "orders": 0
       }
     ]
   },
   "indicadores": {
     "cancellation_pct": 100.0,
     "error_pct": 0,
-    "availability_pct": 89.53,
+    "availability_pct": 91.51,
     "cooking_time_avg": 0
   },
-  "actualizadoEl": "09/06/2026 22:20"
+  "actualizadoEl": "10/06/2026 06:02"
 };
