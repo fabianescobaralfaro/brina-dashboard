@@ -1,0 +1,286 @@
+{
+  "fecha": "2026-06-10",
+  "haulmer": {
+    "actualizadoEl": "10/06/2026 06:00",
+    "error": null,
+    "informe_dia": {
+      "periodo": "Día",
+      "monto_neto": 0,
+      "iva": 0,
+      "monto_ventas": 0,
+      "monto_exento": 0,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "informe_semana": {
+      "periodo": "Semana",
+      "monto_neto": 517578,
+      "iva": 98352,
+      "monto_ventas": 615930,
+      "monto_exento": 615930,
+      "propinas": 24343,
+      "debito": 371820,
+      "credito": 32910,
+      "efectivo": 235550,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 338190,
+          "debito": 181800,
+          "credito": 9800,
+          "efectivo": 146590,
+          "propinas": 0
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 302090,
+          "debito": 190020,
+          "credito": 23110,
+          "efectivo": 88960,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 94,
+      "n_tx_credito": 9,
+      "n_tx_efectivo": 113,
+      "n_tx_total": 216
+    },
+    "informe_mes": {
+      "periodo": "Mes",
+      "monto_neto": 2033024,
+      "iva": 386316,
+      "monto_ventas": 2419340,
+      "monto_exento": 2419340,
+      "propinas": 87357,
+      "debito": 1645554,
+      "credito": 170134,
+      "efectivo": 691020,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 1338710,
+          "debito": 815540,
+          "credito": 60000,
+          "efectivo": 463170,
+          "propinas": 0
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 1167998,
+          "debito": 830014,
+          "credito": 110134,
+          "efectivo": 227850,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 403,
+      "n_tx_credito": 34,
+      "n_tx_efectivo": 363,
+      "n_tx_total": 800
+    },
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 1,
+      "nota": ""
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    },
+    "ventas_por_hora": []
+  },
+  "toteat": {
+    "error": null,
+    "ultimo_cierre": {
+      "fecha": "09/06/2026",
+      "fecha_iso": "2026-06-09",
+      "turno": "1494747985014084-00001-20260609TB.002",
+      "apertura": "",
+      "cierre": "",
+      "total_ventas": 12780.0,
+      "total_neto": 10739.0,
+      "total_iva": 2041.0,
+      "n_ordenes": 1,
+      "n_anuladas": 0,
+      "efectivo": 0,
+      "tarjeta": 14058.0,
+      "productos_top": [
+        {
+          "nombre": "Quattro Formaggi",
+          "cantidad": 1,
+          "total": 8390.0
+        },
+        {
+          "nombre": "Latte",
+          "cantidad": 1,
+          "total": 2490.0
+        },
+        {
+          "nombre": "Americano",
+          "cantidad": 1,
+          "total": 1900.0
+        }
+      ]
+    },
+    "historial_cierres": [
+      {
+        "fecha": "2026-06-09",
+        "turno": "1494747985014084-00001-20260609TB.002"
+      },
+      {
+        "fecha": "2026-06-08",
+        "turno": "1494747985014084-00001-20260608TB.002"
+      },
+      {
+        "fecha": "2026-06-06",
+        "turno": "1494747985014084-00001-20260606TB.002"
+      },
+      {
+        "fecha": "2026-06-05",
+        "turno": "1494747985014084-00001-20260605TB.002"
+      },
+      {
+        "fecha": "2026-06-04",
+        "turno": "1494747985014084-00001-20260604TB.002"
+      },
+      {
+        "fecha": "2026-06-03",
+        "turno": "1494747985014084-00001-20260603TB.001"
+      },
+      {
+        "fecha": "2026-06-02",
+        "turno": "1494747985014084-00001-20260602TB.002"
+      },
+      {
+        "fecha": "2026-06-01",
+        "turno": "1494747985014084-00001-20260601TB.001"
+      }
+    ],
+    "total_cierres_historicos": 74,
+    "actualizadoEl": "10/06/2026 06:01"
+  },
+  "pedidosya": {
+    "error": null,
+    "estado_local": "CLOSED",
+    "cerrado_hasta": null,
+    "cerrado_razon": null,
+    "tier": "NONE",
+    "tier_periodo": {
+      "desde": "2026-03-01",
+      "hasta": "2026-05-31"
+    },
+    "metricas_tier": {
+      "calificacion": "2",
+      "pedidos_volumen": "2",
+      "tasa_fallo": "33.33",
+      "pedidos_incorrectos": "50",
+      "tiempo_espera": "111"
+    },
+    "benchmark": {
+      "fecha_datos": "",
+      "dias_agregados": 7,
+      "revenue_percentil90": 0,
+      "orders_percentil90": 0,
+      "avg_basket_percentil90": 0,
+      "cohort_size": 0,
+      "area": "",
+      "cuisine": ""
+    },
+    "performance_7d": [],
+    "heatmap": [],
+    "actualizadoEl": "10/06/2026 06:02"
+  },
+  "rappi": {
+    "error": null,
+    "store_name": "Brina Pizzeria",
+    "is_enabled": true,
+    "store_tier": "standard",
+    "ventas_7d": {
+      "total_amount": 0,
+      "total_orders": 0,
+      "orders_avg": 0,
+      "users_count": 0,
+      "new_users_count": 0,
+      "last_week": [
+        {
+          "date": "2026-06-02",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-06-03",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-06-04",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-06-05",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-06-06",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-06-07",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-06-08",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-06-09",
+          "amount": 0,
+          "orders": 0
+        }
+      ]
+    },
+    "indicadores": {
+      "cancellation_pct": 100.0,
+      "error_pct": 0,
+      "availability_pct": 91.51,
+      "cooking_time_avg": 0
+    },
+    "actualizadoEl": "10/06/2026 06:02"
+  }
+}
