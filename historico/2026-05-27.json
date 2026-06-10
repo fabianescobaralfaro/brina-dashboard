@@ -134,7 +134,27 @@
       "monto_neto": 0,
       "iva": 0,
       "propinas": 6481,
-      "periodo": "Personalizado"
+      "periodo": "Personalizado",
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "device_id": 24092,
+          "total_ventas": 175220,
+          "debito": 82780,
+          "credito": 19250,
+          "efectivo": 73190,
+          "propinas": 0
+        },
+        {
+          "serial": "6010B232511900275",
+          "device_id": 59922,
+          "total_ventas": 90261,
+          "debito": 69000,
+          "credito": 2790,
+          "efectivo": 11990,
+          "propinas": 6481
+        }
+      ]
     },
     "ventas_hoy": {
       "total_dia": 259000,
