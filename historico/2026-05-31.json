@@ -13,7 +13,17 @@
       "debito": 0,
       "credito": 0,
       "efectivo": 0,
-      "pos_breakdown": [],
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "device_id": 24092,
+          "total_ventas": 166260,
+          "debito": 114660,
+          "credito": 7600,
+          "efectivo": 44000,
+          "propinas": 0
+        }
+      ],
       "n_tx_debito": 0,
       "n_tx_credito": 0,
       "n_tx_efectivo": 0,
