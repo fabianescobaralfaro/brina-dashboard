@@ -1861,10 +1861,11 @@ function renderResumen() {
     const _mesProp = `${_hoyProp.getFullYear()}-${String(_hoyProp.getMonth()+1).padStart(2,'0')}`;
     let propinasMes = 0;
     let diasConPropinas = 0;
-    // Desde historico
+    // Desde historico (excluye hoy para evitar doble conteo con H live)
     if (window.HISTORICO_CACHE) {
       Object.entries(window.HISTORICO_CACHE).forEach(([fecha, datos]) => {
         if (!fecha.startsWith(_mesProp)) return;
+        if (fecha === _kpiHoy) return; // hoy se agrega desde H live abajo
         const p = ((datos.haulmer || {}).informe_dia || {}).propinas || 0;
         if (p > 0) { propinasMes += p; diasConPropinas++; }
       });
