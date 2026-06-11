@@ -2281,7 +2281,7 @@ async function onHorasFechaChange(val) {
   const fecha = _horasFechaSeleccionada;
   if (fecha && !window.HISTORICO_CACHE[fecha]) {
     try {
-      const r = await fetch(`historico/${fecha}.json?v=7`);
+      const r = await fetch(`historico/${fecha}.json?v=8`);
       if (r.ok) window.HISTORICO_CACHE[fecha] = await r.json();
     } catch(_) {}
   }
@@ -3914,7 +3914,7 @@ async function precargarHistorico() {
   const hoy = new Date().toISOString().split('T')[0];
   await Promise.all(fechas.filter(f => f !== hoy).map(async fecha => {
     try {
-      const r = await fetch(`historico/${fecha}.json?v=7`);
+      const r = await fetch(`historico/${fecha}.json?v=8`);
       if (r.ok) window.HISTORICO_CACHE[fecha] = await r.json();
     } catch(_) {}
   }));
@@ -3923,6 +3923,11 @@ async function precargarHistorico() {
   renderResumen();
   renderVentas();
   renderHistorico();
+  // Si el usuario está en la página POS, re-renderizarla con datos frescos
+  if (document.getElementById('page-pos') &&
+      document.getElementById('page-pos').classList.contains('active')) {
+    renderPOS();
+  }
 }
 
 function renderAll() {
