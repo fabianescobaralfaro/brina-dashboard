@@ -21,7 +21,11 @@
           "debito": 82250,
           "credito": 5500,
           "efectivo": 60300,
-          "propinas": 0
+          "propinas": 0,
+          "n_tx_debito": 37,
+          "n_tx_credito": 3,
+          "n_tx_efectivo": 30,
+          "n_tx_total": 70
         }
       ],
       "n_tx_debito": 37,
