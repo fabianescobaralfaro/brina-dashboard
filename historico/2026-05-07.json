@@ -21,7 +21,11 @@
           "debito": 139800,
           "credito": 11050,
           "efectivo": 60600,
-          "propinas": 0
+          "propinas": 0,
+          "n_tx_debito": 57,
+          "n_tx_credito": 3,
+          "n_tx_efectivo": 35,
+          "n_tx_total": 95
         },
         {
           "serial": "6010B232511900275",
@@ -30,7 +34,11 @@
           "debito": 129700,
           "credito": 7470,
           "efectivo": 25300,
-          "propinas": 14447
+          "propinas": 14447,
+          "n_tx_debito": 15,
+          "n_tx_credito": 1,
+          "n_tx_efectivo": 3,
+          "n_tx_total": 19
         }
       ],
       "n_tx_debito": 72,
