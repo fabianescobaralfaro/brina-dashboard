@@ -21,7 +21,11 @@
           "debito": 120070,
           "credito": 55540,
           "efectivo": 24430,
-          "propinas": 18906
+          "propinas": 18906,
+          "n_tx_debito": 6,
+          "n_tx_credito": 2,
+          "n_tx_efectivo": 1,
+          "n_tx_total": 9
         },
         {
           "serial": "PB1T238420182",
@@ -30,7 +34,11 @@
           "debito": 83550,
           "credito": 3600,
           "efectivo": 47500,
-          "propinas": 0
+          "propinas": 0,
+          "n_tx_debito": 33,
+          "n_tx_credito": 2,
+          "n_tx_efectivo": 29,
+          "n_tx_total": 64
         }
       ],
       "n_tx_debito": 9,
