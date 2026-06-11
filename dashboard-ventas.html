@@ -3645,7 +3645,8 @@ function renderTicketMensual() {
     };
     const bd = ((datos.haulmer||{}).informe_dia||{}).pos_breakdown||[];
     bd.forEach(pos => {
-      const v  = pos.total_ventas||0;
+      // Ventas netas sin propina (coherente con monto_ventas del Resumen)
+      const v  = (pos.total_ventas||0) - (pos.propinas||0);
       const tx = pos.n_tx_total||0;
       if (pos.serial === POS_SERIALS.pizza) {
         meses[mes].pizza_v  += v;
