@@ -13,22 +13,30 @@
       "efectivo": 124070,
       "pos_breakdown": [
         {
-          "serial": "6010B232511900275",
-          "device_id": 59922,
-          "total_ventas": 151166,
-          "debito": 108020,
-          "credito": 2490,
-          "efectivo": 28690,
-          "propinas": 11967
-        },
-        {
           "serial": "PB1T238420182",
           "device_id": 24092,
           "total_ventas": 206700,
           "debito": 84820,
           "credito": 27850,
           "efectivo": 94030,
-          "propinas": 0
+          "propinas": 0,
+          "n_tx_debito": 35,
+          "n_tx_credito": 11,
+          "n_tx_efectivo": 66,
+          "n_tx_total": 112
+        },
+        {
+          "serial": "6010B232511900275",
+          "device_id": 59922,
+          "total_ventas": 151166,
+          "debito": 108020,
+          "credito": 2490,
+          "efectivo": 28690,
+          "propinas": 11967,
+          "n_tx_debito": 13,
+          "n_tx_credito": 1,
+          "n_tx_efectivo": 5,
+          "n_tx_total": 19
         }
       ],
       "n_tx_debito": 0,
