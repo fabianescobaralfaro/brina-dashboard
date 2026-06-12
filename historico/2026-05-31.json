@@ -105,7 +105,65 @@
         "monto": 1950,
         "acumulado": 166260
       }
-    ]
+    ],
+    "ventas_por_hora_pos": {
+      "PB1T238420182": [
+        {
+          "hora": 11,
+          "ventas": 4470,
+          "propinas": 0,
+          "acumulado": 4470
+        },
+        {
+          "hora": 12,
+          "ventas": 5750,
+          "propinas": 0,
+          "acumulado": 10220
+        },
+        {
+          "hora": 13,
+          "ventas": 19490,
+          "propinas": 0,
+          "acumulado": 29710
+        },
+        {
+          "hora": 14,
+          "ventas": 10750,
+          "propinas": 0,
+          "acumulado": 40460
+        },
+        {
+          "hora": 15,
+          "ventas": 29400,
+          "propinas": 0,
+          "acumulado": 69860
+        },
+        {
+          "hora": 16,
+          "ventas": 45350,
+          "propinas": 0,
+          "acumulado": 115210
+        },
+        {
+          "hora": 17,
+          "ventas": 25650,
+          "propinas": 0,
+          "acumulado": 140860
+        },
+        {
+          "hora": 18,
+          "ventas": 23450,
+          "propinas": 0,
+          "acumulado": 164310
+        },
+        {
+          "hora": 19,
+          "ventas": 1950,
+          "propinas": 0,
+          "acumulado": 166260
+        }
+      ]
+    }
   },
   "toteat": null,
   "rappi": null,
