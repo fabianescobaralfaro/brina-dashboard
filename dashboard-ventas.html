@@ -1346,6 +1346,31 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
       </div>
     </div>
 
+    <!-- ── Ventas por Hora por POS ── -->
+    <div class="card" style="margin-top:16px">
+      <div class="card-header" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <span class="card-title" id="pos-horas-titulo">⏱ Ventas por Hora del Día — POS</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="color:#8892b0;font-size:.8rem">Día:</label>
+          <input type="date" id="pos-horas-fecha"
+                 style="background:#1e2140;border:1px solid #3a3f6e;color:#cdd6f4;padding:3px 8px;border-radius:6px;font-size:.8rem">
+          <button onclick="posHorasFechaHoy()"
+                  style="background:#6c63ff;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.8rem;cursor:pointer">Hoy</button>
+        </div>
+      </div>
+      <!-- Curvas de referencia propinas: toggle -->
+      <div style="padding:4px 16px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <label style="font-size:.75rem;color:#8892b0;display:flex;align-items:center;gap:5px;cursor:pointer">
+          <input type="checkbox" id="pos-horas-prop-check" checked onchange="renderPosHoras()">
+          <span style="color:#f6c90e">Mostrar curvas propinas 2026</span>
+        </label>
+        <span id="pos-horas-prop-info" style="font-size:.72rem;color:#8892b0"></span>
+      </div>
+      <div class="chart-container" style="height:240px;margin-top:8px">
+        <canvas id="chart-pos-horas"></canvas>
+      </div>
+    </div>
+
   </div>
 
   <!-- ──── MESES ANTERIORES ──── -->
@@ -3605,6 +3630,9 @@ function renderPOS() {
 
   // ── Ticket promedio mensual ──
   renderTicketMensual();
+
+  // ── Ventas por hora por POS ──
+  renderPosHoras();
 }
 
 let _chartTicketMensual = null;
@@ -3738,6 +3766,210 @@ function renderTicketMensual() {
     </tr>`;
   });
   document.getElementById('pos-ticket-tbody').innerHTML = tbody;
+}
+
+// ═══════════════════════════════════════
+// VENTAS POR HORA POR POS
+// ═══════════════════════════════════════
+let _chartPosHoras = null;
+
+function posHorasFechaHoy() {
+  const hoy = new Date();
+  const s = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+  document.getElementById('pos-horas-fecha').value = s;
+  renderPosHoras();
+}
+
+async function renderPosHoras() {
+  const serial  = POS_SERIALS[_posActual];
+  const nombre  = POS_NOMBRES[_posActual];
+  const color   = POS_COLORES[_posActual];
+  const hoy     = new Date();
+  const hoyStr  = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+  const fechaEl = document.getElementById('pos-horas-fecha');
+  if (!fechaEl.value) fechaEl.value = hoyStr;
+  const fecha   = fechaEl.value;
+  const fmt     = v => '$' + Math.round(v).toLocaleString('es-CL');
+
+  // Actualizar título
+  const [y,m,d] = fecha.split('-');
+  document.getElementById('pos-horas-titulo').textContent =
+    `⏱ Ventas por Hora — ${nombre}  ·  ${d}/${m}/${y}`;
+
+  // Obtener datos del día seleccionado para este POS
+  let diaData = null;
+  if (fecha === hoyStr) {
+    // Intentar desde historico de hoy (actualizar_horas_historico lo escribe ahí)
+    try {
+      const r = await fetch(`historico/${fecha}.json?v=8`);
+      if (r.ok) diaData = await r.json();
+    } catch(_) {}
+  } else {
+    diaData = window.HISTORICO_CACHE && window.HISTORICO_CACHE[fecha];
+    if (!diaData) {
+      try {
+        const r = await fetch(`historico/${fecha}.json?v=8`);
+        if (r.ok) { diaData = await r.json(); if (window.HISTORICO_CACHE) window.HISTORICO_CACHE[fecha] = diaData; }
+      } catch(_) {}
+    }
+  }
+
+  const hpMap  = diaData && diaData.haulmer && diaData.haulmer.ventas_por_hora_pos;
+  const hpList = (hpMap && hpMap[serial]) || [];
+
+  // Horas del día (7–21)
+  const HORAS = Array.from({length:15}, (_,i) => i+7);
+  const ventas   = HORAS.map(h => { const e = hpList.find(x=>x.hora===h); return e ? e.ventas : 0; });
+  const propinas = HORAS.map(h => { const e = hpList.find(x=>x.hora===h); return e ? e.propinas : 0; });
+  const acum     = HORAS.map(h => { const e = hpList.find(x=>x.hora===h); return e ? e.acumulado : (ventas.slice(0,HORAS.indexOf(h)+1).reduce((a,b)=>a+b,0)||null); });
+  // Limpiar acumulado trailing zeros
+  let lastNonZero = -1;
+  acum.forEach((v,i) => { if (v > 0) lastNonZero = i; });
+  const acumClean = acum.map((v,i) => i <= lastNonZero ? v : null);
+
+  // ── Curvas de propinas históricas (todos los días 2026) ──
+  const mostrarProp = document.getElementById('pos-horas-prop-check') && document.getElementById('pos-horas-prop-check').checked;
+  const propCurvas  = [];  // [{label, data:[...por hora...]}]
+  if (mostrarProp && serial === POS_SERIALS.pizza && window.HISTORICO_CACHE) {
+    Object.entries(window.HISTORICO_CACHE).forEach(([f, datos]) => {
+      if (f === fecha) return;
+      const hp = datos && datos.haulmer && datos.haulmer.ventas_por_hora_pos;
+      const lista = hp && hp[serial];
+      if (!lista || lista.length === 0) return;
+      const totalProp = lista.reduce((s,e) => s + (e.propinas||0), 0);
+      if (totalProp === 0) return;
+      propCurvas.push({
+        label: f,
+        data: HORAS.map(h => { const e = lista.find(x=>x.hora===h); return e ? e.propinas : 0; }),
+      });
+    });
+  }
+
+  const infoEl = document.getElementById('pos-horas-prop-info');
+  if (infoEl) infoEl.textContent = propCurvas.length > 0 ? `${propCurvas.length} días con propinas` : '';
+
+  // Calcular curva promedio propinas
+  let propProm = null;
+  if (propCurvas.length > 0) {
+    propProm = HORAS.map((_,i) => {
+      const vals = propCurvas.map(c => c.data[i]).filter(v => v > 0);
+      return vals.length > 0 ? Math.round(vals.reduce((a,b)=>a+b,0) / vals.length) : 0;
+    });
+  }
+
+  // ── Construir datasets ──
+  const datasets = [
+    {
+      type: 'bar',
+      label: `Ventas netas / hora`,
+      data: ventas,
+      backgroundColor: color + 'cc',
+      borderRadius: 4,
+      yAxisID: 'y',
+      order: 3,
+    },
+    {
+      type: 'line',
+      label: 'Acumulado',
+      data: acumClean,
+      borderColor: '#38ffb3',
+      backgroundColor: 'transparent',
+      pointBackgroundColor: '#38ffb3',
+      pointRadius: 4,
+      borderWidth: 2,
+      tension: 0.3,
+      yAxisID: 'y2',
+      order: 2,
+      spanGaps: false,
+    },
+  ];
+
+  // Curvas individuales de propinas (muy finas, semitransparentes)
+  if (mostrarProp && propCurvas.length > 0) {
+    propCurvas.forEach(c => {
+      datasets.push({
+        type: 'line',
+        label: '_prop_' + c.label,
+        data: c.data,
+        borderColor: 'rgba(246,201,14,0.18)',
+        backgroundColor: 'transparent',
+        pointRadius: 0,
+        borderWidth: 1,
+        tension: 0.4,
+        yAxisID: 'y3',
+        order: 4,
+      });
+    });
+    // Curva promedio propinas (destacada)
+    if (propProm) {
+      datasets.push({
+        type: 'line',
+        label: 'Propinas promedio',
+        data: propProm,
+        borderColor: '#f6c90e',
+        backgroundColor: 'rgba(246,201,14,0.08)',
+        fill: true,
+        pointRadius: 3,
+        borderWidth: 2,
+        tension: 0.4,
+        yAxisID: 'y3',
+        order: 1,
+      });
+    }
+  }
+
+  const labels = HORAS.map(h => `${String(h).padStart(2,'0')}:00`);
+  const ctxH   = document.getElementById('chart-pos-horas').getContext('2d');
+  if (_chartPosHoras) _chartPosHoras.destroy();
+  _chartPosHoras = new Chart(ctxH, {
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          labels: {
+            color: '#8892b0', font: {size:11}, boxWidth:14,
+            filter: item => !item.datasetLabel?.startsWith('_prop_'),
+          }
+        },
+        tooltip: {
+          filter: item => !item.dataset.label?.startsWith('_prop_'),
+          callbacks: {
+            label: ctx => {
+              if (ctx.dataset.label === 'Propinas promedio')
+                return `Propinas prom: $${(ctx.parsed.y||0).toLocaleString('es-CL')}`;
+              if (ctx.dataset.label === 'Acumulado')
+                return `Acumulado: $${(ctx.parsed.y||0).toLocaleString('es-CL')}`;
+              return `Ventas: $${(ctx.parsed.y||0).toLocaleString('es-CL')}`;
+            }
+          }
+        },
+      },
+      scales: {
+        x: { ticks:{color:'#8892b0'}, grid:{color:'#2e3250'} },
+        y: {
+          position: 'left',
+          ticks: { color:'#8892b0', callback: v => '$'+v.toLocaleString('es-AR') },
+          grid: { color:'#2e3250' },
+          title: { display:true, text:'Por hora ($)', color:'#8892b0', font:{size:10} },
+        },
+        y2: {
+          position: 'right',
+          ticks: { color:'#38ffb3', callback: v => v===null?'':('$'+v.toLocaleString('es-AR')) },
+          grid: { drawOnChartArea: false },
+          title: { display:true, text:'Acumulado ($)', color:'#38ffb3', font:{size:10} },
+        },
+        y3: {
+          position: 'right',
+          display: mostrarProp && propCurvas.length > 0,
+          ticks: { color:'#f6c90e', callback: v => '$'+v.toLocaleString('es-AR') },
+          grid: { drawOnChartArea: false },
+          title: { display: mostrarProp && propCurvas.length > 0, text:'Propinas ($)', color:'#f6c90e', font:{size:10} },
+        },
+      }
+    }
+  });
 }
 
 // ═══════════════════════════════════════
@@ -4188,6 +4420,13 @@ function suscribirGastosRealtime() {
   iniciarDatePicker();
   precargarHistorico(); // carga históricos en background y re-renderiza
   initSupabaseGastos(); // carga gastos desde Supabase y suscribe a cambios
+  // Inicializar fecha del picker POS horas
+  const posHorasFechaEl = document.getElementById('pos-horas-fecha');
+  if (posHorasFechaEl) {
+    const hoy = new Date();
+    posHorasFechaEl.value = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+    posHorasFechaEl.addEventListener('change', renderPosHoras);
+  }
 })();
 </script>
 </body>
