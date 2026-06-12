@@ -138,7 +138,139 @@
         "monto": 9250,
         "acumulado": 295060
       }
-    ]
+    ],
+    "ventas_por_hora_pos": {
+      "PB1T238420182": [
+        {
+          "hora": 8,
+          "ventas": 20650,
+          "propinas": 0,
+          "acumulado": 20650
+        },
+        {
+          "hora": 9,
+          "ventas": 5750,
+          "propinas": 0,
+          "acumulado": 26400
+        },
+        {
+          "hora": 10,
+          "ventas": 14000,
+          "propinas": 0,
+          "acumulado": 40400
+        },
+        {
+          "hora": 11,
+          "ventas": 12150,
+          "propinas": 0,
+          "acumulado": 52550
+        },
+        {
+          "hora": 12,
+          "ventas": 25850,
+          "propinas": 0,
+          "acumulado": 78400
+        },
+        {
+          "hora": 13,
+          "ventas": 25400,
+          "propinas": 0,
+          "acumulado": 103800
+        },
+        {
+          "hora": 14,
+          "ventas": 23300,
+          "propinas": 0,
+          "acumulado": 127100
+        },
+        {
+          "hora": 15,
+          "ventas": 14750,
+          "propinas": 0,
+          "acumulado": 141850
+        },
+        {
+          "hora": 16,
+          "ventas": 22740,
+          "propinas": 0,
+          "acumulado": 164590
+        },
+        {
+          "hora": 17,
+          "ventas": 2450,
+          "propinas": 0,
+          "acumulado": 167040
+        },
+        {
+          "hora": 18,
+          "ventas": 14950,
+          "propinas": 0,
+          "acumulado": 181990
+        },
+        {
+          "hora": 19,
+          "ventas": 1150,
+          "propinas": 0,
+          "acumulado": 183140
+        },
+        {
+          "hora": 20,
+          "ventas": 9250,
+          "propinas": 0,
+          "acumulado": 192390
+        }
+      ],
+      "6010B232511900275": [
+        {
+          "hora": 9,
+          "ventas": 8000,
+          "propinas": 800,
+          "acumulado": 8000
+        },
+        {
+          "hora": 10,
+          "ventas": 4980,
+          "propinas": 0,
+          "acumulado": 12980
+        },
+        {
+          "hora": 11,
+          "ventas": 12000,
+          "propinas": 1200,
+          "acumulado": 24980
+        },
+        {
+          "hora": 12,
+          "ventas": 8500,
+          "propinas": 850,
+          "acumulado": 33480
+        },
+        {
+          "hora": 13,
+          "ventas": 10900,
+          "propinas": 300,
+          "acumulado": 44380
+        },
+        {
+          "hora": 14,
+          "ventas": 24690,
+          "propinas": 1690,
+          "acumulado": 69070
+        },
+        {
+          "hora": 15,
+          "ventas": 8000,
+          "propinas": 800,
+          "acumulado": 77070
+        },
+        {
+          "hora": 16,
+          "ventas": 25600,
+          "propinas": 2560,
+          "acumulado": 102670
+        }
+      ]
+    }
   },
   "toteat": null,
   "rappi": null,
