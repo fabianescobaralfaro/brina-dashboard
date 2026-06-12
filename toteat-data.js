@@ -2,37 +2,70 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "09/06/2026",
-    "fecha_iso": "2026-06-09",
-    "turno": "1494747985014084-00001-20260609TB.002",
+    "fecha": "11/06/2026",
+    "fecha_iso": "2026-06-11",
+    "turno": "1494747985014084-00001-20260611TB.001",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 12780.0,
-    "total_neto": 10739.0,
-    "total_iva": 2041.0,
-    "n_ordenes": 1,
+    "total_ventas": 121750.0,
+    "total_neto": 102308.0,
+    "total_iva": 19442.0,
+    "n_ordenes": 10,
     "n_anuladas": 0,
-    "efectivo": 0,
-    "tarjeta": 14058.0,
+    "efectivo": 84890.0,
+    "tarjeta": 115507.0,
     "productos_top": [
       {
-        "nombre": "Quattro Formaggi",
-        "cantidad": 1,
-        "total": 8390.0
+        "nombre": "Menú ejecutivo",
+        "cantidad": 13,
+        "total": 91000.0
       },
       {
-        "nombre": "Latte",
+        "nombre": "Mechada",
         "cantidad": 1,
-        "total": 2490.0
+        "total": 7990.0
       },
       {
-        "nombre": "Americano",
+        "nombre": "Margherita",
         "cantidad": 1,
-        "total": 1900.0
+        "total": 7190.0
+      },
+      {
+        "nombre": "Promo completo italiano",
+        "cantidad": 2,
+        "total": 5980.0
+      },
+      {
+        "nombre": "Té variedades",
+        "cantidad": 3,
+        "total": 4800.0
+      },
+      {
+        "nombre": "Bebida 350 cc",
+        "cantidad": 1,
+        "total": 1890.0
+      },
+      {
+        "nombre": "Espresso",
+        "cantidad": 1,
+        "total": 1600.0
+      },
+      {
+        "nombre": "Limon Soda 350 ml",
+        "cantidad": 1,
+        "total": 1300.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-06-11",
+      "turno": "1494747985014084-00001-20260611TB.001"
+    },
+    {
+      "fecha": "2026-06-10",
+      "turno": "1494747985014084-00001-20260610TB.001"
+    },
     {
       "fecha": "2026-06-09",
       "turno": "1494747985014084-00001-20260609TB.002"
@@ -60,12 +93,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-06-02",
       "turno": "1494747985014084-00001-20260602TB.002"
-    },
-    {
-      "fecha": "2026-06-01",
-      "turno": "1494747985014084-00001-20260601TB.001"
     }
   ],
-  "total_cierres_historicos": 74,
-  "actualizadoEl": "10/06/2026 06:01"
+  "total_cierres_historicos": 76,
+  "actualizadoEl": "11/06/2026 22:22"
 };
