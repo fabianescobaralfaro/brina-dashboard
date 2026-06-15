@@ -2173,10 +2173,7 @@ function renderCharts(ventas, gastos, liveByPlat) {
 
   Object.keys(meses).forEach(mes => {
     let haulmerReal = null;
-    if (mes === _mesActualStr && H_chart && !H_chart.error && (H_chart.informe_mes||{}).monto_ventas) {
-      // Mes actual: usar informe_mes en tiempo real
-      haulmerReal = H_chart.informe_mes.monto_ventas;
-    } else if (window.CORRECCIONES_MENSUALES[mes] && window.CORRECCIONES_MENSUALES[mes].haulmer) {
+    if (window.CORRECCIONES_MENSUALES[mes] && window.CORRECCIONES_MENSUALES[mes].haulmer) {
       // Meses pasados: usar corrección verificada si existe
       haulmerReal = window.CORRECCIONES_MENSUALES[mes].haulmer;
     }
@@ -3686,8 +3683,8 @@ function renderTicketMensual() {
     });
   });
 
-  // Ordenar meses
-  const mesesOrdenados = Object.keys(meses).sort();
+  // Ordenar meses (filtrar claves que no sean YYYY-MM)
+  const mesesOrdenados = Object.keys(meses).filter(m => /^\d{4}-\d{2}$/.test(m)).sort();
   const MESES_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   const labels = mesesOrdenados.map(m => {
     const [,mm] = m.split('-');
@@ -3930,7 +3927,7 @@ async function renderPosHoras() {
         legend: {
           labels: {
             color: '#8892b0', font: {size:11}, boxWidth:14,
-            filter: item => !item.datasetLabel?.startsWith('_prop_'),
+            filter: item => !item.text?.startsWith('_prop_'),
           }
         },
         tooltip: {
