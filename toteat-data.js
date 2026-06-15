@@ -2,23 +2,53 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "11/06/2026",
-    "fecha_iso": "2026-06-11",
-    "turno": "1494747985014084-00001-20260611TB.001",
+    "fecha": "13/06/2026",
+    "fecha_iso": "2026-06-13",
+    "turno": "1494747985014084-00001-20260613TB.001",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 121750.0,
-    "total_neto": 102308.0,
-    "total_iva": 19442.0,
-    "n_ordenes": 10,
+    "total_ventas": 173960.0,
+    "total_neto": 197292.0,
+    "total_iva": 37488.0,
+    "n_ordenes": 15,
     "n_anuladas": 0,
-    "efectivo": 84890.0,
-    "tarjeta": 115507.0,
+    "efectivo": 11200.0,
+    "tarjeta": 177277.0,
     "productos_top": [
       {
+        "nombre": "Promo completo italiano",
+        "cantidad": 11,
+        "total": 32890.0
+      },
+      {
+        "nombre": "Mechada queso y palta",
+        "cantidad": 2,
+        "total": 17500.0
+      },
+      {
+        "nombre": "Quattro Formaggi",
+        "cantidad": 2,
+        "total": 16780.0
+      },
+      {
+        "nombre": "Tradición de la casa",
+        "cantidad": 3,
+        "total": 16500.0
+      },
+      {
         "nombre": "Menú ejecutivo",
-        "cantidad": 13,
-        "total": 91000.0
+        "cantidad": 2,
+        "total": 14000.0
+      },
+      {
+        "nombre": "Jugo natural 350 cc",
+        "cantidad": 5,
+        "total": 11500.0
+      },
+      {
+        "nombre": "Vegetariana",
+        "cantidad": 1,
+        "total": 8390.0
       },
       {
         "nombre": "Mechada",
@@ -26,38 +56,26 @@ window.TOTEAT_DATA = {
         "total": 7990.0
       },
       {
+        "nombre": "Bebida 350 cc",
+        "cantidad": 4,
+        "total": 7560.0
+      },
+      {
         "nombre": "Margherita",
         "cantidad": 1,
         "total": 7190.0
-      },
-      {
-        "nombre": "Promo completo italiano",
-        "cantidad": 2,
-        "total": 5980.0
-      },
-      {
-        "nombre": "Té variedades",
-        "cantidad": 3,
-        "total": 4800.0
-      },
-      {
-        "nombre": "Bebida 350 cc",
-        "cantidad": 1,
-        "total": 1890.0
-      },
-      {
-        "nombre": "Espresso",
-        "cantidad": 1,
-        "total": 1600.0
-      },
-      {
-        "nombre": "Limon Soda 350 ml",
-        "cantidad": 1,
-        "total": 1300.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-06-13",
+      "turno": "1494747985014084-00001-20260613TB.001"
+    },
+    {
+      "fecha": "2026-06-12",
+      "turno": "1494747985014084-00001-20260612TB.002"
+    },
     {
       "fecha": "2026-06-11",
       "turno": "1494747985014084-00001-20260611TB.001"
@@ -85,16 +103,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-06-04",
       "turno": "1494747985014084-00001-20260604TB.002"
-    },
-    {
-      "fecha": "2026-06-03",
-      "turno": "1494747985014084-00001-20260603TB.001"
-    },
-    {
-      "fecha": "2026-06-02",
-      "turno": "1494747985014084-00001-20260602TB.002"
     }
   ],
-  "total_cierres_historicos": 76,
-  "actualizadoEl": "11/06/2026 22:22"
+  "total_cierres_historicos": 79,
+  "actualizadoEl": "15/06/2026 08:59"
 };
