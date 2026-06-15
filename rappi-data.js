@@ -2,7 +2,7 @@
 window.RAPPI_DATA = {
   "error": null,
   "store_name": "Brina Pizzeria",
-  "is_enabled": true,
+  "is_enabled": false,
   "store_tier": "standard",
   "ventas_7d": {
     "total_amount": 0,
@@ -10,54 +10,13 @@ window.RAPPI_DATA = {
     "orders_avg": 0,
     "users_count": 0,
     "new_users_count": 0,
-    "last_week": [
-      {
-        "date": "2026-06-03",
-        "amount": 0,
-        "orders": 0
-      },
-      {
-        "date": "2026-06-04",
-        "amount": 0,
-        "orders": 0
-      },
-      {
-        "date": "2026-06-05",
-        "amount": 0,
-        "orders": 0
-      },
-      {
-        "date": "2026-06-06",
-        "amount": 0,
-        "orders": 0
-      },
-      {
-        "date": "2026-06-07",
-        "amount": 0,
-        "orders": 0
-      },
-      {
-        "date": "2026-06-08",
-        "amount": 0,
-        "orders": 0
-      },
-      {
-        "date": "2026-06-09",
-        "amount": 0,
-        "orders": 0
-      },
-      {
-        "date": "2026-06-10",
-        "amount": 0,
-        "orders": 0
-      }
-    ]
+    "last_week": []
   },
   "indicadores": {
-    "cancellation_pct": 100.0,
+    "cancellation_pct": 0,
     "error_pct": 0,
-    "availability_pct": 94.65,
+    "availability_pct": 0,
     "cooking_time_avg": 0
   },
-  "actualizadoEl": "11/06/2026 22:23"
+  "actualizadoEl": "15/06/2026 09:01"
 };
