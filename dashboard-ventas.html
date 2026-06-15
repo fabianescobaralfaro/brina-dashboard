@@ -1997,8 +1997,8 @@ function renderResumen() {
   const _hoy = new Date();
   const _kpiHoy = `${_hoy.getFullYear()}-${String(_hoy.getMonth()+1).padStart(2,'0')}-${String(_hoy.getDate()).padStart(2,'0')}`;
   const _primerDiaMes = _kpiHoy.slice(0,7) + '-01';
-  const _usarMesHaulmer = !!(H && !H.error && (H.informe_mes||{}).monto_ventas)
-      && (_kpiDesde <= _primerDiaMes) && (!_kpiHasta || _kpiHasta >= _kpiHoy);
+  // Siempre acumular desde HISTORICO_CACHE + live de hoy (informe_mes del scraper no es fiable)
+  const _usarMesHaulmer = false;
 
   const _allLiveVentas = getLiveVentas();
   // Excluir filas históricas de Haulmer si usamos informe_mes (ya incluye todos los días del mes)
