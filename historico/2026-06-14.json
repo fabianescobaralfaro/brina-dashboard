@@ -1,0 +1,24 @@
+{
+  "fecha": "2026-06-14",
+  "haulmer": {
+    "informe_dia": {
+      "monto_ventas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 0,
+      "periodo": "Personalizado"
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    },
+    "ventas_por_hora": [],
+    "informe_mes": {}
+  },
+  "toteat": null,
+  "rappi": null,
+  "pedidosya": null
+}
