@@ -2,38 +2,33 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "25/06/2026",
-    "fecha_iso": "2026-06-25",
-    "turno": "1494747985014084-00001-20260625TB.001",
+    "fecha": "27/06/2026",
+    "fecha_iso": "2026-06-27",
+    "turno": "1494747985014084-00001-20260627TB.001",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 84570.0,
-    "total_neto": 98462.0,
-    "total_iva": 18708.0,
-    "n_ordenes": 9,
+    "total_ventas": 58370.0,
+    "total_neto": 49050.0,
+    "total_iva": 9320.0,
+    "n_ordenes": 5,
     "n_anuladas": 0,
-    "efectivo": 20940.0,
-    "tarjeta": 69993.0,
+    "efectivo": 26100.0,
+    "tarjeta": 37818.0,
     "productos_top": [
       {
         "nombre": "Menú ejecutivo",
-        "cantidad": 8,
-        "total": 56000.0
+        "cantidad": 5,
+        "total": 35000.0
       },
       {
-        "nombre": "Vegetariana",
-        "cantidad": 1,
-        "total": 8390.0
-      },
-      {
-        "nombre": "1/4 pizza y bebida",
+        "nombre": "Gnocchi Alfredo",
         "cantidad": 2,
-        "total": 7900.0
+        "total": 12980.0
       },
       {
-        "nombre": "Jugo natural 350 cc",
-        "cantidad": 3,
-        "total": 6900.0
+        "nombre": "Tradición de la casa",
+        "cantidad": 1,
+        "total": 5500.0
       },
       {
         "nombre": "Promo completo italiano",
@@ -41,13 +36,21 @@ window.TOTEAT_DATA = {
         "total": 2990.0
       },
       {
-        "nombre": "1/4 pizza",
+        "nombre": "Espresso doble",
         "cantidad": 1,
-        "total": 2390.0
+        "total": 1900.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-06-27",
+      "turno": "1494747985014084-00001-20260627TB.001"
+    },
+    {
+      "fecha": "2026-06-26",
+      "turno": "1494747985014084-00001-20260626TB.002"
+    },
     {
       "fecha": "2026-06-25",
       "turno": "1494747985014084-00001-20260625TB.001"
@@ -75,16 +78,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-06-18",
       "turno": "1494747985014084-00001-20260618TB.002"
-    },
-    {
-      "fecha": "2026-06-17",
-      "turno": "1494747985014084-00001-20260617TB.002"
-    },
-    {
-      "fecha": "2026-06-16",
-      "turno": "1494747985014084-00001-20260616TB.002"
     }
   ],
-  "total_cierres_historicos": 95,
-  "actualizadoEl": "26/06/2026 07:18"
+  "total_cierres_historicos": 98,
+  "actualizadoEl": "28/06/2026 09:45"
 };
