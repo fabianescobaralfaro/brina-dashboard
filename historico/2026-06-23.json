@@ -4,13 +4,13 @@
     "actualizadoEl": "23/06/2026 12:12",
     "error": null,
     "informe_dia": {
-      "monto_ventas": 59200,
-      "debito": 28750,
-      "credito": 13050,
-      "efectivo": 17400,
+      "monto_ventas": 197420,
+      "debito": 92950,
+      "credito": 32800,
+      "efectivo": 71670,
       "monto_neto": 0,
       "iva": 0,
-      "propinas": 2915,
+      "propinas": 7214,
       "periodo": "Personalizado"
     },
     "informe_semana": {
