@@ -2,7 +2,7 @@
   "fecha": "2026-06-24",
   "haulmer": {
     "actualizadoEl": "24/06/2026 09:14",
-    "error": "Page.goto: net::ERR_INTERNET_DISCONNECTED at https://accounts.haulmer.com/realms/haulmer-users/protocol/openid-connect/auth?client_id=workspace-prod&redirect_uri=https%3A%2F%2Fespacio.haulmer.com%2F&response_mode=fragment&response_type=code&scope=openid\nCall log:\n  - navigating to \"https://accounts.haulmer.com/realms/haulmer-users/protocol/openid-connect/auth?client_id=workspace-prod&redirect_uri=https%3A%2F%2Fespacio.haulmer.com%2F&response_mode=fragment&response_type=code&scope=openid\", waiting until \"domcontentloaded\"\n",
+    "error": null,
     "informe_dia": {
       "monto_ventas": 221500,
       "debito": 143910,
