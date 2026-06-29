@@ -1,20 +1,20 @@
 /* Generado automaticamente por scraper_pedidosya.py — NO editar manualmente */
 window.PEDIDOSYA_DATA = {
   "error": null,
-  "estado_local": "CLOSED",
+  "estado_local": "OPEN",
   "cerrado_hasta": null,
   "cerrado_razon": null,
   "tier": "NONE",
   "tier_periodo": {
-    "desde": "2026-03-01",
-    "hasta": "2026-05-31"
+    "desde": "",
+    "hasta": ""
   },
   "metricas_tier": {
-    "calificacion": "2",
-    "pedidos_volumen": "3",
-    "tasa_fallo": "25",
-    "pedidos_incorrectos": "33.33",
-    "tiempo_espera": "699"
+    "calificacion": "0",
+    "pedidos_volumen": "0",
+    "tasa_fallo": "0",
+    "pedidos_incorrectos": "0",
+    "tiempo_espera": "0"
   },
   "benchmark": {
     "fecha_datos": "",
@@ -28,5 +28,5 @@ window.PEDIDOSYA_DATA = {
   },
   "performance_7d": [],
   "heatmap": [],
-  "actualizadoEl": "28/06/2026 09:45"
+  "actualizadoEl": "29/06/2026 10:10"
 };
