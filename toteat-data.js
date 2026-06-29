@@ -7,40 +7,14 @@ window.TOTEAT_DATA = {
     "turno": "1494747985014084-00001-20260627TB.001",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 58370.0,
-    "total_neto": 49050.0,
-    "total_iva": 9320.0,
-    "n_ordenes": 5,
+    "total_ventas": 0,
+    "total_neto": 0,
+    "total_iva": 0,
+    "n_ordenes": 0,
     "n_anuladas": 0,
-    "efectivo": 26100.0,
-    "tarjeta": 37818.0,
-    "productos_top": [
-      {
-        "nombre": "Menú ejecutivo",
-        "cantidad": 5,
-        "total": 35000.0
-      },
-      {
-        "nombre": "Gnocchi Alfredo",
-        "cantidad": 2,
-        "total": 12980.0
-      },
-      {
-        "nombre": "Tradición de la casa",
-        "cantidad": 1,
-        "total": 5500.0
-      },
-      {
-        "nombre": "Promo completo italiano",
-        "cantidad": 1,
-        "total": 2990.0
-      },
-      {
-        "nombre": "Espresso doble",
-        "cantidad": 1,
-        "total": 1900.0
-      }
-    ]
+    "efectivo": 0,
+    "tarjeta": 0,
+    "productos_top": []
   },
   "historial_cierres": [
     {
@@ -81,5 +55,5 @@ window.TOTEAT_DATA = {
     }
   ],
   "total_cierres_historicos": 98,
-  "actualizadoEl": "28/06/2026 09:45"
+  "actualizadoEl": "29/06/2026 10:09"
 };
