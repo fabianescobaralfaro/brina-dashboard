@@ -1,0 +1,181 @@
+{
+  "fecha": "2026-06-29",
+  "haulmer": {
+    "actualizadoEl": "29/06/2026 10:07",
+    "error": null,
+    "informe_dia": {
+      "monto_ventas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 0,
+      "periodo": "Personalizado"
+    },
+    "informe_semana": {
+      "periodo": "Semana",
+      "monto_neto": 0,
+      "iva": 0,
+      "monto_ventas": 0,
+      "monto_exento": 0,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "informe_mes": {
+      "periodo": "Mes",
+      "monto_neto": 0,
+      "iva": 0,
+      "monto_ventas": 0,
+      "monto_exento": 0,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 1,
+      "nota": ""
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    },
+    "ventas_por_hora": []
+  },
+  "toteat": {
+    "error": null,
+    "ultimo_cierre": {
+      "fecha": "27/06/2026",
+      "fecha_iso": "2026-06-27",
+      "turno": "1494747985014084-00001-20260627TB.001",
+      "apertura": "",
+      "cierre": "",
+      "total_ventas": 0,
+      "total_neto": 0,
+      "total_iva": 0,
+      "n_ordenes": 0,
+      "n_anuladas": 0,
+      "efectivo": 0,
+      "tarjeta": 0,
+      "productos_top": []
+    },
+    "historial_cierres": [
+      {
+        "fecha": "2026-06-27",
+        "turno": "1494747985014084-00001-20260627TB.001"
+      },
+      {
+        "fecha": "2026-06-26",
+        "turno": "1494747985014084-00001-20260626TB.002"
+      },
+      {
+        "fecha": "2026-06-25",
+        "turno": "1494747985014084-00001-20260625TB.001"
+      },
+      {
+        "fecha": "2026-06-24",
+        "turno": "1494747985014084-00001-20260624TB.002"
+      },
+      {
+        "fecha": "2026-06-23",
+        "turno": "1494747985014084-00001-20260623TB.002"
+      },
+      {
+        "fecha": "2026-06-22",
+        "turno": "1494747985014084-00001-20260622TB.001"
+      },
+      {
+        "fecha": "2026-06-20",
+        "turno": "1494747985014084-00001-20260620TB.002"
+      },
+      {
+        "fecha": "2026-06-19",
+        "turno": "1494747985014084-00001-20260619TB.001"
+      },
+      {
+        "fecha": "2026-06-18",
+        "turno": "1494747985014084-00001-20260618TB.002"
+      }
+    ],
+    "total_cierres_historicos": 98,
+    "actualizadoEl": "29/06/2026 10:09"
+  },
+  "pedidosya": {
+    "error": null,
+    "estado_local": "OPEN",
+    "cerrado_hasta": null,
+    "cerrado_razon": null,
+    "tier": "NONE",
+    "tier_periodo": {
+      "desde": "",
+      "hasta": ""
+    },
+    "metricas_tier": {
+      "calificacion": "0",
+      "pedidos_volumen": "0",
+      "tasa_fallo": "0",
+      "pedidos_incorrectos": "0",
+      "tiempo_espera": "0"
+    },
+    "benchmark": {
+      "fecha_datos": "",
+      "dias_agregados": 7,
+      "revenue_percentil90": 0,
+      "orders_percentil90": 0,
+      "avg_basket_percentil90": 0,
+      "cohort_size": 0,
+      "area": "",
+      "cuisine": ""
+    },
+    "performance_7d": [],
+    "heatmap": [],
+    "actualizadoEl": "29/06/2026 10:10"
+  }
+}
