@@ -1973,12 +1973,12 @@ function renderResumen() {
   const _ucT = (T && !T.error) ? (T.ultimo_cierre || {}) : {};
   const _ucFechaIso = _ucT.fecha_iso || (_ucT.fecha ? _ucT.fecha.split('/').reverse().join('-') : '');
   const liveToteat  = (_ucFechaIso === fechaVista) ? (_ucT.total_ventas || 0) : 0;
-  const livePya     = (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+(d.revenue||0),0) : 0;
+  const livePya     = (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+Number(d.revenue||0),0) : 0;
   const liveRappi   = (RAP && !RAP.error) ? ((RAP.ventas_7d||{}).total_amount || 0) : 0;
   const liveByPlat  = { Haulmer: liveHaulmer, Toteat: liveToteat, PedidosYa: livePya, Rappi: liveRappi };
 
   const ordToteat = (_ucFechaIso === fechaVista) ? (_ucT.n_ordenes || 0) : 0;
-  const ordPya    = (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+(d.orderCount||0),0) : 0;
+  const ordPya    = (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+Number(d.orderCount||0),0) : 0;
   const ordRappi  = (RAP && !RAP.error) ? ((RAP.ventas_7d||{}).total_orders || 0) : 0;
 
   // ── Registros manuales ──
@@ -2506,7 +2506,7 @@ function getLiveVentas() {
       if (d.revenue > 0)
         rows.push({ fecha: d.date, plataforma:'PedidosYa',
           descripcion: `Ventas del día — ${d.orderCount||0} pedidos`,
-          tipoDoc:'Sin documento', nDoc:'—', monto: d.revenue, estado:'Pagado', _live:true });
+          tipoDoc:'Sin documento', nDoc:'—', monto: Number(d.revenue||0), estado:'Pagado', _live:true });
     });
   }
 
@@ -2558,7 +2558,7 @@ function getLiveVentas() {
           if (d.revenue > 0 && d.date === fecha)
             rows.push({ fecha, plataforma:'PedidosYa',
               descripcion: `Ventas del día — ${d.orderCount||0} pedidos`,
-              tipoDoc:'Sin documento', nDoc:'—', monto: d.revenue, estado:'Pagado', _live:true, _hist:true });
+              tipoDoc:'Sin documento', nDoc:'—', monto: Number(d.revenue||0), estado:'Pagado', _live:true, _hist:true });
         });
       }
       // Rappi histórico
@@ -2640,8 +2640,8 @@ function renderPlataformas() {
       periodo: (T && !T.error) ? 'Cierre ' + ((T.ultimo_cierre||{}).fecha||'') : '—',
     },
     PedidosYa: {
-      total:   (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+(d.revenue||0),0) : 0,
-      ordenes: (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+(d.orderCount||0),0) : 0,
+      total:   (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+Number(d.revenue||0),0) : 0,
+      ordenes: (PYA && !PYA.error) ? (PYA.performance_7d||[]).reduce((s,d)=>s+Number(d.orderCount||0),0) : 0,
       detalle: (PYA && !PYA.error) ? [
         { label:'Estado',    val: PYA.estado_local||'—' },
         { label:'Tier',      val: PYA.tier||'NONE' },
@@ -3224,7 +3224,7 @@ function renderPedidosYa() {
         datasets: [
           {
             label: 'Revenue',
-            data: perf.map(d => d.revenue),
+            data: perf.map(d => Number(d.revenue||0)),
             backgroundColor: 'rgba(250,0,90,.7)',
             borderRadius: 4,
             yAxisID: 'y',
