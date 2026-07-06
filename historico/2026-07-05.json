@@ -1,0 +1,243 @@
+{
+  "fecha": "2026-07-05",
+  "haulmer": {
+    "actualizadoEl": "05/07/2026 22:49",
+    "error": null,
+    "informe_dia": {
+      "monto_ventas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 0,
+      "periodo": "Personalizado"
+    },
+    "informe_semana": {
+      "periodo": "Semana",
+      "monto_neto": 1515073,
+      "iva": 287887,
+      "monto_ventas": 1802960,
+      "monto_exento": 1802960,
+      "propinas": 74057,
+      "debito": 1265951,
+      "credito": 87130,
+      "efectivo": 523940,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 985420,
+          "debito": 535680,
+          "credito": 59600,
+          "efectivo": 390140,
+          "propinas": 0
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 891601,
+          "debito": 730271,
+          "credito": 27530,
+          "efectivo": 133800,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 271,
+      "n_tx_credito": 21,
+      "n_tx_efectivo": 214,
+      "n_tx_total": 506
+    },
+    "informe_mes": {
+      "periodo": "Mes",
+      "monto_neto": 1214406,
+      "iva": 230754,
+      "monto_ventas": 1445160,
+      "monto_exento": 1445160,
+      "propinas": 60010,
+      "debito": 1017934,
+      "credito": 60330,
+      "efectivo": 426910,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 781890,
+          "debito": 435380,
+          "credito": 50100,
+          "efectivo": 296410,
+          "propinas": 0
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 723284,
+          "debito": 582554,
+          "credito": 10230,
+          "efectivo": 130500,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 212,
+      "n_tx_credito": 16,
+      "n_tx_efectivo": 165,
+      "n_tx_total": 393
+    },
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 1,
+      "nota": ""
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    },
+    "ventas_por_hora": []
+  },
+  "toteat": {
+    "error": null,
+    "ultimo_cierre": {
+      "fecha": "04/07/2026",
+      "fecha_iso": "2026-07-04",
+      "turno": "1494747985014084-00001-20260704TB.002",
+      "apertura": "",
+      "cierre": "",
+      "total_ventas": 27670.0,
+      "total_neto": 23254.0,
+      "total_iva": 4416.0,
+      "n_ordenes": 2,
+      "n_anuladas": 0,
+      "efectivo": 0,
+      "tarjeta": 27670.0,
+      "productos_top": [
+        {
+          "nombre": "Manzo",
+          "cantidad": 1,
+          "total": 8990.0
+        },
+        {
+          "nombre": "Prosciutto Cotto",
+          "cantidad": 1,
+          "total": 7790.0
+        },
+        {
+          "nombre": "Té variedades",
+          "cantidad": 4,
+          "total": 6400.0
+        },
+        {
+          "nombre": "Completo Italiano",
+          "cantidad": 1,
+          "total": 4490.0
+        }
+      ]
+    },
+    "historial_cierres": [
+      {
+        "fecha": "2026-07-04",
+        "turno": "1494747985014084-00001-20260704TB.002"
+      },
+      {
+        "fecha": "2026-07-03",
+        "turno": "1494747985014084-00001-20260703TB.002"
+      },
+      {
+        "fecha": "2026-07-02",
+        "turno": "1494747985014084-00001-20260702TB.001"
+      },
+      {
+        "fecha": "2026-07-01",
+        "turno": "1494747985014084-00001-20260701TB.001"
+      },
+      {
+        "fecha": "2026-06-30",
+        "turno": "1494747985014084-00001-20260630TB.001"
+      },
+      {
+        "fecha": "2026-06-27",
+        "turno": "1494747985014084-00001-20260627TB.001"
+      },
+      {
+        "fecha": "2026-06-26",
+        "turno": "1494747985014084-00001-20260626TB.002"
+      },
+      {
+        "fecha": "2026-06-25",
+        "turno": "1494747985014084-00001-20260625TB.001"
+      },
+      {
+        "fecha": "2026-06-24",
+        "turno": "1494747985014084-00001-20260624TB.002"
+      },
+      {
+        "fecha": "2026-06-23",
+        "turno": "1494747985014084-00001-20260623TB.002"
+      }
+    ],
+    "total_cierres_historicos": 105,
+    "actualizadoEl": "05/07/2026 22:52"
+  },
+  "pedidosya": {
+    "error": null,
+    "estado_local": "CLOSED",
+    "cerrado_hasta": null,
+    "cerrado_razon": null,
+    "tier": "NONE",
+    "tier_periodo": {
+      "desde": "2026-04-01",
+      "hasta": "2026-06-30"
+    },
+    "metricas_tier": {
+      "calificacion": "1.5",
+      "pedidos_volumen": "5",
+      "tasa_fallo": "37.5",
+      "pedidos_incorrectos": "40",
+      "tiempo_espera": "674.5"
+    },
+    "benchmark": {
+      "fecha_datos": "2026-06-28",
+      "dias_agregados": 1,
+      "revenue_percentil90": 26929,
+      "orders_percentil90": 2,
+      "avg_basket_percentil90": 13816,
+      "cohort_size": 0,
+      "area": "Rancagua",
+      "cuisine": "All"
+    },
+    "performance_7d": [
+      {
+        "date": "2026-06-29",
+        "revenue": "0",
+        "orderCount": "0"
+      },
+      {
+        "date": "2026-07-01",
+        "revenue": "0",
+        "orderCount": "0"
+      },
+      {
+        "date": "2026-07-02",
+        "revenue": "7330",
+        "orderCount": "1"
+      },
+      {
+        "date": "2026-07-03",
+        "revenue": "6660",
+        "orderCount": "1"
+      }
+    ],
+    "heatmap": [],
+    "actualizadoEl": "05/07/2026 22:53"
+  }
+}
