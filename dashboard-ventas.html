@@ -4127,7 +4127,7 @@ window.CORRECCIONES_MENSUALES = {}; // { "2026-05": { haulmer: 6540865 }, ... }
 async function precargarHistorico() {
   let fechas = [];
   try {
-    const r = await fetch('historico/index.json');
+    const r = await fetch(`historico/index.json?v=${Date.now()}`);
     if (r.ok) fechas = await r.json();
   } catch(_) { return; }
 
@@ -4209,7 +4209,7 @@ async function iniciarDatePicker() {
   } else {
     // 2. Intentar fetch desde GitHub Pages
     try {
-      const r = await fetch('historico/index.json');
+      const r = await fetch(`historico/index.json?v=${Date.now()}`);
       if (r.ok) fechas = await r.json();
     } catch (_) {}
   }
