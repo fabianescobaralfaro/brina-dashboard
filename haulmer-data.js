@@ -12,7 +12,7 @@ window.HAULMER_DATA = {
     "debito": 0,
     "credito": 0,
     "efectivo": 0,
-    "pos_breakdown": [],
+    "pos_breakdown": [{"serial": "6010B232511900275", "total_ventas": 0, "debito": 0, "credito": 0, "efectivo": 0, "propinas": 0}, {"serial": "PB1T238420182", "total_ventas": 0, "debito": 0, "credito": 0, "efectivo": 0, "propinas": 0}],
     "n_tx_debito": 0,
     "n_tx_credito": 0,
     "n_tx_efectivo": 0,
