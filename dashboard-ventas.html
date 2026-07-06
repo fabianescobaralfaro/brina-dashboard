@@ -2303,7 +2303,7 @@ async function onHorasFechaChange(val) {
   const fecha = _horasFechaSeleccionada;
   if (fecha && !window.HISTORICO_CACHE[fecha]) {
     try {
-      const r = await fetch(`historico/${fecha}.json?v=8`);
+      const r = await fetch(`historico/${fecha}.json?v=9`);
       if (r.ok) window.HISTORICO_CACHE[fecha] = await r.json();
     } catch(_) {}
   }
@@ -3798,14 +3798,14 @@ async function renderPosHoras() {
   if (fecha === hoyStr) {
     // Intentar desde historico de hoy (actualizar_horas_historico lo escribe ahí)
     try {
-      const r = await fetch(`historico/${fecha}.json?v=8`);
+      const r = await fetch(`historico/${fecha}.json?v=9`);
       if (r.ok) diaData = await r.json();
     } catch(_) {}
   } else {
     diaData = window.HISTORICO_CACHE && window.HISTORICO_CACHE[fecha];
     if (!diaData) {
       try {
-        const r = await fetch(`historico/${fecha}.json?v=8`);
+        const r = await fetch(`historico/${fecha}.json?v=9`);
         if (r.ok) { diaData = await r.json(); if (window.HISTORICO_CACHE) window.HISTORICO_CACHE[fecha] = diaData; }
       } catch(_) {}
     }
@@ -4144,7 +4144,7 @@ async function precargarHistorico() {
   const hoy = new Date().toISOString().split('T')[0];
   await Promise.all(fechas.filter(f => f !== hoy).map(async fecha => {
     try {
-      const r = await fetch(`historico/${fecha}.json?v=8`);
+      const r = await fetch(`historico/${fecha}.json?v=9`);
       if (r.ok) window.HISTORICO_CACHE[fecha] = await r.json();
     } catch(_) {}
   }));
