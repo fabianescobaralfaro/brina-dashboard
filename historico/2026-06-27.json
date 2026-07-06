@@ -11,7 +11,25 @@
       "monto_neto": 0,
       "iva": 0,
       "propinas": 6498,
-      "periodo": "Personalizado"
+      "periodo": "Personalizado",
+      "pos_breakdown": [
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 67480,
+          "debito": 43980,
+          "credito": 0,
+          "efectivo": 23500,
+          "propinas": 6498
+        },
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 65650,
+          "debito": 37500,
+          "credito": 0,
+          "efectivo": 28150,
+          "propinas": 0
+        }
+      ]
     },
     "informe_semana": {},
     "informe_mes": {},
