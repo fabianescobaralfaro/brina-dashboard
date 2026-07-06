@@ -2303,7 +2303,7 @@ async function onHorasFechaChange(val) {
   const fecha = _horasFechaSeleccionada;
   if (fecha && !window.HISTORICO_CACHE[fecha]) {
     try {
-      const r = await fetch(`historico/${fecha}.json?v=9`);
+      const r = await fetch(`historico/${fecha}.json?v=${_CACHE_V}`);
       if (r.ok) window.HISTORICO_CACHE[fecha] = await r.json();
     } catch(_) {}
   }
@@ -3798,14 +3798,14 @@ async function renderPosHoras() {
   if (fecha === hoyStr) {
     // Intentar desde historico de hoy (actualizar_horas_historico lo escribe ahí)
     try {
-      const r = await fetch(`historico/${fecha}.json?v=9`);
+      const r = await fetch(`historico/${fecha}.json?v=${_CACHE_V}`);
       if (r.ok) diaData = await r.json();
     } catch(_) {}
   } else {
     diaData = window.HISTORICO_CACHE && window.HISTORICO_CACHE[fecha];
     if (!diaData) {
       try {
-        const r = await fetch(`historico/${fecha}.json?v=9`);
+        const r = await fetch(`historico/${fecha}.json?v=${_CACHE_V}`);
         if (r.ok) { diaData = await r.json(); if (window.HISTORICO_CACHE) window.HISTORICO_CACHE[fecha] = diaData; }
       } catch(_) {}
     }
@@ -4123,6 +4123,7 @@ function toggleAcc(k) {
 // ═══════════════════════════════════════
 window.HISTORICO_CACHE = {};
 window.CORRECCIONES_MENSUALES = {}; // { "2026-05": { haulmer: 6540865 }, ... }
+const _CACHE_V = Date.now(); // cache-bust único por sesión — fuerza fetch fresco en cada carga
 
 async function precargarHistorico() {
   let fechas = [];
@@ -4144,7 +4145,7 @@ async function precargarHistorico() {
   const hoy = new Date().toISOString().split('T')[0];
   await Promise.all(fechas.filter(f => f !== hoy).map(async fecha => {
     try {
-      const r = await fetch(`historico/${fecha}.json?v=9`);
+      const r = await fetch(`historico/${fecha}.json?v=${_CACHE_V}`);
       if (r.ok) window.HISTORICO_CACHE[fecha] = await r.json();
     } catch(_) {}
   }));
@@ -4246,7 +4247,7 @@ async function cargarFechaHistorica(fecha) {
       datos = window.HISTORICO_DATOS[fecha];
     } else {
       // 2. Fetch dinámico (dashboard-ventas.html local o GitHub Pages)
-      const r = await fetch(`historico/${fecha}.json?v=7`);
+      const r = await fetch(`historico/${fecha}.json?v=${_CACHE_V}`);
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       datos = await r.json();
     }
