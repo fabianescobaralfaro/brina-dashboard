@@ -6,48 +6,27 @@ window.PEDIDOSYA_DATA = {
   "cerrado_razon": null,
   "tier": "NONE",
   "tier_periodo": {
-    "desde": "2026-04-01",
-    "hasta": "2026-06-30"
+    "desde": "",
+    "hasta": ""
   },
   "metricas_tier": {
-    "calificacion": "1.5",
-    "pedidos_volumen": "5",
-    "tasa_fallo": "37.5",
-    "pedidos_incorrectos": "40",
-    "tiempo_espera": "674.5"
+    "calificacion": "0",
+    "pedidos_volumen": "0",
+    "tasa_fallo": "0",
+    "pedidos_incorrectos": "0",
+    "tiempo_espera": "0"
   },
   "benchmark": {
-    "fecha_datos": "2026-06-29",
-    "dias_agregados": 5,
-    "revenue_percentil90": 112350,
-    "orders_percentil90": 10,
-    "avg_basket_percentil90": 13565.1,
+    "fecha_datos": "2026-07-02",
+    "dias_agregados": 7,
+    "revenue_percentil90": 163493,
+    "orders_percentil90": 16,
+    "avg_basket_percentil90": 14473.95,
     "cohort_size": 0,
     "area": "Rancagua",
     "cuisine": "All"
   },
-  "performance_7d": [
-    {
-      "date": "2026-06-29",
-      "revenue": "0",
-      "orderCount": "0"
-    },
-    {
-      "date": "2026-07-01",
-      "revenue": "0",
-      "orderCount": "0"
-    },
-    {
-      "date": "2026-07-02",
-      "revenue": "7330",
-      "orderCount": "1"
-    },
-    {
-      "date": "2026-07-03",
-      "revenue": "6660",
-      "orderCount": "1"
-    }
-  ],
+  "performance_7d": [],
   "heatmap": [],
-  "actualizadoEl": "06/07/2026 00:02"
+  "actualizadoEl": "09/07/2026 16:01"
 };
