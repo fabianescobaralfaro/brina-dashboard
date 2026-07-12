@@ -1,0 +1,150 @@
+{
+  "fecha": "2026-07-12",
+  "haulmer": {
+    "actualizadoEl": "12/07/2026 15:13",
+    "error": null,
+    "informe_dia": {
+      "monto_ventas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 0,
+      "periodo": "Personalizado",
+      "pos_breakdown": [
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        },
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ]
+    },
+    "informe_semana": {},
+    "informe_mes": {},
+    "dte": {},
+    "abonos": {},
+    "ventas_hoy": {},
+    "ventas_por_hora": []
+  },
+  "pedidosya": {
+    "error": null,
+    "estado_local": "CLOSED",
+    "cerrado_hasta": null,
+    "cerrado_razon": null,
+    "tier": "NONE",
+    "tier_periodo": {
+      "desde": "2026-04-01",
+      "hasta": "2026-06-30"
+    },
+    "metricas_tier": {
+      "calificacion": "1.5",
+      "pedidos_volumen": "9",
+      "tasa_fallo": "28.57",
+      "pedidos_incorrectos": "22.22",
+      "tiempo_espera": "438.63"
+    },
+    "benchmark": {
+      "fecha_datos": "2026-07-05",
+      "dias_agregados": 1,
+      "revenue_percentil90": 31212,
+      "orders_percentil90": 4,
+      "avg_basket_percentil90": 25254,
+      "cohort_size": 0,
+      "area": "Rancagua",
+      "cuisine": "All"
+    },
+    "performance_7d": [
+      {
+        "date": "2026-07-06",
+        "revenue": "13320",
+        "orderCount": "1"
+      },
+      {
+        "date": "2026-07-09",
+        "revenue": "0",
+        "orderCount": "0"
+      },
+      {
+        "date": "2026-07-11",
+        "revenue": "38898",
+        "orderCount": "3"
+      }
+    ],
+    "heatmap": [],
+    "actualizadoEl": "12/07/2026 15:15"
+  },
+  "rappi": {
+    "error": null,
+    "store_name": "Brina Pizzeria",
+    "is_enabled": true,
+    "store_tier": "standard",
+    "ventas_7d": {
+      "total_amount": 10120.0,
+      "total_orders": 1,
+      "orders_avg": 10120.0,
+      "users_count": 1,
+      "new_users_count": 1,
+      "last_week": [
+        {
+          "date": "2026-07-04",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-05",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-06",
+          "amount": 10120.0,
+          "orders": 1
+        },
+        {
+          "date": "2026-07-07",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-08",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-09",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-10",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-11",
+          "amount": 0,
+          "orders": 0
+        }
+      ]
+    },
+    "indicadores": {
+      "cancellation_pct": 0,
+      "error_pct": 100.0,
+      "availability_pct": 100.0,
+      "cooking_time_avg": 0
+    },
+    "actualizadoEl": "12/07/2026 15:15"
+  }
+}
