@@ -17,16 +17,16 @@ window.PEDIDOSYA_DATA = {
     "tiempo_espera": "0"
   },
   "benchmark": {
-    "fecha_datos": "2026-07-02",
+    "fecha_datos": "",
     "dias_agregados": 7,
-    "revenue_percentil90": 163493,
-    "orders_percentil90": 16,
-    "avg_basket_percentil90": 14473.95,
+    "revenue_percentil90": 0,
+    "orders_percentil90": 0,
+    "avg_basket_percentil90": 0,
     "cohort_size": 0,
-    "area": "Rancagua",
-    "cuisine": "All"
+    "area": "",
+    "cuisine": ""
   },
   "performance_7d": [],
   "heatmap": [],
-  "actualizadoEl": "09/07/2026 16:01"
+  "actualizadoEl": "11/07/2026 21:35"
 };
