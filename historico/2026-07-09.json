@@ -4,29 +4,29 @@
     "actualizadoEl": "09/07/2026 15:59",
     "error": null,
     "informe_dia": {
-      "monto_ventas": 312580,
-      "debito": 248600,
+      "monto_ventas": 383350,
+      "debito": 315620,
       "credito": 13550,
-      "efectivo": 50430,
+      "efectivo": 54180,
       "monto_neto": 0,
       "iva": 0,
-      "propinas": 13595,
+      "propinas": 17837,
       "periodo": "Personalizado",
       "pos_breakdown": [
         {
           "serial": "6010B232511900275",
-          "total_ventas": 158730,
-          "debito": 141950,
+          "total_ventas": 201150,
+          "debito": 184370,
           "credito": 0,
           "efectivo": 16780,
-          "propinas": 13595
+          "propinas": 17837
         },
         {
           "serial": "PB1T238420182",
-          "total_ventas": 153850,
-          "debito": 106650,
+          "total_ventas": 182200,
+          "debito": 131250,
           "credito": 13550,
-          "efectivo": 33650,
+          "efectivo": 37400,
           "propinas": 0
         }
       ]
@@ -271,6 +271,31 @@
         "hora": 15,
         "monto": 43300,
         "acumulado": 312580
+      },
+      {
+        "hora": 16,
+        "monto": 9850,
+        "acumulado": 322430
+      },
+      {
+        "hora": 17,
+        "monto": 36820,
+        "acumulado": 359250
+      },
+      {
+        "hora": 18,
+        "monto": 1450,
+        "acumulado": 360700
+      },
+      {
+        "hora": 19,
+        "monto": 21750,
+        "acumulado": 382450
+      },
+      {
+        "hora": 20,
+        "monto": 900,
+        "acumulado": 383350
       }
     ],
     "ventas_por_hora_pos": {
@@ -322,6 +347,30 @@
           "ventas": 25000,
           "propinas": 0,
           "acumulado": 153850
+        },
+        {
+          "hora": 16,
+          "ventas": 9850,
+          "propinas": 0,
+          "acumulado": 163700
+        },
+        {
+          "hora": 17,
+          "ventas": 16150,
+          "propinas": 0,
+          "acumulado": 179850
+        },
+        {
+          "hora": 18,
+          "ventas": 1450,
+          "propinas": 0,
+          "acumulado": 181300
+        },
+        {
+          "hora": 20,
+          "ventas": 900,
+          "propinas": 0,
+          "acumulado": 182200
         }
       ],
       "6010B232511900275": [
@@ -360,6 +409,18 @@
           "ventas": 18300,
           "propinas": 1830,
           "acumulado": 158730
+        },
+        {
+          "hora": 17,
+          "ventas": 20670,
+          "propinas": 2067,
+          "acumulado": 179400
+        },
+        {
+          "hora": 19,
+          "ventas": 21750,
+          "propinas": 2175,
+          "acumulado": 201150
         }
       ]
     }
