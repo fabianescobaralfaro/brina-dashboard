@@ -3824,6 +3824,12 @@ async function renderPosHoras() {
   acum.forEach((v,i) => { if (v > 0) lastNonZero = i; });
   const acumClean = acum.map((v,i) => i <= lastNonZero ? v : null);
 
+  // Última hora con una transacción real ese día (a diferencia de lastNonZero,
+  // que al ser un acumulado nunca vuelve a valer 0 y por lo tanto casi siempre
+  // marca la última hora del rango, no la última hora con datos reales).
+  let ultimaHoraConDatos = -1;
+  HORAS.forEach((h,i) => { if (hpList.find(x=>x.hora===h)) ultimaHoraConDatos = i; });
+
   // ── Curvas de propinas históricas (todos los días 2026) ──
   const mostrarProp = document.getElementById('pos-horas-prop-check') && document.getElementById('pos-horas-prop-check').checked;
   const propCurvas  = [];  // [{label, data:[...por hora...]}]
@@ -3840,7 +3846,7 @@ async function renderPosHoras() {
         // No dibujar más allá de la última hora con datos reales del día
         // seleccionado, para no sugerir propinas "entrando" en horas que ese
         // día todavía no alcanza.
-        data: HORAS.map((h,i) => { if (i > lastNonZero) return null; const e = lista.find(x=>x.hora===h); return e ? e.propinas : 0; }),
+        data: HORAS.map((h,i) => { if (i > ultimaHoraConDatos) return null; const e = lista.find(x=>x.hora===h); return e ? e.propinas : 0; }),
       });
     });
   }
@@ -3852,7 +3858,7 @@ async function renderPosHoras() {
   let propProm = null;
   if (propCurvas.length > 0) {
     propProm = HORAS.map((_,i) => {
-      if (i > lastNonZero) return null;
+      if (i > ultimaHoraConDatos) return null;
       const vals = propCurvas.map(c => c.data[i]).filter(v => v > 0);
       return vals.length > 0 ? Math.round(vals.reduce((a,b)=>a+b,0) / vals.length) : 0;
     });
