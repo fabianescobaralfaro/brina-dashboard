@@ -3837,7 +3837,10 @@ async function renderPosHoras() {
       if (totalProp === 0) return;
       propCurvas.push({
         label: f,
-        data: HORAS.map(h => { const e = lista.find(x=>x.hora===h); return e ? e.propinas : 0; }),
+        // No dibujar más allá de la última hora con datos reales del día
+        // seleccionado, para no sugerir propinas "entrando" en horas que ese
+        // día todavía no alcanza.
+        data: HORAS.map((h,i) => { if (i > lastNonZero) return null; const e = lista.find(x=>x.hora===h); return e ? e.propinas : 0; }),
       });
     });
   }
@@ -3849,6 +3852,7 @@ async function renderPosHoras() {
   let propProm = null;
   if (propCurvas.length > 0) {
     propProm = HORAS.map((_,i) => {
+      if (i > lastNonZero) return null;
       const vals = propCurvas.map(c => c.data[i]).filter(v => v > 0);
       return vals.length > 0 ? Math.round(vals.reduce((a,b)=>a+b,0) / vals.length) : 0;
     });
