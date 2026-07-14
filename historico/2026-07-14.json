@@ -1,0 +1,14 @@
+{
+  "fecha": "2026-07-14",
+  "haulmer": {
+    "actualizadoEl": "14/07/2026 09:28",
+    "error": "Page.goto: net::ERR_INTERNET_DISCONNECTED at https://accounts.haulmer.com/realms/haulmer-users/protocol/openid-connect/auth?client_id=workspace-prod&redirect_uri=https%3A%2F%2Fespacio.haulmer.com%2F&response_mode=fragment&response_type=code&scope=openid\nCall log:\n  - navigating to \"https://accounts.haulmer.com/realms/haulmer-users/protocol/openid-connect/auth?client_id=workspace-prod&redirect_uri=https%3A%2F%2Fespacio.haulmer.com%2F&response_mode=fragment&response_type=code&scope=openid\", waiting until \"domcontentloaded\"\n",
+    "informe_dia": {},
+    "informe_semana": {},
+    "informe_mes": {},
+    "dte": {},
+    "abonos": {},
+    "ventas_hoy": {},
+    "ventas_por_hora": []
+  }
+}
