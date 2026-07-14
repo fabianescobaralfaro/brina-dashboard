@@ -18,20 +18,6 @@ window.HAULMER_DATA = {
     "n_tx_efectivo": 0,
     "n_tx_total": 0
   },
-      {
-        "serial": "6010B232511900275",
-        "total_ventas": 161096,
-        "debito": 115456,
-        "credito": 38000,
-        "efectivo": 7640,
-        "propinas": 0
-      }
-    ],
-    "n_tx_debito": 48,
-    "n_tx_credito": 3,
-    "n_tx_efectivo": 45,
-    "n_tx_total": 96
-  },
   "informe_semana": {
     "periodo": "Semana",
     "monto_neto": 266139,
