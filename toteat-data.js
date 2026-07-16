@@ -2,72 +2,80 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "13/07/2026",
-    "fecha_iso": "2026-07-13",
-    "turno": "1494747985014084-00001-20260713TB.001",
+    "fecha": "15/07/2026",
+    "fecha_iso": "2026-07-15",
+    "turno": "1494747985014084-00001-20260715TB.002",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 128910.0,
-    "total_neto": 108327.0,
-    "total_iva": 20583.0,
-    "n_ordenes": 11,
+    "total_ventas": 89834.0,
+    "total_neto": 79389.0,
+    "total_iva": 14340.0,
+    "n_ordenes": 8,
     "n_anuladas": 0,
-    "efectivo": 4345.0,
-    "tarjeta": 133956.0,
+    "efectivo": 13860.0,
+    "tarjeta": 80469.0,
     "productos_top": [
       {
-        "nombre": "Menú ejecutivo",
-        "cantidad": 10,
-        "total": 70000.0
+        "nombre": "Churrasco palta tomate mayo",
+        "cantidad": 2,
+        "total": 17980.0
+      },
+      {
+        "nombre": "Camarón",
+        "cantidad": 1,
+        "total": 11990.0
+      },
+      {
+        "nombre": "Pepperoni",
+        "cantidad": 1,
+        "total": 11190.0
       },
       {
         "nombre": "Tradición de la casa",
-        "cantidad": 3,
-        "total": 16500.0
+        "cantidad": 2,
+        "total": 11000.0
       },
       {
-        "nombre": "Gnocchi tricolori ai funghi",
+        "nombre": "Manzo",
         "cantidad": 1,
-        "total": 6490.0
+        "total": 8990.0
       },
       {
         "nombre": "Promo completo italiano",
-        "cantidad": 2,
-        "total": 5980.0
+        "cantidad": 3,
+        "total": 8970.0
       },
       {
         "nombre": "Amanecer verde",
         "cantidad": 1,
-        "total": 5900.0
+        "total": 7870.0
       },
       {
-        "nombre": "Ciabatta con huevo",
+        "nombre": "Menú ejecutivo",
         "cantidad": 1,
-        "total": 5500.0
+        "total": 7000.0
       },
       {
-        "nombre": "Jugo natural 350 cc",
-        "cantidad": 2,
-        "total": 4600.0
-      },
-      {
-        "nombre": "Papas fritas",
-        "cantidad": 2,
-        "total": 4000.0
-      },
-      {
-        "nombre": "1/4 pizza y bebida",
+        "nombre": "Pastel y café",
         "cantidad": 1,
-        "total": 3950.0
+        "total": 5990.0
       },
       {
-        "nombre": "Capuccino vainilla",
+        "nombre": "Bebida 350 cc",
         "cantidad": 1,
-        "total": 2490.0
+        "total": 1890.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-07-15",
+      "turno": "1494747985014084-00001-20260715TB.002"
+    },
+    {
+      "fecha": "2026-07-14",
+      "turno": "1494747985014084-00001-20260714TB.002"
+    },
     {
       "fecha": "2026-07-13",
       "turno": "1494747985014084-00001-20260713TB.001"
@@ -91,16 +99,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-07-07",
       "turno": "1494747985014084-00001-20260707TB.002"
-    },
-    {
-      "fecha": "2026-07-06",
-      "turno": "1494747985014084-00001-20260706TB.001"
-    },
-    {
-      "fecha": "2026-07-04",
-      "turno": "1494747985014084-00001-20260704TB.002"
     }
   ],
-  "total_cierres_historicos": 117,
-  "actualizadoEl": "13/07/2026 21:57"
+  "total_cierres_historicos": 121,
+  "actualizadoEl": "16/07/2026 12:34"
 };
