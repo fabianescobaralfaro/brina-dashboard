@@ -41,8 +41,13 @@ window.PEDIDOSYA_DATA = {
       "date": "2026-07-14",
       "revenue": "0",
       "orderCount": "0"
+    },
+    {
+      "date": "2026-07-15",
+      "revenue": "32404",
+      "orderCount": "2"
     }
   ],
   "heatmap": [],
-  "actualizadoEl": "16/07/2026 12:34"
+  "actualizadoEl": "16/07/2026 21:32"
 };
