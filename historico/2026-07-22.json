@@ -1,0 +1,509 @@
+{
+  "fecha": "2026-07-22",
+  "haulmer": {
+    "actualizadoEl": "21/07/2026 23:59",
+    "error": null,
+    "informe_dia": {
+      "periodo": "Día",
+      "monto_neto": 0,
+      "iva": 0,
+      "monto_ventas": 0,
+      "monto_exento": 0,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "informe_semana": {
+      "periodo": "Semana",
+      "monto_neto": 535220,
+      "iva": 101700,
+      "monto_ventas": 636920,
+      "monto_exento": 636920,
+      "propinas": 20309,
+      "debito": 462390,
+      "credito": 40499,
+      "efectivo": 154340,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 380240,
+          "debito": 212050,
+          "credito": 16350,
+          "efectivo": 151840,
+          "propinas": 0
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 276989,
+          "debito": 250340,
+          "credito": 24149,
+          "efectivo": 2500,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 107,
+      "n_tx_credito": 8,
+      "n_tx_efectivo": 74,
+      "n_tx_total": 189
+    },
+    "informe_mes": {
+      "periodo": "Mes",
+      "monto_neto": 0,
+      "iva": 0,
+      "monto_ventas": 0,
+      "monto_exento": 0,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "dte": {
+      "total_declarado": 30,
+      "total": 30,
+      "boletas": 30,
+      "facturas": 0,
+      "monto_boletas": 48690,
+      "monto_facturas": 0,
+      "documentos": [
+        {
+          "tipo": "Boleta",
+          "numero": "36344",
+          "monto": 1500,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36343",
+          "monto": 2150,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36342",
+          "monto": 14190,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36341",
+          "monto": 400,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36340",
+          "monto": 900,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36339",
+          "monto": 2000,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36338",
+          "monto": 900,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36337",
+          "monto": 400,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36336",
+          "monto": 400,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36335",
+          "monto": 400,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36334",
+          "monto": 650,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36333",
+          "monto": 400,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36332",
+          "monto": 4150,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36331",
+          "monto": 650,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36330",
+          "monto": 900,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36329",
+          "monto": 1500,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36328",
+          "monto": 1150,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36327",
+          "monto": 650,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36326",
+          "monto": 2650,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36325",
+          "monto": 500,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36324",
+          "monto": 1150,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36323",
+          "monto": 2900,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36322",
+          "monto": 900,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36321",
+          "monto": 1650,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36320",
+          "monto": 1400,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36319",
+          "monto": 1900,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36318",
+          "monto": 1150,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36317",
+          "monto": 400,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36316",
+          "monto": 400,
+          "fecha": ""
+        },
+        {
+          "tipo": "Boleta",
+          "numero": "36315",
+          "monto": 400,
+          "fecha": ""
+        }
+      ],
+      "paginas_leidas": 1,
+      "nota": ""
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    },
+    "ventas_por_hora": []
+  },
+  "toteat": {
+    "error": null,
+    "ultimo_cierre": {
+      "fecha": "21/07/2026",
+      "fecha_iso": "2026-07-21",
+      "turno": "1494747985014084-00001-20260721TB.001",
+      "apertura": "2026-07-21T15:03:30",
+      "cierre": "",
+      "total_ventas": 110440.0,
+      "total_neto": 187597.0,
+      "total_iva": 35643.0,
+      "n_ordenes": 8,
+      "n_anuladas": 0,
+      "efectivo": 0,
+      "tarjeta": 119325.0,
+      "productos_top": [
+        {
+          "nombre": "Menú ejecutivo",
+          "cantidad": 7,
+          "total": 49000.0
+        },
+        {
+          "nombre": "Ciabatta con huevo",
+          "cantidad": 3,
+          "total": 16500.0
+        },
+        {
+          "nombre": "Mechada",
+          "cantidad": 1,
+          "total": 7990.0
+        },
+        {
+          "nombre": "Pollo",
+          "cantidad": 1,
+          "total": 5990.0
+        },
+        {
+          "nombre": "Fettuccini tradizionale",
+          "cantidad": 1,
+          "total": 5990.0
+        },
+        {
+          "nombre": "Americano",
+          "cantidad": 3,
+          "total": 5700.0
+        },
+        {
+          "nombre": "Gnocchi con salsa",
+          "cantidad": 1,
+          "total": 4990.0
+        },
+        {
+          "nombre": "Té variedades",
+          "cantidad": 3,
+          "total": 4800.0
+        },
+        {
+          "nombre": "Schop Brodir",
+          "cantidad": 1,
+          "total": 4000.0
+        },
+        {
+          "nombre": "Promo completo italiano",
+          "cantidad": 1,
+          "total": 2990.0
+        }
+      ]
+    },
+    "historial_cierres": [
+      {
+        "fecha": "2026-07-21",
+        "turno": "1494747985014084-00001-20260721TB.001"
+      },
+      {
+        "fecha": "2026-07-20",
+        "turno": "1494747985014084-00001-20260720TB.001"
+      },
+      {
+        "fecha": "2026-07-18",
+        "turno": "1494747985014084-00001-20260718TB.002"
+      },
+      {
+        "fecha": "2026-07-17",
+        "turno": "1494747985014084-00001-20260717TB.001"
+      },
+      {
+        "fecha": "2026-07-15",
+        "turno": "1494747985014084-00001-20260715TB.002"
+      },
+      {
+        "fecha": "2026-07-14",
+        "turno": "1494747985014084-00001-20260714TB.002"
+      },
+      {
+        "fecha": "2026-07-13",
+        "turno": "1494747985014084-00001-20260713TB.001"
+      },
+      {
+        "fecha": "2026-07-11",
+        "turno": "1494747985014084-00001-20260711TB.002"
+      },
+      {
+        "fecha": "2026-07-10",
+        "turno": "1494747985014084-00001-20260710TB.002"
+      }
+    ],
+    "total_cierres_historicos": 126,
+    "actualizadoEl": "22/07/2026 00:01"
+  },
+  "pedidosya": {
+    "error": null,
+    "estado_local": "CLOSED",
+    "cerrado_hasta": null,
+    "cerrado_razon": null,
+    "tier": "NONE",
+    "tier_periodo": {
+      "desde": "",
+      "hasta": ""
+    },
+    "metricas_tier": {
+      "calificacion": "0",
+      "pedidos_volumen": "0",
+      "tasa_fallo": "0",
+      "pedidos_incorrectos": "0",
+      "tiempo_espera": "0"
+    },
+    "benchmark": {
+      "fecha_datos": "2026-07-15",
+      "dias_agregados": 1,
+      "revenue_percentil90": 29553,
+      "orders_percentil90": 2,
+      "avg_basket_percentil90": 20890.6,
+      "cohort_size": 0,
+      "area": "Rancagua",
+      "cuisine": "All"
+    },
+    "performance_7d": [
+      {
+        "date": "2026-07-15",
+        "revenue": "32404",
+        "orderCount": "2"
+      },
+      {
+        "date": "2026-07-20",
+        "revenue": "5328",
+        "orderCount": "1"
+      }
+    ],
+    "heatmap": [],
+    "actualizadoEl": "22/07/2026 00:01"
+  },
+  "rappi": {
+    "error": null,
+    "store_name": "Brina Pizzeria",
+    "is_enabled": true,
+    "store_tier": "standard",
+    "ventas_7d": {
+      "total_amount": 0,
+      "total_orders": 0,
+      "orders_avg": 0,
+      "users_count": 0,
+      "new_users_count": 0,
+      "last_week": [
+        {
+          "date": "2026-07-14",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-15",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-16",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-17",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-18",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-19",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-20",
+          "amount": 0,
+          "orders": 0
+        },
+        {
+          "date": "2026-07-21",
+          "amount": 0,
+          "orders": 0
+        }
+      ]
+    },
+    "indicadores": {
+      "cancellation_pct": 0,
+      "error_pct": 0,
+      "availability_pct": 100.0,
+      "cooking_time_avg": 0
+    },
+    "actualizadoEl": "22/07/2026 00:02"
+  }
+}
