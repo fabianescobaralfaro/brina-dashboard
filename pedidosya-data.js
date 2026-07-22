@@ -17,26 +17,16 @@ window.PEDIDOSYA_DATA = {
     "tiempo_espera": "0"
   },
   "benchmark": {
-    "fecha_datos": "2026-07-09",
+    "fecha_datos": "2026-07-14",
     "dias_agregados": 1,
-    "revenue_percentil90": 19796,
-    "orders_percentil90": 3,
-    "avg_basket_percentil90": 13757,
+    "revenue_percentil90": 21405,
+    "orders_percentil90": 2,
+    "avg_basket_percentil90": 8780,
     "cohort_size": 0,
     "area": "Rancagua",
     "cuisine": "All"
   },
   "performance_7d": [
-    {
-      "date": "2026-07-09",
-      "revenue": "0",
-      "orderCount": "0"
-    },
-    {
-      "date": "2026-07-11",
-      "revenue": "38898",
-      "orderCount": "3"
-    },
     {
       "date": "2026-07-14",
       "revenue": "0",
@@ -46,8 +36,13 @@ window.PEDIDOSYA_DATA = {
       "date": "2026-07-15",
       "revenue": "32404",
       "orderCount": "2"
+    },
+    {
+      "date": "2026-07-20",
+      "revenue": "5328",
+      "orderCount": "1"
     }
   ],
   "heatmap": [],
-  "actualizadoEl": "16/07/2026 21:32"
+  "actualizadoEl": "21/07/2026 23:37"
 };
