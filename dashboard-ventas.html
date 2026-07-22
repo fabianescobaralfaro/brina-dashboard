@@ -2380,8 +2380,15 @@ function renderHorasChart() {
   if (fecha === hoy) {
     // Hoy → desde haulmer-data.js
     const H = window.HAULMER_DATA;
-    horasData = (H && H.ventas_por_hora) ? H.ventas_por_hora : [];
-    totalDia  = (H && H.ventas_hoy && H.ventas_hoy.total_dia) || 0;
+    horasData = (H && H.ventas_por_hora && H.ventas_por_hora.length) ? H.ventas_por_hora : [];
+    totalDia  = (H && H.informe_dia && H.informe_dia.monto_ventas) || 0;
+    // Fallback: si el scraper no capturó ventas_por_hora, usar historico de hoy
+    if (!horasData.length && window.HISTORICO_CACHE && window.HISTORICO_CACHE[hoy]) {
+      const hCache = window.HISTORICO_CACHE[hoy];
+      horasData = (hCache.haulmer && hCache.haulmer.ventas_por_hora) || [];
+      if (!totalDia && hCache.haulmer && hCache.haulmer.informe_dia)
+        totalDia = hCache.haulmer.informe_dia.monto_ventas || 0;
+    }
     const act = (H && H.actualizadoEl) ? ' · al ' + H.actualizadoEl : '';
     labelFecha = 'Hoy' + act;
   } else {
@@ -3569,12 +3576,21 @@ function getPosHoyFromH(serial) {
   const bd = (H.informe_dia || {}).pos_breakdown || [];
   const pos = bd.find(p => p.serial === serial);
   if (!pos) return null;
+  let propinas = pos.propinas || 0;
+  // Fallback: si pos_breakdown no tiene propinas, sumar desde ventas_por_hora_pos en historico
+  if (!propinas) {
+    const hoy = new Date().toISOString().slice(0, 10);
+    const hCache = window.HISTORICO_CACHE && window.HISTORICO_CACHE[hoy];
+    const hpMap = hCache && hCache.haulmer && hCache.haulmer.ventas_por_hora_pos;
+    const hpList = (hpMap && hpMap[serial]) || [];
+    if (hpList.length) propinas = hpList.reduce((s, e) => s + (e.propinas || 0), 0);
+  }
   return {
     ventas:   pos.total_ventas || 0,
     debito:   pos.debito || 0,
     credito:  pos.credito || 0,
     efectivo: pos.efectivo || 0,
-    propinas: pos.propinas || 0,
+    propinas,
   };
 }
 
