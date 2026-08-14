@@ -17,27 +17,27 @@ window.PEDIDOSYA_DATA = {
     "tiempo_espera": "0"
   },
   "benchmark": {
-    "fecha_datos": "2026-07-24",
+    "fecha_datos": "2026-08-07",
     "dias_agregados": 1,
-    "revenue_percentil90": 46375,
+    "revenue_percentil90": 98824,
     "orders_percentil90": 4,
-    "avg_basket_percentil90": 23450,
+    "avg_basket_percentil90": 24832,
     "cohort_size": 0,
     "area": "Rancagua",
     "cuisine": "Pizzas"
   },
   "performance_7d": [
     {
-      "date": "2026-07-27",
-      "revenue": "9592",
-      "orderCount": "1"
+      "date": "2026-08-08",
+      "revenue": "0",
+      "orderCount": "0"
     },
     {
-      "date": "2026-07-30",
-      "revenue": "17904",
+      "date": "2026-08-10",
+      "revenue": "5872",
       "orderCount": "1"
     }
   ],
   "heatmap": [],
-  "actualizadoEl": "31/07/2026 23:14"
+  "actualizadoEl": "14/08/2026 12:09"
 };
