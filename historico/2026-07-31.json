@@ -11,6 +11,10 @@
       "monto_neto": 0,
       "iva": 0,
       "propinas": 13917,
+      "n_tx_debito": 59,
+      "n_tx_credito": 7,
+      "n_tx_efectivo": 33,
+      "n_tx_total": 99,
       "periodo": "Personalizado",
       "pos_breakdown": [
         {
@@ -19,7 +23,11 @@
           "debito": 132670,
           "credito": 10500,
           "efectivo": 3000,
-          "propinas": 13917
+          "propinas": 13917,
+          "n_tx_debito": 11,
+          "n_tx_credito": 2,
+          "n_tx_efectivo": 1,
+          "n_tx_total": 14
         },
         {
           "serial": "PB1T238420182",
@@ -27,7 +35,11 @@
           "debito": 91570,
           "credito": 10750,
           "efectivo": 44550,
-          "propinas": 0
+          "propinas": 0,
+          "n_tx_debito": 48,
+          "n_tx_credito": 5,
+          "n_tx_efectivo": 32,
+          "n_tx_total": 85
         }
       ]
     },
