@@ -1,6 +1,6 @@
 /* Generado automáticamente por scraper.py — NO editar manualmente */
 window.HAULMER_DATA = {
-  "actualizadoEl": "15/08/2026 00:00",
+  "actualizadoEl": "22/08/2026 08:18",
   "error": null,
   "informe_dia": {
     "periodo": "Día",
@@ -78,194 +78,13 @@ window.HAULMER_DATA = {
     "n_tx_total": 0
   },
   "dte": {
-    "total_declarado": 30,
-    "total": 30,
-    "boletas": 30,
+    "total_declarado": 0,
+    "total": 0,
+    "boletas": 0,
     "facturas": 0,
-    "monto_boletas": 68350,
+    "monto_boletas": 0,
     "monto_facturas": 0,
-    "documentos": [
-      {
-        "tipo": "Boleta",
-        "numero": "37094",
-        "monto": 2650,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37093",
-        "monto": 900,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37092",
-        "monto": 650,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37091",
-        "monto": 2400,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37090",
-        "monto": 900,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37089",
-        "monto": 2000,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37088",
-        "monto": 900,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37087",
-        "monto": 1000,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37086",
-        "monto": 2150,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37085",
-        "monto": 400,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37084",
-        "monto": 400,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37083",
-        "monto": 650,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37082",
-        "monto": 900,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37081",
-        "monto": 3150,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37080",
-        "monto": 22650,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37079",
-        "monto": 5000,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37078",
-        "monto": 600,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37077",
-        "monto": 900,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37076",
-        "monto": 1150,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37075",
-        "monto": 400,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37074",
-        "monto": 900,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37073",
-        "monto": 1150,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37072",
-        "monto": 3400,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37071",
-        "monto": 900,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37070",
-        "monto": 650,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37069",
-        "monto": 2400,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37068",
-        "monto": 1900,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37067",
-        "monto": 400,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37066",
-        "monto": 5000,
-        "fecha": ""
-      },
-      {
-        "tipo": "Boleta",
-        "numero": "37065",
-        "monto": 1900,
-        "fecha": ""
-      }
-    ],
+    "documentos": [],
     "paginas_leidas": 1,
     "nota": ""
   },
