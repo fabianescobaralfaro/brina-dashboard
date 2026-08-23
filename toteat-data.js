@@ -2,21 +2,46 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "21/08/2026",
-    "fecha_iso": "2026-08-21",
-    "turno": "1494747985014084-00001-20260821TB.002",
-    "apertura": "",
+    "fecha": "22/08/2026",
+    "fecha_iso": "2026-08-22",
+    "turno": "1494747985014084-00001-20260822TB.001",
+    "apertura": "2026-08-22T18:23:59",
     "cierre": "",
-    "total_ventas": 0,
-    "total_neto": 0,
-    "total_iva": 0,
-    "n_ordenes": 0,
+    "total_ventas": 64438,
+    "total_neto": 111413.0,
+    "total_iva": 21167.0,
+    "n_ordenes": 4,
     "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 0,
-    "productos_top": []
+    "tarjeta": 64438,
+    "productos_top": [
+      {
+        "nombre": "Menú ejecutivo",
+        "cantidad": 5,
+        "total": 35000.0
+      },
+      {
+        "nombre": "Menú premium",
+        "cantidad": 2,
+        "total": 18000.0
+      },
+      {
+        "nombre": "Latte",
+        "cantidad": 1,
+        "total": 2790.0
+      },
+      {
+        "nombre": "Capuccino",
+        "cantidad": 1,
+        "total": 2790.0
+      }
+    ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-08-22",
+      "turno": "1494747985014084-00001-20260822TB.001"
+    },
     {
       "fecha": "2026-08-21",
       "turno": "1494747985014084-00001-20260821TB.002"
@@ -52,12 +77,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-08-11",
       "turno": "1494747985014084-00001-20260811TB.001"
-    },
-    {
-      "fecha": "2026-08-10",
-      "turno": "1494747985014084-00001-20260810TB.002"
     }
   ],
-  "total_cierres_historicos": 168,
-  "actualizadoEl": "22/08/2026 08:19"
+  "total_cierres_historicos": 169,
+  "actualizadoEl": "23/08/2026 12:21"
 };
