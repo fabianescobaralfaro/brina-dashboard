@@ -1,0 +1,30 @@
+{
+  "fecha": "2026-08-25",
+  "haulmer": {
+    "informe_dia": {
+      "propinas": 0
+    },
+    "informe_mes": {},
+    "ventas_hoy": {},
+    "ventas_por_hora": [
+      {
+        "hora": 8,
+        "monto": 16200,
+        "acumulado": 16200
+      }
+    ],
+    "ventas_por_hora_pos": {
+      "PB1T238420182": [
+        {
+          "hora": 8,
+          "ventas": 16200,
+          "propinas": 0,
+          "acumulado": 16200
+        }
+      ]
+    }
+  },
+  "toteat": null,
+  "rappi": null,
+  "pedidosya": null
+}
