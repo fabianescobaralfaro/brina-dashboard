@@ -2,42 +2,36 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "22/08/2026",
-    "fecha_iso": "2026-08-22",
-    "turno": "1494747985014084-00001-20260822TB.001",
-    "apertura": "2026-08-22T18:23:59",
+    "fecha": "24/08/2026",
+    "fecha_iso": "2026-08-24",
+    "turno": "1494747985014084-00001-20260824TB.001",
+    "apertura": "",
     "cierre": "",
-    "total_ventas": 64438,
-    "total_neto": 111413.0,
-    "total_iva": 21167.0,
-    "n_ordenes": 4,
+    "total_ventas": 28730.0,
+    "total_neto": 24146.0,
+    "total_iva": 4584.0,
+    "n_ordenes": 3,
     "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 64438,
+    "tarjeta": 30404.0,
     "productos_top": [
       {
-        "nombre": "Menú ejecutivo",
-        "cantidad": 5,
-        "total": 35000.0
+        "nombre": "Capuccino vainilla",
+        "cantidad": 6,
+        "total": 16740.0
       },
       {
-        "nombre": "Menú premium",
-        "cantidad": 2,
-        "total": 18000.0
-      },
-      {
-        "nombre": "Latte",
+        "nombre": "Quattro carni",
         "cantidad": 1,
-        "total": 2790.0
-      },
-      {
-        "nombre": "Capuccino",
-        "cantidad": 1,
-        "total": 2790.0
+        "total": 11990.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-08-24",
+      "turno": "1494747985014084-00001-20260824TB.001"
+    },
     {
       "fecha": "2026-08-22",
       "turno": "1494747985014084-00001-20260822TB.001"
@@ -73,12 +67,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-08-12",
       "turno": "1494747985014084-00001-20260812TB.002"
-    },
-    {
-      "fecha": "2026-08-11",
-      "turno": "1494747985014084-00001-20260811TB.001"
     }
   ],
-  "total_cierres_historicos": 169,
-  "actualizadoEl": "23/08/2026 12:21"
+  "total_cierres_historicos": 170,
+  "actualizadoEl": "24/08/2026 22:21"
 };
