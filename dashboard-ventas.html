@@ -477,6 +477,10 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       Gastos
     </a>
+    <a onclick="showPage('caja')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      Cuadre de Caja
+    </a>
     <a onclick="showPage('documentos')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
       Facturas y Boletas
@@ -908,6 +912,86 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
             </tr>
           </thead>
           <tbody id="tabla-gastos"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──── CUADRE DE CAJA ──── -->
+  <div class="page" id="page-caja">
+    <div class="page-header">
+      <div>
+        <h1>Cuadre de Caja</h1>
+        <p>Cierre de caja diario vs efectivo registrado en Haulmer</p>
+      </div>
+      <div class="header-actions">
+        <a href="cargar-gastos.html" target="_blank" class="btn btn-primary" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Registrar Cierre
+        </a>
+      </div>
+    </div>
+
+    <div class="card" style="padding:14px 18px;margin-bottom:20px">
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end">
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Período</div>
+          <select id="caja-periodo" onchange="renderCaja()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;font-family:inherit;outline:none">
+            <option value="mes">Este mes</option>
+            <option value="mes-ant">Mes anterior</option>
+            <option value="3m">Últimos 3 meses</option>
+            <option value="todo">Todo el histórico</option>
+          </select>
+        </div>
+        <div style="margin-left:auto;align-self:flex-end">
+          <span id="caja-estado" style="font-size:11px;color:var(--muted)">Cargando cierres...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi" id="kpi-caja-diferencia-wrap">
+        <div class="kpi-label">Diferencia Acumulada</div>
+        <div class="kpi-value" id="kpi-caja-diferencia">$0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Días Cuadrados 🟢</div>
+        <div class="kpi-value" id="kpi-caja-ok">0</div>
+      </div>
+      <div class="kpi yellow">
+        <div class="kpi-label">Mayor Diferencia</div>
+        <div class="kpi-value" id="kpi-caja-max">$0</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Sin Cierre ⚪</div>
+        <div class="kpi-value" id="kpi-caja-sin">0</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px">Diferencia por Día (Cierre de Caja − Efectivo Haulmer)</div>
+      <div class="chart-container" style="height:240px">
+        <canvas id="chart-caja-diff"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px">Detalle por Día</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th>Efectivo Haulmer</th>
+              <th>Cierre Caja</th>
+              <th>Diferencia</th>
+              <th>Trabajador</th>
+              <th>Notas</th>
+              <th>Foto</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-caja"></tbody>
         </table>
       </div>
     </div>
@@ -1695,6 +1779,7 @@ function showPage(id) {
   if (id === 'pos') renderPOS();
   if (id === 'ventas') renderVentas();
   if (id === 'gastos') renderGastos();
+  if (id === 'caja') renderCaja();
   if (id === 'documentos') renderDocumentos();
 }
 
@@ -4542,6 +4627,7 @@ function initSupabaseGastos() {
     _sbClient = supabase.createClient(url, anon);
     cargarGastosSupabase();
     suscribirGastosRealtime();
+    cargarCierresCaja();
   } catch(e) { console.warn('Supabase init error:', e); }
 }
 
@@ -4582,6 +4668,189 @@ function suscribirGastosRealtime() {
 }
 
 // ═══════════════════════════════════════
+// CUADRE DE CAJA
+// ═══════════════════════════════════════
+let _cierreCajaData = [];
+let _chartCajaDiff = null;
+
+async function cargarCierresCaja() {
+  if (!_sbClient) {
+    const el = document.getElementById('caja-estado');
+    if (el) el.textContent = 'Supabase no conectado';
+    return;
+  }
+  try {
+    const { data, error } = await _sbClient
+      .from('cierre_caja')
+      .select('*')
+      .order('fecha', { ascending: false });
+    if (error) { console.warn('Error cargando cierre_caja:', error); return; }
+    _cierreCajaData = data || [];
+    const el = document.getElementById('caja-estado');
+    if (el) el.textContent = `${_cierreCajaData.length} cierres cargados`;
+    renderCaja();
+  } catch(e) { console.warn('Error carga caja:', e); }
+}
+
+function _cajaPeriodoFechas() {
+  const periodo = (document.getElementById('caja-periodo') || {}).value || 'mes';
+  const hoy = new Date();
+  let desde, hasta;
+  hasta = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+  if (periodo === 'mes') {
+    const p = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+    desde = `${p.getFullYear()}-${String(p.getMonth()+1).padStart(2,'0')}-01`;
+  } else if (periodo === 'mes-ant') {
+    const p = new Date(hoy.getFullYear(), hoy.getMonth()-1, 1);
+    desde = `${p.getFullYear()}-${String(p.getMonth()+1).padStart(2,'0')}-01`;
+    const fin = new Date(hoy.getFullYear(), hoy.getMonth(), 0);
+    hasta = `${fin.getFullYear()}-${String(fin.getMonth()+1).padStart(2,'0')}-${String(fin.getDate()).padStart(2,'0')}`;
+  } else if (periodo === '3m') {
+    const p = new Date(hoy.getFullYear(), hoy.getMonth()-2, 1);
+    desde = `${p.getFullYear()}-${String(p.getMonth()+1).padStart(2,'0')}-01`;
+  } else {
+    desde = '2026-01-01';
+  }
+  return { desde, hasta };
+}
+
+function renderCaja() {
+  const { desde, hasta } = _cajaPeriodoFechas();
+
+  // Mapa de cierres por fecha
+  const cierreMap = {};
+  for (const c of _cierreCajaData) {
+    const f = (c.fecha || '').slice(0, 10);
+    if (f >= desde && f <= hasta) cierreMap[f] = c;
+  }
+
+  // Construir lista de días: solo días con ventas Haulmer > 0 o con cierre registrado
+  const dias = [];
+  for (const [fecha, hist] of Object.entries(HISTORICO_CACHE)) {
+    if (fecha < desde || fecha > hasta) continue;
+    const efectivoHaulmer = (hist?.haulmer?.informe_dia?.monto_ventas > 0)
+      ? (hist?.haulmer?.informe_dia?.efectivo || 0)
+      : 0;
+    const cierre = cierreMap[fecha];
+    if (efectivoHaulmer === 0 && !cierre) continue;
+    const montoCierre = cierre ? (Number(cierre.monto_efectivo) || 0) : null;
+    const diff = montoCierre !== null ? (montoCierre - efectivoHaulmer) : null;
+    dias.push({ fecha, efectivoHaulmer, cierre, montoCierre, diff });
+  }
+  dias.sort((a, b) => b.fecha.localeCompare(a.fecha));
+
+  const semaforo = (diff) => {
+    if (diff === null) return '⚪';
+    const abs = Math.abs(diff);
+    if (abs < 1000) return '🟢';
+    if (abs < 3000) return '🟡';
+    return '🔴';
+  };
+
+  // KPIs
+  const conCierre = dias.filter(d => d.diff !== null);
+  const sinCierre = dias.filter(d => d.diff === null).length;
+  const acum = conCierre.reduce((s, d) => s + d.diff, 0);
+  const ok = conCierre.filter(d => Math.abs(d.diff) < 1000).length;
+  const maxDiff = conCierre.length ? Math.max(...conCierre.map(d => Math.abs(d.diff))) : 0;
+
+  const fmt = v => '$' + Math.round(Math.abs(v)).toLocaleString('es-CL');
+  const fmtSigned = v => (v < 0 ? '-' : '+') + fmt(v);
+
+  const elDif = document.getElementById('kpi-caja-diferencia');
+  if (elDif) elDif.textContent = acum !== 0 ? fmtSigned(acum) : '$0';
+  const elOk = document.getElementById('kpi-caja-ok');
+  if (elOk) elOk.textContent = `${ok} / ${conCierre.length}`;
+  const elMax = document.getElementById('kpi-caja-max');
+  if (elMax) elMax.textContent = fmt(maxDiff);
+  const elSin = document.getElementById('kpi-caja-sin');
+  if (elSin) elSin.textContent = sinCierre;
+
+  const kpiWrap = document.getElementById('kpi-caja-diferencia-wrap');
+  if (kpiWrap) {
+    kpiWrap.className = 'kpi';
+    if (Math.abs(acum) >= 3000) kpiWrap.classList.add('red');
+    else if (Math.abs(acum) >= 1000) kpiWrap.classList.add('yellow');
+  }
+
+  // Tabla
+  const tbody = document.getElementById('tabla-caja');
+  if (tbody) {
+    tbody.innerHTML = dias.map(d => {
+      const sem = semaforo(d.diff);
+      const diffStr = d.diff !== null ? fmtSigned(d.diff) : '—';
+      const diffColor = d.diff === null ? '' : Math.abs(d.diff) >= 3000 ? 'color:#ff5b5b' : Math.abs(d.diff) >= 1000 ? 'color:#f5c518' : 'color:#4ade80';
+      const fotoBtn = d.cierre?.foto_url ? `<a href="${d.cierre.foto_url}" target="_blank" style="font-size:18px" title="Ver foto">📷</a>` : '—';
+      const notas = d.cierre?.notas ? `<span title="${String(d.cierre.notas).replace(/"/g,'&quot;')}" style="cursor:default">${String(d.cierre.notas).slice(0,30)}${d.cierre.notas.length>30?'…':''}</span>` : '—';
+      const trabajador = d.cierre?.trabajador || '—';
+      const fechaDisplay = d.fecha.split('-').reverse().join('/');
+      return `<tr>
+        <td style="font-size:18px;text-align:center">${sem}</td>
+        <td style="white-space:nowrap">${fechaDisplay}</td>
+        <td style="text-align:right">${fmt(d.efectivoHaulmer)}</td>
+        <td style="text-align:right">${d.montoCierre !== null ? fmt(d.montoCierre) : '—'}</td>
+        <td style="text-align:right;font-weight:600;${diffColor}">${diffStr}</td>
+        <td>${trabajador}</td>
+        <td style="font-size:12px;color:var(--muted)">${notas}</td>
+        <td style="text-align:center">${fotoBtn}</td>
+      </tr>`;
+    }).join('');
+    if (!dias.length) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">Sin datos para el período seleccionado</td></tr>';
+  }
+
+  // Gráfico
+  const diasChart = [...dias].sort((a, b) => a.fecha.localeCompare(b.fecha)).slice(-60);
+  const labels = diasChart.map(d => d.fecha.slice(5).replace('-', '/'));
+  const diffVals = diasChart.map(d => d.diff);
+  const bgColors = diasChart.map(d => {
+    if (d.diff === null) return 'rgba(120,120,120,0.3)';
+    const abs = Math.abs(d.diff);
+    if (abs < 1000) return 'rgba(74,222,128,0.7)';
+    if (abs < 3000) return 'rgba(245,197,24,0.7)';
+    return 'rgba(255,91,91,0.7)';
+  });
+
+  if (_chartCajaDiff) { _chartCajaDiff.destroy(); _chartCajaDiff = null; }
+  const ctx = document.getElementById('chart-caja-diff');
+  if (!ctx) return;
+  _chartCajaDiff = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Diferencia ($)',
+        data: diffVals,
+        backgroundColor: bgColors,
+        borderWidth: 0,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              if (v === null || v === undefined) return 'Sin cierre';
+              return (v >= 0 ? '+' : '') + '$' + Math.round(v).toLocaleString('es-CL');
+            }
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { color: 'rgba(150,150,170,0.8)', font: { size: 10 } }, grid: { color: 'transparent' } },
+        y: {
+          ticks: { color: 'rgba(150,150,170,0.8)', font: { size: 10 }, callback: v => '$' + (v/1000).toFixed(0) + 'k' },
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
 (function init() {
@@ -4590,7 +4859,7 @@ function suscribirGastosRealtime() {
   renderAll();
   iniciarDatePicker();
   precargarHistorico(); // carga históricos en background y re-renderiza
-  initSupabaseGastos(); // carga gastos desde Supabase y suscribe a cambios
+  initSupabaseGastos(); // carga gastos y cierres de caja desde Supabase
   // Inicializar fecha del picker POS horas
   const posHorasFechaEl = document.getElementById('pos-horas-fecha');
   if (posHorasFechaEl) {
