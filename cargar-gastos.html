@@ -34,6 +34,60 @@
       padding: 0 0 60px;
     }
 
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      width: 100%;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      flex: 1;
+      padding: 13px 8px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color .15s, border-color .15s;
+      user-select: none;
+    }
+    .tab.active { color: var(--purple); border-bottom-color: var(--purple); }
+    .tab-icon { font-size: 18px; display: block; margin-bottom: 2px; }
+
+    /* ── Cierre de caja ── */
+    .caja-monto-wrap { position: relative; }
+    .caja-monto-prefix {
+      position: absolute; left: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--green); font-weight: 700; font-size: 16px;
+      pointer-events: none;
+    }
+    .caja-monto-wrap input { padding-left: 30px; font-size: 22px; font-weight: 700; color: var(--green); }
+    .foto-required-badge {
+      display: inline-block;
+      font-size: 11px;
+      background: rgba(255,107,107,.12);
+      color: var(--red);
+      border: 1px solid rgba(255,107,107,.3);
+      border-radius: 6px;
+      padding: 2px 7px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .instructions-box {
+      background: rgba(108,99,255,.07);
+      border: 1px solid rgba(108,99,255,.25);
+      border-radius: 10px;
+      padding: 13px 15px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .instructions-box strong { color: var(--text); }
+
     /* ── Header ── */
     .header {
       width: 100%;
@@ -315,7 +369,17 @@
   <div class="header-logo">🍕</div>
   <div>
     <div class="header-title">Brina Pizzería</div>
-    <div class="header-sub">Registro de Gastos</div>
+    <div class="header-sub" id="header-sub">Registro de Gastos</div>
+  </div>
+</div>
+
+<!-- Tabs de navegación -->
+<div class="tabs">
+  <div class="tab active" id="tab-gastos" onclick="switchTab('gastos')">
+    <span class="tab-icon">💸</span>Gastos
+  </div>
+  <div class="tab" id="tab-caja" onclick="switchTab('caja')">
+    <span class="tab-icon">💵</span>Cierre de Caja
   </div>
 </div>
 
@@ -427,11 +491,107 @@
     <button class="btn-nuevo" onclick="nuevoGasto()">+ Registrar otro</button>
   </div>
 
-  <!-- ── Historial reciente ── -->
+  <!-- ── Historial reciente (gastos) ── -->
   <div class="card" id="hist-card">
     <div class="card-title">Últimos registros</div>
     <div id="hist-list"><div class="empty-hist">Cargando...</div></div>
   </div>
+
+  <!-- ══════════════════════════════════════
+       SECCIÓN CIERRE DE CAJA
+  ══════════════════════════════════════ -->
+  <div id="caja-section" style="display:none">
+
+    <div class="msg ok"    id="caja-msg-ok">✅ Cierre de caja registrado correctamente.</div>
+    <div class="msg error" id="caja-msg-err">❌ <span id="caja-msg-err-text">Error al guardar.</span></div>
+
+    <!-- Formulario cierre -->
+    <div id="caja-form-view">
+
+      <div class="instructions-box">
+        📋 <strong>Instrucciones:</strong><br>
+        1. Escribe en un papel el <strong>monto en efectivo</strong>, la <strong>fecha</strong> y tu <strong>nombre</strong>.<br>
+        2. Guarda el efectivo junto con el papel en el paquete o sobre.<br>
+        3. Saca una foto al paquete con el papel visible.<br>
+        4. Completa este formulario y adjunta la foto.
+      </div>
+
+      <div class="card">
+        <div class="card-title">Cierre de Caja — Efectivo</div>
+
+        <!-- Fecha -->
+        <div class="form-group">
+          <label>Fecha <span class="req">*</span></label>
+          <input type="date" id="caja-fecha">
+        </div>
+
+        <!-- Monto -->
+        <div class="form-group">
+          <label>Efectivo en caja <span class="req">*</span></label>
+          <div class="caja-monto-wrap">
+            <span class="caja-monto-prefix">$</span>
+            <input type="number" id="caja-monto" placeholder="0" min="0" step="1">
+          </div>
+        </div>
+
+        <!-- Foto obligatoria -->
+        <div class="form-group">
+          <label>Foto del paquete <span class="req">*</span> <span class="foto-required-badge">Obligatoria</span></label>
+          <div id="caja-foto-upload-area" class="foto-upload-area">
+            <input type="file" id="caja-f-foto" accept="image/*" capture="environment" onchange="onCajaFotoSelected(this)">
+            <div class="foto-upload-icon">📷</div>
+            <div class="foto-upload-txt">Foto del sobre con papel visible<br><span>Toca para sacar foto</span></div>
+          </div>
+          <div id="caja-foto-preview-wrap" class="foto-preview-wrap" style="display:none;margin-top:8px">
+            <img id="caja-foto-preview-img" src="" alt="Vista previa">
+            <button class="foto-preview-remove" onclick="quitarCajaFoto()" title="Quitar foto">✕</button>
+          </div>
+          <div class="foto-progress" id="caja-foto-progress">
+            <div class="foto-progress-bar" id="caja-foto-progress-bar"></div>
+          </div>
+        </div>
+
+        <!-- Notas -->
+        <div class="form-group">
+          <label>Notas <span style="color:var(--muted);font-weight:400">(observaciones del día, diferencias, etc.)</span></label>
+          <textarea id="caja-notas" placeholder="Ej: Todo cuadrado. Diferencia de $500 por vuelto."></textarea>
+        </div>
+
+      </div>
+
+      <!-- Quién registra -->
+      <div class="card">
+        <div class="card-title">¿Quién cierra caja?</div>
+        <div class="worker-chips" id="caja-chips-worker">
+          <div class="worker-chip active" data-val="Encargado">Encargado</div>
+          <div class="worker-chip" data-val="Caja">Caja</div>
+          <div class="worker-chip" data-val="Administración">Administración</div>
+          <div class="worker-chip" data-val="Cocina">Cocina</div>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="caja-btn-guardar" onclick="guardarCierre()"
+        style="background:linear-gradient(135deg,#22c55e,#16a34a)">
+        Registrar Cierre de Caja
+      </button>
+
+    </div><!-- /caja-form-view -->
+
+    <!-- Pantalla éxito cierre -->
+    <div class="success-screen" id="caja-success-view">
+      <div class="success-icon">💵</div>
+      <div class="success-title" style="color:var(--green)">¡Cierre registrado!</div>
+      <div class="success-sub" id="caja-success-detail"></div>
+      <button class="btn-nuevo" onclick="nuevoCierre()">+ Registrar otro cierre</button>
+    </div>
+
+    <!-- Historial cierres -->
+    <div class="card" id="caja-hist-card">
+      <div class="card-title">Últimos cierres</div>
+      <div id="caja-hist-list"><div class="empty-hist">Cargando...</div></div>
+    </div>
+
+  </div><!-- /caja-section -->
 
 </div><!-- /container -->
 
@@ -701,6 +861,210 @@ function suscribirRealtime() {
       cargarHistorial();
     })
     .subscribe();
+}
+
+// ══════════════════════════════════════
+// TABS
+// ══════════════════════════════════════
+let tabActual = 'gastos';
+
+function switchTab(tab) {
+  tabActual = tab;
+  document.getElementById('tab-gastos').classList.toggle('active', tab === 'gastos');
+  document.getElementById('tab-caja').classList.toggle('active', tab === 'caja');
+
+  const gastosSection = document.getElementById('form-view');
+  const gastosHist    = document.getElementById('hist-card');
+  const gastosMsg     = document.getElementById('msg-ok');
+  const gastosErr     = document.getElementById('msg-err');
+  const successView   = document.getElementById('success-view');
+  const cajaSection   = document.getElementById('caja-section');
+
+  if (tab === 'gastos') {
+    gastosSection.style.display = '';
+    gastosHist.style.display    = '';
+    gastosMsg.style.display     = '';
+    gastosErr.style.display     = '';
+    successView.style.display   = '';
+    cajaSection.style.display   = 'none';
+    document.getElementById('header-sub').textContent = 'Registro de Gastos';
+  } else {
+    gastosSection.style.display = 'none';
+    gastosHist.style.display    = 'none';
+    gastosMsg.style.display     = 'none';
+    gastosErr.style.display     = 'none';
+    successView.style.display   = 'none';
+    cajaSection.style.display   = '';
+    document.getElementById('header-sub').textContent = 'Cierre de Caja';
+    cargarHistorialCierre();
+  }
+}
+
+// ══════════════════════════════════════
+// CIERRE DE CAJA
+// ══════════════════════════════════════
+let cajaFotoFile = null;
+let cajaTrabajador = 'Encargado';
+
+document.getElementById('caja-fecha').value = new Date().toISOString().split('T')[0];
+
+document.querySelectorAll('#caja-chips-worker .worker-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#caja-chips-worker .worker-chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    cajaTrabajador = c.dataset.val;
+  });
+});
+
+function onCajaFotoSelected(input) {
+  const file = input.files[0];
+  if (!file) return;
+  cajaFotoFile = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('caja-foto-preview-img').src = e.target.result;
+    document.getElementById('caja-foto-upload-area').style.display  = 'none';
+    document.getElementById('caja-foto-preview-wrap').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function quitarCajaFoto() {
+  cajaFotoFile = null;
+  document.getElementById('caja-f-foto').value = '';
+  document.getElementById('caja-foto-preview-img').src = '';
+  document.getElementById('caja-foto-upload-area').style.display  = '';
+  document.getElementById('caja-foto-preview-wrap').style.display = 'none';
+}
+
+async function subirFotoCaja(file) {
+  if (!sb || !file) return { url: '', error: 'Sin conexión' };
+  const ext  = (file.name.split('.').pop() || 'jpg').toLowerCase();
+  const path = `caja/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const prog = document.getElementById('caja-foto-progress');
+  const bar  = document.getElementById('caja-foto-progress-bar');
+  prog.style.display = 'block';
+  bar.style.width = '30%';
+  try {
+    const { error } = await sb.storage.from('comprobantes').upload(path, file, {
+      contentType: file.type || 'image/jpeg',
+      cacheControl: '3600',
+      upsert: false,
+    });
+    bar.style.width = '90%';
+    if (error) return { url: '', error: error.message };
+    const { data } = sb.storage.from('comprobantes').getPublicUrl(path);
+    bar.style.width = '100%';
+    return { url: data.publicUrl || '', error: null };
+  } catch(e) {
+    return { url: '', error: e.message || 'Error' };
+  } finally {
+    setTimeout(() => { prog.style.display = 'none'; bar.style.width = '0%'; }, 600);
+  }
+}
+
+async function guardarCierre() {
+  const fecha = document.getElementById('caja-fecha').value;
+  const monto = parseInt(document.getElementById('caja-monto').value, 10);
+  const notas = (document.getElementById('caja-notas').value || '').trim();
+
+  if (!fecha) return mostrarErrorCaja('Por favor ingresa una fecha.');
+  if (isNaN(monto) || monto < 0) return mostrarErrorCaja('El monto debe ser 0 o mayor.');
+  if (!cajaFotoFile) return mostrarErrorCaja('La foto del paquete es obligatoria.');
+
+  const btn = document.getElementById('caja-btn-guardar');
+  btn.disabled = true;
+  btn.textContent = 'Subiendo foto...';
+
+  const { url: fotoUrl, error: fotoErr } = await subirFotoCaja(cajaFotoFile);
+  if (fotoErr || !fotoUrl) {
+    btn.disabled = false;
+    btn.textContent = 'Registrar Cierre de Caja';
+    return mostrarErrorCaja('No se pudo subir la foto. Intenta nuevamente.');
+  }
+
+  btn.textContent = 'Guardando...';
+
+  const cierre = {
+    fecha,
+    monto_efectivo: monto,
+    foto_url:       fotoUrl,
+    notas:          notas || null,
+    trabajador:     cajaTrabajador,
+  };
+
+  try {
+    if (sb) {
+      const { error } = await sb.from('cierre_caja').insert([cierre]);
+      if (error) throw error;
+    } else {
+      throw new Error('Supabase no configurado');
+    }
+
+    document.getElementById('caja-success-detail').innerHTML =
+      `<strong>$${monto.toLocaleString('es-CL')}</strong> en efectivo<br>
+       Fecha: ${fecha.split('-').reverse().join('/')}<br>
+       Registrado por: ${cajaTrabajador}`;
+
+    document.getElementById('caja-form-view').style.display = 'none';
+    document.getElementById('caja-success-view').classList.add('show');
+    cargarHistorialCierre();
+
+  } catch(e) {
+    mostrarErrorCaja('Error al guardar: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Registrar Cierre de Caja';
+  }
+}
+
+function nuevoCierre() {
+  cajaFotoFile = null;
+  document.getElementById('caja-f-foto').value = '';
+  document.getElementById('caja-monto').value  = '';
+  document.getElementById('caja-notas').value  = '';
+  document.getElementById('caja-fecha').value  = new Date().toISOString().split('T')[0];
+  quitarCajaFoto();
+  document.querySelectorAll('#caja-chips-worker .worker-chip').forEach((c,i) => c.classList.toggle('active', i === 0));
+  cajaTrabajador = 'Encargado';
+  document.getElementById('caja-success-view').classList.remove('show');
+  document.getElementById('caja-form-view').style.display = '';
+}
+
+function mostrarErrorCaja(txt) {
+  document.getElementById('caja-msg-err-text').textContent = txt;
+  const el = document.getElementById('caja-msg-err');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
+
+async function cargarHistorialCierre() {
+  const listEl = document.getElementById('caja-hist-list');
+  if (!sb) { listEl.innerHTML = '<div class="empty-hist">Sin conexión a Supabase.</div>'; return; }
+  try {
+    const { data, error } = await sb
+      .from('cierre_caja')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(10);
+    if (error) throw error;
+    if (!data || !data.length) {
+      listEl.innerHTML = '<div class="empty-hist">Aún no hay cierres registrados.</div>';
+      return;
+    }
+    listEl.innerHTML = data.map(c => `
+      <div class="hist-item">
+        <div class="hist-dot" style="background:var(--green)"></div>
+        <div class="hist-info">
+          <div class="hist-desc">💵 $${(c.monto_efectivo||0).toLocaleString('es-CL')} en efectivo</div>
+          <div class="hist-meta">${(c.fecha||'').split('-').reverse().join('/')} · ${c.trabajador || '—'}${c.notas ? ' · ' + c.notas.slice(0,40) : ''}</div>
+          ${c.foto_url ? `<a href="${c.foto_url}" target="_blank" style="font-size:11px;color:var(--green);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:4px">📷 Ver foto</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+  } catch(e) {
+    listEl.innerHTML = '<div class="empty-hist">Error al cargar cierres.</div>';
+  }
 }
 
 // ── Inicializar ──
