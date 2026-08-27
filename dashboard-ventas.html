@@ -983,8 +983,9 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
             <tr>
               <th>Estado</th>
               <th>Fecha</th>
-              <th>Efectivo Haulmer</th>
-              <th>Cierre Caja</th>
+              <th>Ventas efectivo</th>
+              <th>Esperado en caja</th>
+              <th>Cierre registrado</th>
               <th>Diferencia</th>
               <th>Trabajador</th>
               <th>Notas</th>
@@ -4724,6 +4725,14 @@ function renderCaja() {
     if (f >= desde && f <= hasta) cierreMap[f] = c;
   }
 
+  // Mapa de gastos pagados en efectivo por fecha
+  const gastosEfectivoMap = {};
+  for (const g of (db.gastos || [])) {
+    if (g.pagado_efectivo && g.fecha >= desde && g.fecha <= hasta) {
+      gastosEfectivoMap[g.fecha] = (gastosEfectivoMap[g.fecha] || 0) + (Number(g.monto) || 0);
+    }
+  }
+
   // Construir lista de días: solo días con ventas Haulmer > 0 o con cierre registrado
   const dias = [];
   for (const [fecha, hist] of Object.entries(HISTORICO_CACHE)) {
@@ -4733,9 +4742,11 @@ function renderCaja() {
       : 0;
     const cierre = cierreMap[fecha];
     if (efectivoHaulmer === 0 && !cierre) continue;
+    const gastosEfectivo = gastosEfectivoMap[fecha] || 0;
+    const esperadoCaja = efectivoHaulmer - gastosEfectivo;
     const montoCierre = cierre ? (Number(cierre.monto_efectivo) || 0) : null;
-    const diff = montoCierre !== null ? (montoCierre - efectivoHaulmer) : null;
-    dias.push({ fecha, efectivoHaulmer, cierre, montoCierre, diff });
+    const diff = montoCierre !== null ? (montoCierre - esperadoCaja) : null;
+    dias.push({ fecha, efectivoHaulmer, gastosEfectivo, esperadoCaja, cierre, montoCierre, diff });
   }
   dias.sort((a, b) => b.fecha.localeCompare(a.fecha));
 
@@ -4784,10 +4795,14 @@ function renderCaja() {
       const notas = d.cierre?.notas ? `<span title="${String(d.cierre.notas).replace(/"/g,'&quot;')}" style="cursor:default">${String(d.cierre.notas).slice(0,30)}${d.cierre.notas.length>30?'…':''}</span>` : '—';
       const trabajador = d.cierre?.trabajador || '—';
       const fechaDisplay = d.fecha.split('-').reverse().join('/');
+      const gastosBadge = d.gastosEfectivo > 0
+        ? `<br><span style="font-size:10px;color:#f5c518">−${fmt(d.gastosEfectivo)} pagos caja</span>`
+        : '';
       return `<tr>
         <td style="font-size:18px;text-align:center">${sem}</td>
         <td style="white-space:nowrap">${fechaDisplay}</td>
-        <td style="text-align:right">${fmt(d.efectivoHaulmer)}</td>
+        <td style="text-align:right">${fmt(d.efectivoHaulmer)}${gastosBadge}</td>
+        <td style="text-align:right">${fmt(d.esperadoCaja)}</td>
         <td style="text-align:right">${d.montoCierre !== null ? fmt(d.montoCierre) : '—'}</td>
         <td style="text-align:right;font-weight:600;${diffColor}">${diffStr}</td>
         <td>${trabajador}</td>
@@ -4795,7 +4810,7 @@ function renderCaja() {
         <td style="text-align:center">${fotoBtn}</td>
       </tr>`;
     }).join('');
-    if (!dias.length) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">Sin datos para el período seleccionado</td></tr>';
+    if (!dias.length) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">Sin datos para el período seleccionado</td></tr>';
   }
 
   // Gráfico
