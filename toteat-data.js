@@ -2,32 +2,29 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "24/08/2026",
-    "fecha_iso": "2026-08-24",
-    "turno": "1494747985014084-00001-20260824TB.001",
+    "fecha": "26/08/2026",
+    "fecha_iso": "2026-08-26",
+    "turno": "1494747985014084-00001-20260826TB.002",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 28730.0,
-    "total_neto": 24146.0,
-    "total_iva": 4584.0,
-    "n_ordenes": 3,
+    "total_ventas": 0,
+    "total_neto": 0,
+    "total_iva": 0,
+    "n_ordenes": 0,
     "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 30404.0,
-    "productos_top": [
-      {
-        "nombre": "Capuccino vainilla",
-        "cantidad": 6,
-        "total": 16740.0
-      },
-      {
-        "nombre": "Quattro carni",
-        "cantidad": 1,
-        "total": 11990.0
-      }
-    ]
+    "tarjeta": 0,
+    "productos_top": []
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-08-26",
+      "turno": "1494747985014084-00001-20260826TB.002"
+    },
+    {
+      "fecha": "2026-08-25",
+      "turno": "1494747985014084-00001-20260825TB.002"
+    },
     {
       "fecha": "2026-08-24",
       "turno": "1494747985014084-00001-20260824TB.001"
@@ -59,16 +56,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-08-14",
       "turno": "1494747985014084-00001-20260814TB.001"
-    },
-    {
-      "fecha": "2026-08-13",
-      "turno": "1494747985014084-00001-20260813TB.002"
-    },
-    {
-      "fecha": "2026-08-12",
-      "turno": "1494747985014084-00001-20260812TB.002"
     }
   ],
-  "total_cierres_historicos": 170,
-  "actualizadoEl": "24/08/2026 22:21"
+  "total_cierres_historicos": 174,
+  "actualizadoEl": "27/08/2026 10:21"
 };
