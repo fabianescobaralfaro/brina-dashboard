@@ -278,6 +278,22 @@
 
     .empty-hist { color: var(--muted); font-size: 13px; text-align: center; padding: 20px 0; }
 
+    /* ── Medio de pago ── */
+    .medio-chip {
+      flex: 1; text-align: center; padding: 10px 8px;
+      border-radius: 10px; font-size: 14px; font-weight: 500;
+      border: 2px solid var(--border); cursor: pointer;
+      transition: all .18s; color: var(--muted);
+    }
+    .medio-chip.active {
+      border-color: var(--purple); color: var(--text);
+      background: var(--purpleL);
+    }
+    .medio-chip.active-efectivo {
+      border-color: #f5c518; color: #f5c518;
+      background: rgba(245,197,24,0.08);
+    }
+
     /* ── Foto upload ── */
     .foto-upload-area {
       border: 2px dashed var(--border);
@@ -444,6 +460,22 @@
       <div class="form-group">
         <label>Proveedor</label>
         <input type="text" id="f-prov" placeholder="Nombre del proveedor (opcional)">
+      </div>
+
+      <!-- Medio de pago -->
+      <div class="form-group">
+        <label>¿Cómo se pagó?</label>
+        <div style="display:flex;gap:10px;margin-top:4px">
+          <div id="toggle-transferencia" class="medio-chip active" onclick="setMedioPago('transferencia')">
+            🏦 Transferencia
+          </div>
+          <div id="toggle-efectivo" class="medio-chip" onclick="setMedioPago('efectivo')">
+            💵 Efectivo de caja
+          </div>
+        </div>
+        <div id="aviso-efectivo" style="display:none;font-size:12px;color:#f5c518;margin-top:8px;padding:8px 12px;background:rgba(245,197,24,0.1);border-radius:8px;border:1px solid rgba(245,197,24,0.3)">
+          ⚠️ Este monto se descontará del efectivo esperado en caja al hacer el cuadre
+        </div>
       </div>
 
       <!-- Foto comprobante -->
@@ -620,9 +652,26 @@ function initSupabase() {
 }
 
 // ── Estado del formulario ──
-let categoriaSeleccionada = 'Insumos / Materia prima';
+let categoriaSeleccionada  = 'Insumos / Materia prima';
 let trabajadorSeleccionado = 'Encargado';
-let fotoFile = null;
+let fotoFile               = null;
+let medioPagoSeleccionado  = 'transferencia';
+
+function setMedioPago(tipo) {
+  medioPagoSeleccionado = tipo;
+  const elT = document.getElementById('toggle-transferencia');
+  const elE = document.getElementById('toggle-efectivo');
+  const aviso = document.getElementById('aviso-efectivo');
+  if (tipo === 'efectivo') {
+    elT.className = 'medio-chip';
+    elE.className = 'medio-chip active-efectivo';
+    aviso.style.display = '';
+  } else {
+    elT.className = 'medio-chip active';
+    elE.className = 'medio-chip';
+    aviso.style.display = 'none';
+  }
+}
 
 // ── Manejo de foto ──
 function onFotoSelected(input) {
@@ -732,12 +781,13 @@ async function guardar() {
 
   const gasto = {
     fecha,
-    categoria:   categoriaSeleccionada,
-    descripcion: desc || 'Sin descripción',
-    proveedor:   prov,
+    categoria:      categoriaSeleccionada,
+    descripcion:    desc || 'Sin descripción',
+    proveedor:      prov,
     monto,
-    trabajador:  trabajadorSeleccionado,
-    foto_url:    fotoUrl,
+    trabajador:     trabajadorSeleccionado,
+    foto_url:       fotoUrl,
+    pagado_efectivo: medioPagoSeleccionado === 'efectivo',
   };
 
   try {
@@ -783,6 +833,7 @@ function nuevoGasto() {
   document.querySelectorAll('#chips-worker .worker-chip').forEach((c,i) => c.classList.toggle('active', i === 0));
   categoriaSeleccionada  = 'Insumos / Materia prima';
   trabajadorSeleccionado = 'Encargado';
+  setMedioPago('transferencia');
 
   document.getElementById('msg-ok').classList.remove('show');
   document.getElementById('msg-err').classList.remove('show');
@@ -844,7 +895,7 @@ async function cargarHistorial() {
     <div class="hist-item">
       <div class="hist-dot"></div>
       <div class="hist-info">
-        <div class="hist-desc">${g.descripcion}</div>
+        <div class="hist-desc">${g.descripcion}${g.pagado_efectivo ? ' <span style="font-size:11px;background:rgba(245,197,24,0.15);color:#f5c518;border:1px solid rgba(245,197,24,0.3);border-radius:5px;padding:1px 6px">💵 efectivo</span>' : ''}</div>
         <div class="hist-meta">${fmtFecha(g.fecha)} · ${g.categoria}${g.trabajador ? ' · ' + g.trabajador : ''}</div>
         ${g.foto_url ? `<a href="${g.foto_url}" target="_blank" style="font-size:11px;color:var(--purple);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:4px">📎 Ver comprobante</a>` : ''}
       </div>
