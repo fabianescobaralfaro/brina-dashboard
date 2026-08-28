@@ -2,21 +2,56 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "26/08/2026",
-    "fecha_iso": "2026-08-26",
-    "turno": "1494747985014084-00001-20260826TB.002",
+    "fecha": "27/08/2026",
+    "fecha_iso": "2026-08-27",
+    "turno": "1494747985014084-00001-20260827TB.001",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 0,
-    "total_neto": 0,
-    "total_iva": 0,
-    "n_ordenes": 0,
+    "total_ventas": 57760.0,
+    "total_neto": 67681.0,
+    "total_iva": 12859.0,
+    "n_ordenes": 5,
     "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 0,
-    "productos_top": []
+    "tarjeta": 63536.0,
+    "productos_top": [
+      {
+        "nombre": "Menú ejecutivo",
+        "cantidad": 4,
+        "total": 28000.0
+      },
+      {
+        "nombre": "Menú premium",
+        "cantidad": 1,
+        "total": 9000.0
+      },
+      {
+        "nombre": "Manzo",
+        "cantidad": 1,
+        "total": 8990.0
+      },
+      {
+        "nombre": "Papas fritas",
+        "cantidad": 2,
+        "total": 5000.0
+      },
+      {
+        "nombre": "Bebida 350 cc",
+        "cantidad": 2,
+        "total": 3780.0
+      },
+      {
+        "nombre": "Promo completo italiano",
+        "cantidad": 1,
+        "total": 2990.0
+      }
+    ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-08-27",
+      "turno": "1494747985014084-00001-20260827TB.001"
+    },
     {
       "fecha": "2026-08-26",
       "turno": "1494747985014084-00001-20260826TB.002"
@@ -52,12 +87,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-08-17",
       "turno": "1494747985014084-00001-20260817TB.001"
-    },
-    {
-      "fecha": "2026-08-14",
-      "turno": "1494747985014084-00001-20260814TB.001"
     }
   ],
-  "total_cierres_historicos": 174,
-  "actualizadoEl": "27/08/2026 10:21"
+  "total_cierres_historicos": 175,
+  "actualizadoEl": "28/08/2026 07:39"
 };
