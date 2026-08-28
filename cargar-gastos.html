@@ -792,8 +792,15 @@ async function guardar() {
 
   try {
     if (sb) {
-      const { error } = await sb.from('gastos').insert([gasto]);
-      if (error) throw error;
+      let { error } = await sb.from('gastos').insert([gasto]);
+      if (error && error.message && error.message.includes('pagado_efectivo')) {
+        // Columna aún no migrada — reintentar sin ese campo
+        const { pagado_efectivo, ...gastoSinCampo } = gasto;
+        const res2 = await sb.from('gastos').insert([gastoSinCampo]);
+        if (res2.error) throw res2.error;
+      } else if (error) {
+        throw error;
+      }
     } else {
       // Fallback: guardar en localStorage si no hay Supabase
       const local = JSON.parse(localStorage.getItem('gastos_local') || '[]');
@@ -1047,7 +1054,12 @@ async function guardarCierre() {
   try {
     if (sb) {
       const { error } = await sb.from('cierre_caja').insert([cierre]);
-      if (error) throw error;
+      if (error) {
+        if (error.message && (error.message.includes('does not exist') || error.message.includes('relation') || error.code === '42P01')) {
+          throw new Error('La tabla "cierre_caja" no existe aún en Supabase. Ejecuta el SQL de creación en el panel de Supabase y vuelve a intentar.');
+        }
+        throw error;
+      }
     } else {
       throw new Error('Supabase no configurado');
     }
