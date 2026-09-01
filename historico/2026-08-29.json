@@ -1,0 +1,189 @@
+{
+  "fecha": "2026-08-29",
+  "haulmer": {
+    "informe_dia": {
+      "propinas": 14683
+    },
+    "informe_mes": {},
+    "ventas_hoy": {},
+    "ventas_por_hora": [
+      {
+        "hora": 8,
+        "monto": 11000,
+        "acumulado": 11000
+      },
+      {
+        "hora": 9,
+        "monto": 6500,
+        "acumulado": 17500
+      },
+      {
+        "hora": 10,
+        "monto": 16900,
+        "acumulado": 34400
+      },
+      {
+        "hora": 11,
+        "monto": 29650,
+        "acumulado": 64050
+      },
+      {
+        "hora": 12,
+        "monto": 38650,
+        "acumulado": 102700
+      },
+      {
+        "hora": 13,
+        "monto": 20000,
+        "acumulado": 122700
+      },
+      {
+        "hora": 14,
+        "monto": 50010,
+        "acumulado": 172710
+      },
+      {
+        "hora": 15,
+        "monto": 18330,
+        "acumulado": 191040
+      },
+      {
+        "hora": 17,
+        "monto": 57200,
+        "acumulado": 248240
+      },
+      {
+        "hora": 18,
+        "monto": 22350,
+        "acumulado": 270590
+      },
+      {
+        "hora": 19,
+        "monto": 4300,
+        "acumulado": 274890
+      },
+      {
+        "hora": 20,
+        "monto": 7800,
+        "acumulado": 282690
+      }
+    ],
+    "ventas_por_hora_pos": {
+      "PB1T238420182": [
+        {
+          "hora": 8,
+          "ventas": 11000,
+          "propinas": 0,
+          "acumulado": 11000
+        },
+        {
+          "hora": 9,
+          "ventas": 6500,
+          "propinas": 0,
+          "acumulado": 17500
+        },
+        {
+          "hora": 10,
+          "ventas": 400,
+          "propinas": 0,
+          "acumulado": 17900
+        },
+        {
+          "hora": 11,
+          "ventas": 3050,
+          "propinas": 0,
+          "acumulado": 20950
+        },
+        {
+          "hora": 12,
+          "ventas": 13550,
+          "propinas": 0,
+          "acumulado": 34500
+        },
+        {
+          "hora": 13,
+          "ventas": 20000,
+          "propinas": 0,
+          "acumulado": 54500
+        },
+        {
+          "hora": 14,
+          "ventas": 9950,
+          "propinas": 0,
+          "acumulado": 64450
+        },
+        {
+          "hora": 15,
+          "ventas": 12330,
+          "propinas": 0,
+          "acumulado": 76780
+        },
+        {
+          "hora": 17,
+          "ventas": 24750,
+          "propinas": 0,
+          "acumulado": 101530
+        },
+        {
+          "hora": 18,
+          "ventas": 22350,
+          "propinas": 0,
+          "acumulado": 123880
+        },
+        {
+          "hora": 19,
+          "ventas": 4300,
+          "propinas": 0,
+          "acumulado": 128180
+        },
+        {
+          "hora": 20,
+          "ventas": 7800,
+          "propinas": 0,
+          "acumulado": 135980
+        }
+      ],
+      "6010B232511900275": [
+        {
+          "hora": 10,
+          "ventas": 16500,
+          "propinas": 1650,
+          "acumulado": 16500
+        },
+        {
+          "hora": 11,
+          "ventas": 26600,
+          "propinas": 2660,
+          "acumulado": 43100
+        },
+        {
+          "hora": 12,
+          "ventas": 25100,
+          "propinas": 2510,
+          "acumulado": 68200
+        },
+        {
+          "hora": 14,
+          "ventas": 40060,
+          "propinas": 4006,
+          "acumulado": 108260
+        },
+        {
+          "hora": 15,
+          "ventas": 6000,
+          "propinas": 600,
+          "acumulado": 114260
+        },
+        {
+          "hora": 17,
+          "ventas": 32450,
+          "propinas": 3257,
+          "acumulado": 146710
+        }
+      ]
+    }
+  },
+  "toteat": null,
+  "rappi": null,
+  "pedidosya": null
+}
