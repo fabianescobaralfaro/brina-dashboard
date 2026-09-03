@@ -2,7 +2,44 @@
   "fecha": "2026-08-29",
   "haulmer": {
     "informe_dia": {
-      "propinas": 14683
+      "monto_ventas": 282690,
+      "debito": 197300,
+      "credito": 41980,
+      "efectivo": 43410,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 14683,
+      "n_tx_debito": 41,
+      "n_tx_credito": 4,
+      "n_tx_efectivo": 12,
+      "n_tx_total": 57,
+      "periodo": "Personalizado",
+      "pos_breakdown": [
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 146710,
+          "debito": 100650,
+          "credito": 36980,
+          "efectivo": 9080,
+          "propinas": 14683,
+          "n_tx_debito": 8,
+          "n_tx_credito": 3,
+          "n_tx_efectivo": 1,
+          "n_tx_total": 12
+        },
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 135980,
+          "debito": 96650,
+          "credito": 5000,
+          "efectivo": 34330,
+          "propinas": 0,
+          "n_tx_debito": 33,
+          "n_tx_credito": 1,
+          "n_tx_efectivo": 11,
+          "n_tx_total": 45
+        }
+      ]
     },
     "informe_mes": {},
     "ventas_hoy": {},
@@ -181,7 +218,8 @@
           "acumulado": 146710
         }
       ]
-    }
+    },
+    "error": null
   },
   "toteat": null,
   "rappi": null,
