@@ -562,13 +562,13 @@
           <label>Efectivo en caja <span class="req">*</span></label>
           <div class="caja-monto-wrap">
             <span class="caja-monto-prefix">$</span>
-            <input type="number" id="caja-monto" placeholder="0" min="0" step="1">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" id="caja-monto" placeholder="0" autocomplete="off">
           </div>
         </div>
 
         <!-- Foto obligatoria -->
         <div class="form-group">
-          <label>Foto del paquete <span class="req">*</span> <span class="foto-required-badge">Obligatoria</span></label>
+          <label>Foto del paquete <span style="color:var(--muted);font-weight:400">(recomendada)</span></label>
           <div id="caja-foto-upload-area" class="foto-upload-area">
             <input type="file" id="caja-f-foto" accept="image/*" capture="environment" onchange="onCajaFotoSelected(this)">
             <div class="foto-upload-icon">📷</div>
@@ -1023,22 +1023,24 @@ async function subirFotoCaja(file) {
 
 async function guardarCierre() {
   const fecha = document.getElementById('caja-fecha').value;
-  const monto = parseInt(document.getElementById('caja-monto').value, 10);
+  const monto = parseInt(document.getElementById('caja-monto').value.replace(/\D/g, ''), 10);
   const notas = (document.getElementById('caja-notas').value || '').trim();
 
   if (!fecha) return mostrarErrorCaja('Por favor ingresa una fecha.');
   if (isNaN(monto) || monto < 0) return mostrarErrorCaja('El monto debe ser 0 o mayor.');
-  if (!cajaFotoFile) return mostrarErrorCaja('La foto del paquete es obligatoria.');
-
   const btn = document.getElementById('caja-btn-guardar');
   btn.disabled = true;
-  btn.textContent = 'Subiendo foto...';
 
-  const { url: fotoUrl, error: fotoErr } = await subirFotoCaja(cajaFotoFile);
-  if (fotoErr || !fotoUrl) {
-    btn.disabled = false;
-    btn.textContent = 'Registrar Cierre de Caja';
-    return mostrarErrorCaja('No se pudo subir la foto. Intenta nuevamente.');
+  let fotoUrl = null;
+  if (cajaFotoFile) {
+    btn.textContent = 'Subiendo foto...';
+    const { url, error: fotoErr } = await subirFotoCaja(cajaFotoFile);
+    if (fotoErr || !url) {
+      btn.disabled = false;
+      btn.textContent = 'Registrar Cierre de Caja';
+      return mostrarErrorCaja('No se pudo subir la foto (' + (fotoErr || 'error') + '). Intenta de nuevo o guarda sin foto.');
+    }
+    fotoUrl = url;
   }
 
   btn.textContent = 'Guardando...';
