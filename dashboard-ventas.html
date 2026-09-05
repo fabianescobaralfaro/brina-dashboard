@@ -2236,7 +2236,7 @@ function renderResumen() {
         </tr>`;
       } else {
         const fotoLink = r.foto_url
-          ? `<a href="${r.foto_url}" target="_blank" title="Ver comprobante" style="margin-left:6px;font-size:14px;text-decoration:none">📎</a>`
+          ? `<a href="javascript:void(0)" onclick="verFotoComprobante('${r.foto_url}')" title="Ver comprobante" style="margin-left:6px;font-size:14px;text-decoration:none;cursor:pointer">📎</a>`
           : '';
         return `<tr>
           <td>${fmtFecha(r.fecha)}</td>
@@ -4791,7 +4791,7 @@ function renderCaja() {
       const sem = semaforo(d.diff);
       const diffStr = d.diff !== null ? fmtSigned(d.diff) : '—';
       const diffColor = d.diff === null ? '' : Math.abs(d.diff) >= 3000 ? 'color:#ff5b5b' : Math.abs(d.diff) >= 1000 ? 'color:#f5c518' : 'color:#4ade80';
-      const fotoBtn = d.cierre?.foto_url ? `<a href="${d.cierre.foto_url}" target="_blank" style="font-size:18px" title="Ver foto">📷</a>` : '—';
+      const fotoBtn = d.cierre?.foto_url ? `<a href="javascript:void(0)" onclick="verFotoComprobante('${d.cierre.foto_url}')" style="font-size:18px;cursor:pointer;text-decoration:none" title="Ver foto">📷</a>` : '—';
       const notas = d.cierre?.notas ? `<span title="${String(d.cierre.notas).replace(/"/g,'&quot;')}" style="cursor:default">${String(d.cierre.notas).slice(0,30)}${d.cierre.notas.length>30?'…':''}</span>` : '—';
       const trabajador = d.cierre?.trabajador || '—';
       const fechaDisplay = d.fecha.split('-').reverse().join('/');
