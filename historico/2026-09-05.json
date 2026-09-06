@@ -443,8 +443,8 @@
       },
       {
         "hora": 18,
-        "monto": 7600,
-        "acumulado": 322080
+        "monto": 10400,
+        "acumulado": 324880
       }
     ],
     "ventas_por_hora_pos": {
@@ -505,9 +505,9 @@
         },
         {
           "hora": 18,
-          "ventas": 7600,
+          "ventas": 10400,
           "propinas": 0,
-          "acumulado": 124900
+          "acumulado": 127700
         }
       ],
       "6010B232511900275": [
