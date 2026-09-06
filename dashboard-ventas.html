@@ -831,7 +831,7 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
       <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end">
         <div>
           <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Período</div>
-          <select id="gastos-periodo" onchange="renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;font-family:inherit;outline:none">
+          <select id="gastos-periodo" onchange="_gastosPagina=1;renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;font-family:inherit;outline:none">
             <option value="mes">Este mes</option>
             <option value="mes-ant">Mes anterior</option>
             <option value="3m">Últimos 3 meses</option>
@@ -842,14 +842,24 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
         </div>
         <div>
           <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Categoría</div>
-          <select id="gastos-cat" onchange="renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;font-family:inherit;outline:none">
+          <select id="gastos-cat" onchange="_gastosPagina=1;renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;font-family:inherit;outline:none">
             <option value="">Todas</option>
           </select>
         </div>
         <div>
           <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Trabajador</div>
-          <select id="gastos-worker" onchange="renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;font-family:inherit;outline:none">
+          <select id="gastos-worker" onchange="_gastosPagina=1;renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;font-family:inherit;outline:none">
             <option value="">Todos</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">Filas por página</div>
+          <select id="gastos-per-page" onchange="_gastosPagina=1;renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:7px 12px;font-size:13px;font-family:inherit;outline:none">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
           </select>
         </div>
         <div style="margin-left:auto;align-self:flex-end">
@@ -913,6 +923,13 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
           </thead>
           <tbody id="tabla-gastos"></tbody>
         </table>
+      </div>
+      <div id="gastos-pagination" style="display:flex;align-items:center;justify-content:space-between;padding:12px 4px 4px;flex-wrap:wrap;gap:10px">
+        <span id="gastos-pag-info" style="font-size:12px;color:var(--muted)"></span>
+        <div style="display:flex;gap:6px">
+          <button id="gastos-pag-prev" onclick="_gastosPagina--;renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 14px;font-size:13px;cursor:pointer">‹ Anterior</button>
+          <button id="gastos-pag-next" onclick="_gastosPagina++;renderGastos()" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 14px;font-size:13px;cursor:pointer">Siguiente ›</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2977,9 +2994,23 @@ function renderGastos() {
   const tb = document.getElementById('tabla-gastos');
   if (!gastos.length) {
     tb.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:32px;font-size:14px">Sin registros para el período seleccionado</td></tr>`;
+    document.getElementById('gastos-pag-info').textContent = '';
+    document.getElementById('gastos-pag-prev').style.display = 'none';
+    document.getElementById('gastos-pag-next').style.display = 'none';
     return;
   }
-  tb.innerHTML = gastos.map(g => {
+  const _perPage = parseInt((document.getElementById('gastos-per-page')||{}).value||'10');
+  const _totalPags = Math.ceil(gastos.length / _perPage);
+  if (_gastosPagina < 1) _gastosPagina = 1;
+  if (_gastosPagina > _totalPags) _gastosPagina = _totalPags;
+  const _inicio = (_gastosPagina - 1) * _perPage;
+  const _fin = _inicio + _perPage;
+  const gastosPage = gastos.slice(_inicio, _fin);
+  document.getElementById('gastos-pag-info').textContent =
+    `Mostrando ${_inicio+1}–${Math.min(_fin, gastos.length)} de ${gastos.length} registros`;
+  document.getElementById('gastos-pag-prev').style.display = _gastosPagina <= 1 ? 'none' : '';
+  document.getElementById('gastos-pag-next').style.display = _gastosPagina >= _totalPags ? 'none' : '';
+  tb.innerHTML = gastosPage.map(g => {
     const safeUrl = (g.foto_url||'').replace(/"/g,'%22');
     const safeId  = String(g.id).replace(/"/g,'');
     const fotoBtn = g.foto_url
@@ -4672,6 +4703,7 @@ function suscribirGastosRealtime() {
 // CUADRE DE CAJA
 // ═══════════════════════════════════════
 let _cierreCajaData = [];
+let _gastosPagina = 1;
 let _chartCajaDiff = null;
 
 async function cargarCierresCaja() {
