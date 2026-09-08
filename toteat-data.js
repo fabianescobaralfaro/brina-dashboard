@@ -2,10 +2,10 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "05/09/2026",
-    "fecha_iso": "2026-09-05",
-    "turno": "1494747985014084-00001-20260905TB.002",
-    "apertura": "",
+    "fecha": "08/09/2026",
+    "fecha_iso": "2026-09-08",
+    "turno": "1494747985014084-00001-20260908TB.002",
+    "apertura": "2026-09-08T20:38:52",
     "cierre": "",
     "total_ventas": 0,
     "total_neto": 0,
@@ -17,6 +17,14 @@ window.TOTEAT_DATA = {
     "productos_top": []
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-09-08",
+      "turno": "1494747985014084-00001-20260908TB.002"
+    },
+    {
+      "fecha": "2026-09-07",
+      "turno": "1494747985014084-00001-20260907TB.001"
+    },
     {
       "fecha": "2026-09-05",
       "turno": "1494747985014084-00001-20260905TB.002"
@@ -44,16 +52,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-08-29",
       "turno": "1494747985014084-00001-20260829TB.001"
-    },
-    {
-      "fecha": "2026-08-28",
-      "turno": "1494747985014084-00001-20260828TB.002"
-    },
-    {
-      "fecha": "2026-08-27",
-      "turno": "1494747985014084-00001-20260827TB.001"
     }
   ],
-  "total_cierres_historicos": 188,
-  "actualizadoEl": "06/09/2026 09:14"
+  "total_cierres_historicos": 191,
+  "actualizadoEl": "08/09/2026 19:36"
 };
