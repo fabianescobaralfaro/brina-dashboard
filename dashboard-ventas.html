@@ -4673,15 +4673,16 @@ async function cargarGastosSupabase() {
     if (error || !data) return;
     // Convertir al formato de db.gastos (id numérico → string uuid)
     const remoteGastos = data.map(g => ({
-      id:          g.id,
-      fecha:       g.fecha,
-      categoria:   g.categoria || 'Otros',
-      descripcion: g.descripcion || '',
-      proveedor:   g.proveedor  || '',
-      monto:       g.monto      || 0,
-      trabajador:  g.trabajador || '',
-      foto_url:    g.foto_url   || '',
-      _supabase:   true,  // marca para distinguir de gastos locales
+      id:              g.id,
+      fecha:           g.fecha,
+      categoria:       g.categoria || 'Otros',
+      descripcion:     g.descripcion || '',
+      proveedor:       g.proveedor  || '',
+      monto:           g.monto      || 0,
+      trabajador:      g.trabajador || '',
+      foto_url:        g.foto_url   || '',
+      pagado_efectivo: g.pagado_efectivo || false,
+      _supabase:       true,
     }));
     // Mezclar: conservar gastos locales (sin _supabase) + todos los remotos
     const locales = (db.gastos || []).filter(g => !g._supabase);
