@@ -4775,10 +4775,25 @@ function renderCaja() {
     const cierre = cierreMap[fecha];
     if (efectivoHaulmer === 0 && !cierre) continue;
     const gastosEfectivo = gastosEfectivoMap[fecha] || 0;
-    const esperadoCaja = efectivoHaulmer - gastosEfectivo;
     const montoCierre = cierre ? (Number(cierre.monto_efectivo) || 0) : null;
-    const diff = montoCierre !== null ? (montoCierre - esperadoCaja) : null;
-    dias.push({ fecha, efectivoHaulmer, gastosEfectivo, esperadoCaja, cierre, montoCierre, diff });
+    dias.push({ fecha, efectivoHaulmer, gastosEfectivo, cierre, montoCierre });
+  }
+  // Orden ascendente para calcular la cadena de arrastre
+  dias.sort((a, b) => a.fecha.localeCompare(b.fecha));
+
+  // Saldo inicial: último cierre registrado ANTES del rango
+  const _cierreInicialObj = _cierreCajaData
+    .filter(c => (c.fecha || '').slice(0, 10) < desde)
+    .sort((a, b) => b.fecha.localeCompare(a.fecha))[0];
+  let _saldoArrastre = _cierreInicialObj ? (Number(_cierreInicialObj.monto_efectivo) || 0) : 0;
+
+  for (const d of dias) {
+    d.saldoAnterior = _saldoArrastre;
+    // Esperado = Cierre anterior + Ventas efectivo - Gastos efectivo del día
+    d.esperadoCaja = _saldoArrastre + d.efectivoHaulmer - d.gastosEfectivo;
+    d.diff = d.montoCierre !== null ? (d.montoCierre - d.esperadoCaja) : null;
+    // Arrastre: usar cierre real si existe, si no usar el esperado
+    _saldoArrastre = d.montoCierre !== null ? d.montoCierre : d.esperadoCaja;
   }
   dias.sort((a, b) => b.fecha.localeCompare(a.fecha));
 
