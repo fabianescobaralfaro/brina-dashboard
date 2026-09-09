@@ -5,16 +5,27 @@ window.TOTEAT_DATA = {
     "fecha": "08/09/2026",
     "fecha_iso": "2026-09-08",
     "turno": "1494747985014084-00001-20260908TB.002",
-    "apertura": "2026-09-08T20:38:52",
+    "apertura": "",
     "cierre": "",
-    "total_ventas": 0,
-    "total_neto": 0,
-    "total_iva": 0,
-    "n_ordenes": 0,
+    "total_ventas": 10470.0,
+    "total_neto": 8799.0,
+    "total_iva": 1671.0,
+    "n_ordenes": 1,
     "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 0,
-    "productos_top": []
+    "tarjeta": 11517.0,
+    "productos_top": [
+      {
+        "nombre": "Promo completo italiano",
+        "cantidad": 2,
+        "total": 5980.0
+      },
+      {
+        "nombre": "Completo Italiano",
+        "cantidad": 1,
+        "total": 4490.0
+      }
+    ]
   },
   "historial_cierres": [
     {
@@ -55,5 +66,5 @@ window.TOTEAT_DATA = {
     }
   ],
   "total_cierres_historicos": 191,
-  "actualizadoEl": "08/09/2026 19:36"
+  "actualizadoEl": "08/09/2026 21:02"
 };
