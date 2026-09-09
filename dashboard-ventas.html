@@ -4717,7 +4717,8 @@ async function cargarCierresCaja() {
     const { data, error } = await _sbClient
       .from('cierre_caja')
       .select('*')
-      .order('fecha', { ascending: false });
+      .order('fecha', { ascending: false })
+      .order('created_at', { ascending: true });
     if (error) { console.warn('Error cargando cierre_caja:', error); return; }
     _cierreCajaData = data || [];
     const el = document.getElementById('caja-estado');
