@@ -4814,7 +4814,7 @@ function renderCaja() {
   const ok = conCierre.filter(d => Math.abs(d.diff) < 1000).length;
   const maxDiff = conCierre.length ? Math.max(...conCierre.map(d => Math.abs(d.diff))) : 0;
 
-  const fmt = v => '$' + Math.round(Math.abs(v)).toLocaleString('es-CL');
+  const fmt = v => (v < 0 ? '-$' : '$') + Math.round(Math.abs(v)).toLocaleString('es-CL');
   const fmtSigned = v => (v < 0 ? '-' : '+') + fmt(v);
 
   const elDif = document.getElementById('kpi-caja-diferencia');
