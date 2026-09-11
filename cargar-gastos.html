@@ -537,7 +537,19 @@
     <div class="msg ok"    id="caja-msg-ok">✅ Cierre de caja registrado correctamente.</div>
     <div class="msg error" id="caja-msg-err">❌ <span id="caja-msg-err-text">Error al guardar.</span></div>
 
-    <!-- Formulario cierre -->
+    <!-- Tabs: Cierre de día / Cambio de turno -->
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button id="tab-cierre-dia" onclick="switchCajaTab('dia')"
+        style="flex:1;padding:10px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer;background:var(--green);color:#fff">
+        💵 Cierre de día
+      </button>
+      <button id="tab-cierre-turno" onclick="switchCajaTab('turno')"
+        style="flex:1;padding:10px;border-radius:10px;border:2px solid var(--border);font-size:14px;font-weight:600;cursor:pointer;background:var(--surface2);color:var(--muted)">
+        🔄 Cambio de turno
+      </button>
+    </div>
+
+    <!-- ── FORMULARIO CIERRE DE DÍA ── -->
     <div id="caja-form-view">
 
       <div class="instructions-box">
@@ -551,22 +563,21 @@
       <div class="card">
         <div class="card-title">Cierre de Caja — Efectivo</div>
 
-        <!-- Fecha -->
         <div class="form-group">
           <label>Fecha <span class="req">*</span></label>
           <input type="date" id="caja-fecha">
         </div>
 
-        <!-- Monto -->
         <div class="form-group">
           <label>Efectivo en caja <span class="req">*</span></label>
           <div class="caja-monto-wrap">
             <span class="caja-monto-prefix">$</span>
-            <input type="number" id="caja-monto" placeholder="0" min="0" step="1" autocomplete="off">
+            <input type="number" id="caja-monto" placeholder="0" min="0" step="1" autocomplete="off"
+              oninput="actualizarPreviewMonto('caja-monto','caja-monto-preview')">
           </div>
+          <div id="caja-monto-preview" style="margin-top:6px;font-size:22px;font-weight:700;color:var(--green);min-height:28px;text-align:center"></div>
         </div>
 
-        <!-- Foto obligatoria -->
         <div class="form-group">
           <label>Foto del paquete <span style="color:var(--muted);font-weight:400">(recomendada)</span></label>
           <div id="caja-foto-upload-area" class="foto-upload-area">
@@ -583,15 +594,12 @@
           </div>
         </div>
 
-        <!-- Notas -->
         <div class="form-group">
           <label>Notas <span style="color:var(--muted);font-weight:400">(observaciones del día, diferencias, etc.)</span></label>
           <textarea id="caja-notas" placeholder="Ej: Todo cuadrado. Diferencia de $500 por vuelto."></textarea>
         </div>
-
       </div>
 
-      <!-- Quién registra -->
       <div class="card">
         <div class="card-title">¿Quién cierra caja?</div>
         <div class="worker-chips" id="caja-chips-worker">
@@ -609,17 +617,107 @@
 
     </div><!-- /caja-form-view -->
 
+    <!-- ── FORMULARIO CAMBIO DE TURNO ── -->
+    <div id="turno-form-view" style="display:none">
+
+      <div class="instructions-box" style="border-color:#f5c518;background:rgba(245,197,24,.08)">
+        🔄 <strong>Cambio de turno:</strong><br>
+        La cajera que <strong>sale</strong> cuenta el efectivo y declara el monto.<br>
+        La cajera que <strong>entra</strong> confirma que recibió ese monto.<br>
+        Ambas deben estar presentes al registrar este formulario.
+      </div>
+
+      <div class="card">
+        <div class="card-title">Datos del cambio</div>
+
+        <div class="form-group">
+          <label>Fecha <span class="req">*</span></label>
+          <input type="date" id="turno-fecha">
+        </div>
+
+        <div class="form-group">
+          <label>Hora del cambio <span class="req">*</span></label>
+          <input type="time" id="turno-hora" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 14px;font-size:16px;width:100%;box-sizing:border-box">
+        </div>
+
+        <div class="form-group">
+          <label>Efectivo en caja al cambio <span class="req">*</span></label>
+          <div class="caja-monto-wrap">
+            <span class="caja-monto-prefix">$</span>
+            <input type="number" id="turno-monto" placeholder="0" min="0" step="1" autocomplete="off"
+              oninput="actualizarPreviewMonto('turno-monto','turno-monto-preview')">
+          </div>
+          <div id="turno-monto-preview" style="margin-top:6px;font-size:22px;font-weight:700;color:#f5c518;min-height:28px;text-align:center"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Foto de respaldo <span style="color:var(--muted);font-weight:400">(recomendada)</span></label>
+          <div id="turno-foto-upload-area" class="foto-upload-area">
+            <input type="file" id="turno-f-foto" accept="image/*" capture="environment" onchange="onTurnoFotoSelected(this)">
+            <div class="foto-upload-icon">📷</div>
+            <div class="foto-upload-txt">Foto del conteo con ambas cajeras<br><span>Toca para sacar foto</span></div>
+          </div>
+          <div id="turno-foto-preview-wrap" class="foto-preview-wrap" style="display:none;margin-top:8px">
+            <img id="turno-foto-preview-img" src="" alt="Vista previa">
+            <button class="foto-preview-remove" onclick="quitarTurnoFoto()" title="Quitar foto">✕</button>
+          </div>
+          <div class="foto-progress" id="turno-foto-progress">
+            <div class="foto-progress-bar" id="turno-foto-progress-bar"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Notas</label>
+          <textarea id="turno-notas" placeholder="Ej: Turno cambio 15:30. Sin novedades."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Cajera que entrega (sale)</div>
+        <div class="worker-chips" id="turno-chips-saliente">
+          <div class="worker-chip active" data-val="Encargado">Encargado</div>
+          <div class="worker-chip" data-val="Caja">Caja</div>
+          <div class="worker-chip" data-val="Administración">Administración</div>
+          <div class="worker-chip" data-val="Cocina">Cocina</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Cajera que recibe (entra)</div>
+        <div class="worker-chips" id="turno-chips-entrante">
+          <div class="worker-chip" data-val="Encargado">Encargado</div>
+          <div class="worker-chip active" data-val="Caja">Caja</div>
+          <div class="worker-chip" data-val="Administración">Administración</div>
+          <div class="worker-chip" data-val="Cocina">Cocina</div>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="turno-btn-guardar" onclick="guardarTurno()"
+        style="background:linear-gradient(135deg,#f5c518,#d4a017);color:#1a1a1a">
+        Registrar Cambio de Turno
+      </button>
+
+    </div><!-- /turno-form-view -->
+
     <!-- Pantalla éxito cierre -->
     <div class="success-screen" id="caja-success-view">
       <div class="success-icon">💵</div>
       <div class="success-title" style="color:var(--green)">¡Cierre registrado!</div>
       <div class="success-sub" id="caja-success-detail"></div>
-      <button class="btn-nuevo" onclick="nuevoCierre()">+ Registrar otro cierre</button>
+      <button class="btn-nuevo" onclick="nuevoCierre()">+ Registrar otro</button>
+    </div>
+
+    <!-- Pantalla éxito turno -->
+    <div class="success-screen" id="turno-success-view">
+      <div class="success-icon">🔄</div>
+      <div class="success-title" style="color:#f5c518">¡Cambio de turno registrado!</div>
+      <div class="success-sub" id="turno-success-detail"></div>
+      <button class="btn-nuevo" onclick="nuevoTurno()">+ Registrar otro cambio</button>
     </div>
 
     <!-- Historial cierres -->
     <div class="card" id="caja-hist-card">
-      <div class="card-title">Últimos cierres</div>
+      <div class="card-title">Últimos registros de caja</div>
       <div id="caja-hist-list"><div class="empty-hist">Cargando...</div></div>
     </div>
 
@@ -1021,13 +1119,63 @@ async function subirFotoCaja(file) {
   }
 }
 
+// ── Estado cajera turno ──
+let turnoFotoFile   = null;
+let turnoSaliente   = 'Encargado';
+let turnoEntrante   = 'Caja';
+
+function switchCajaTab(tab) {
+  const isDia = tab === 'dia';
+  document.getElementById('caja-form-view').style.display  = isDia ? '' : 'none';
+  document.getElementById('turno-form-view').style.display = isDia ? 'none' : '';
+  document.getElementById('caja-success-view').classList.remove('show');
+  document.getElementById('turno-success-view').classList.remove('show');
+  const btnDia   = document.getElementById('tab-cierre-dia');
+  const btnTurno = document.getElementById('tab-cierre-turno');
+  btnDia.style.background   = isDia ? 'var(--green)' : 'var(--surface2)';
+  btnDia.style.color        = isDia ? '#fff' : 'var(--muted)';
+  btnDia.style.border       = isDia ? 'none' : '2px solid var(--border)';
+  btnTurno.style.background = isDia ? 'var(--surface2)' : '#f5c518';
+  btnTurno.style.color      = isDia ? 'var(--muted)' : '#1a1a1a';
+  btnTurno.style.border     = isDia ? '2px solid var(--border)' : 'none';
+}
+
+function actualizarPreviewMonto(inputId, previewId) {
+  const val = parseInt(document.getElementById(inputId).value, 10);
+  const el  = document.getElementById(previewId);
+  el.textContent = isNaN(val) ? '' : '$' + val.toLocaleString('es-CL');
+}
+
+function onTurnoFotoSelected(input) {
+  if (!input.files || !input.files[0]) return;
+  turnoFotoFile = input.files[0];
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('turno-foto-preview-img').src = e.target.result;
+    document.getElementById('turno-foto-preview-wrap').style.display = 'flex';
+    document.getElementById('turno-foto-upload-area').style.display  = 'none';
+  };
+  reader.readAsDataURL(turnoFotoFile);
+}
+
+function quitarTurnoFoto() {
+  turnoFotoFile = null;
+  document.getElementById('turno-f-foto').value = '';
+  document.getElementById('turno-foto-preview-wrap').style.display = 'none';
+  document.getElementById('turno-foto-upload-area').style.display  = '';
+}
+
 async function guardarCierre() {
   const fecha = document.getElementById('caja-fecha').value;
-  const monto = parseInt(document.getElementById('caja-monto').value.replace(/\D/g, ''), 10);
+  const monto = parseInt(document.getElementById('caja-monto').value, 10);
   const notas = (document.getElementById('caja-notas').value || '').trim();
 
   if (!fecha) return mostrarErrorCaja('Por favor ingresa una fecha.');
   if (isNaN(monto) || monto < 0) return mostrarErrorCaja('El monto debe ser 0 o mayor.');
+
+  const montoFmt = '$' + monto.toLocaleString('es-CL');
+  if (!confirm(`¿Confirmas el cierre del ${fecha.split('-').reverse().join('/')} con ${montoFmt}?`)) return;
+
   const btn = document.getElementById('caja-btn-guardar');
   btn.disabled = true;
 
@@ -1047,27 +1195,25 @@ async function guardarCierre() {
 
   const cierre = {
     fecha,
-    monto_efectivo: monto,
-    foto_url:       fotoUrl,
-    notas:          notas || null,
-    trabajador:     cajaTrabajador,
+    monto_efectivo:      monto,
+    foto_url:            fotoUrl,
+    notas:               notas || null,
+    trabajador:          cajaTrabajador,
+    tipo:                'dia',
+    trabajador_saliente: '',
+    trabajador_entrante: '',
   };
 
   try {
     if (sb) {
       const { error } = await sb.from('cierre_caja').insert([cierre]);
-      if (error) {
-        if (error.message && (error.message.includes('does not exist') || error.message.includes('relation') || error.code === '42P01')) {
-          throw new Error('La tabla "cierre_caja" no existe aún en Supabase. Ejecuta el SQL de creación en el panel de Supabase y vuelve a intentar.');
-        }
-        throw error;
-      }
+      if (error) throw error;
     } else {
       throw new Error('Supabase no configurado');
     }
 
     document.getElementById('caja-success-detail').innerHTML =
-      `<strong>$${monto.toLocaleString('es-CL')}</strong> en efectivo<br>
+      `<strong>${montoFmt}</strong> en efectivo<br>
        Fecha: ${fecha.split('-').reverse().join('/')}<br>
        Registrado por: ${cajaTrabajador}`;
 
@@ -1083,17 +1229,101 @@ async function guardarCierre() {
   }
 }
 
+async function guardarTurno() {
+  const fecha = document.getElementById('turno-fecha').value;
+  const hora  = document.getElementById('turno-hora').value;
+  const monto = parseInt(document.getElementById('turno-monto').value, 10);
+  const notas = (document.getElementById('turno-notas').value || '').trim();
+
+  if (!fecha) return mostrarErrorCaja('Por favor ingresa una fecha.');
+  if (!hora)  return mostrarErrorCaja('Por favor ingresa la hora del cambio.');
+  if (isNaN(monto) || monto < 0) return mostrarErrorCaja('El monto debe ser 0 o mayor.');
+  if (turnoSaliente === turnoEntrante) return mostrarErrorCaja('La cajera que entrega y la que recibe deben ser distintas.');
+
+  const montoFmt = '$' + monto.toLocaleString('es-CL');
+  if (!confirm(`¿Confirmas cambio de turno el ${fecha.split('-').reverse().join('/')} a las ${hora}?\n${turnoSaliente} entrega ${montoFmt} → recibe ${turnoEntrante}`)) return;
+
+  const btn = document.getElementById('turno-btn-guardar');
+  btn.disabled = true;
+
+  let fotoUrl = null;
+  if (turnoFotoFile) {
+    btn.textContent = 'Subiendo foto...';
+    const { url, error: fotoErr } = await subirFotoCaja(turnoFotoFile);
+    if (fotoErr || !url) {
+      btn.disabled = false;
+      btn.textContent = 'Registrar Cambio de Turno';
+      return mostrarErrorCaja('No se pudo subir la foto. Intenta de nuevo.');
+    }
+    fotoUrl = url;
+  }
+
+  btn.textContent = 'Guardando...';
+
+  // Combinar fecha + hora en un timestamp para ordered inserts
+  const notasTurno = `Cambio ${hora}: ${turnoSaliente} → ${turnoEntrante}${notas ? '. ' + notas : ''}`;
+
+  const registro = {
+    fecha,
+    monto_efectivo:      monto,
+    foto_url:            fotoUrl,
+    notas:               notasTurno,
+    trabajador:          turnoSaliente,
+    tipo:                'turno',
+    trabajador_saliente: turnoSaliente,
+    trabajador_entrante: turnoEntrante,
+  };
+
+  try {
+    if (sb) {
+      const { error } = await sb.from('cierre_caja').insert([registro]);
+      if (error) throw error;
+    } else {
+      throw new Error('Supabase no configurado');
+    }
+
+    document.getElementById('turno-success-detail').innerHTML =
+      `${turnoSaliente} entregó <strong>${montoFmt}</strong> a ${turnoEntrante}<br>
+       ${fecha.split('-').reverse().join('/')} a las ${hora}`;
+
+    document.getElementById('turno-form-view').style.display = 'none';
+    document.getElementById('turno-success-view').classList.add('show');
+    cargarHistorialCierre();
+
+  } catch(e) {
+    mostrarErrorCaja('Error al guardar: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Registrar Cambio de Turno';
+  }
+}
+
 function nuevoCierre() {
   cajaFotoFile = null;
   document.getElementById('caja-f-foto').value = '';
   document.getElementById('caja-monto').value  = '';
   document.getElementById('caja-notas').value  = '';
+  document.getElementById('caja-monto-preview').textContent = '';
   document.getElementById('caja-fecha').value  = new Date().toISOString().split('T')[0];
   quitarCajaFoto();
   document.querySelectorAll('#caja-chips-worker .worker-chip').forEach((c,i) => c.classList.toggle('active', i === 0));
   cajaTrabajador = 'Encargado';
   document.getElementById('caja-success-view').classList.remove('show');
   document.getElementById('caja-form-view').style.display = '';
+}
+
+function nuevoTurno() {
+  turnoFotoFile = null;
+  document.getElementById('turno-f-foto').value = '';
+  document.getElementById('turno-monto').value  = '';
+  document.getElementById('turno-notas').value  = '';
+  document.getElementById('turno-monto-preview').textContent = '';
+  document.getElementById('turno-fecha').value  = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  document.getElementById('turno-hora').value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  quitarTurnoFoto();
+  document.getElementById('turno-success-view').classList.remove('show');
+  document.getElementById('turno-form-view').style.display = '';
 }
 
 function mostrarErrorCaja(txt) {
@@ -1117,20 +1347,51 @@ async function cargarHistorialCierre() {
       listEl.innerHTML = '<div class="empty-hist">Aún no hay cierres registrados.</div>';
       return;
     }
-    listEl.innerHTML = data.map(c => `
+    listEl.innerHTML = data.map(c => {
+      const esTurno = c.tipo === 'turno';
+      const icon    = esTurno ? '🔄' : '💵';
+      const color   = esTurno ? '#f5c518' : 'var(--green)';
+      const desc    = esTurno
+        ? `${icon} Cambio de turno — $${(c.monto_efectivo||0).toLocaleString('es-CL')} · ${c.trabajador_saliente||'?'} → ${c.trabajador_entrante||'?'}`
+        : `${icon} $${(c.monto_efectivo||0).toLocaleString('es-CL')} en efectivo · ${c.trabajador || '—'}`;
+      return `
       <div class="hist-item">
-        <div class="hist-dot" style="background:var(--green)"></div>
+        <div class="hist-dot" style="background:${color}"></div>
         <div class="hist-info">
-          <div class="hist-desc">💵 $${(c.monto_efectivo||0).toLocaleString('es-CL')} en efectivo</div>
-          <div class="hist-meta">${(c.fecha||'').split('-').reverse().join('/')} · ${c.trabajador || '—'}${c.notas ? ' · ' + c.notas.slice(0,40) : ''}</div>
-          ${c.foto_url ? `<a href="${c.foto_url}" target="_blank" style="font-size:11px;color:var(--green);text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:4px">📷 Ver foto</a>` : ''}
+          <div class="hist-desc">${desc}</div>
+          <div class="hist-meta">${(c.fecha||'').split('-').reverse().join('/')}${c.notas ? ' · ' + c.notas.slice(0,50) : ''}</div>
+          ${c.foto_url ? `<a href="${c.foto_url}" target="_blank" style="font-size:11px;color:${color};text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:4px">📷 Ver foto</a>` : ''}
         </div>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
   } catch(e) {
     listEl.innerHTML = '<div class="empty-hist">Error al cargar cierres.</div>';
   }
 }
+
+// ── Inicializar chips de turno ──
+document.querySelectorAll('#turno-chips-saliente .worker-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#turno-chips-saliente .worker-chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    turnoSaliente = c.dataset.val;
+  });
+});
+document.querySelectorAll('#turno-chips-entrante .worker-chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#turno-chips-entrante .worker-chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    turnoEntrante = c.dataset.val;
+  });
+});
+
+// Pre-llenar fecha y hora actuales en el form de turno
+(function() {
+  const now = new Date();
+  const today = now.toISOString().split('T')[0];
+  document.getElementById('turno-fecha').value = today;
+  document.getElementById('turno-hora').value  = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+})();
 
 // ── Inicializar ──
 initSupabase();
