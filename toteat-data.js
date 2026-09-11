@@ -5,16 +5,52 @@ window.TOTEAT_DATA = {
     "fecha": "10/09/2026",
     "fecha_iso": "2026-09-10",
     "turno": "1494747985014084-00001-20260910TB.001",
-    "apertura": "2026-09-10T11:53:07",
+    "apertura": "",
     "cierre": "",
-    "total_ventas": 0,
-    "total_neto": 0,
-    "total_iva": 0,
-    "n_ordenes": 0,
+    "total_ventas": 76050.0,
+    "total_neto": 87436.0,
+    "total_iva": 16614.0,
+    "n_ordenes": 5,
     "n_anuladas": 0,
-    "efectivo": 0,
-    "tarjeta": 0,
-    "productos_top": []
+    "efectivo": 26279.0,
+    "tarjeta": 54828.0,
+    "productos_top": [
+      {
+        "nombre": "Menú ejecutivo",
+        "cantidad": 7,
+        "total": 49000.0
+      },
+      {
+        "nombre": "Pepperoni",
+        "cantidad": 1,
+        "total": 8390.0
+      },
+      {
+        "nombre": "Prosciutto Cotto",
+        "cantidad": 1,
+        "total": 7790.0
+      },
+      {
+        "nombre": "Agua mineral 500 ml",
+        "cantidad": 3,
+        "total": 4770.0
+      },
+      {
+        "nombre": "Papas fritas",
+        "cantidad": 1,
+        "total": 2500.0
+      },
+      {
+        "nombre": "Jugo natural 350 cc",
+        "cantidad": 1,
+        "total": 2300.0
+      },
+      {
+        "nombre": "Bebida express",
+        "cantidad": 1,
+        "total": 1300.0
+      }
+    ]
   },
   "historial_cierres": [
     {
@@ -55,5 +91,5 @@ window.TOTEAT_DATA = {
     }
   ],
   "total_cierres_historicos": 194,
-  "actualizadoEl": "10/09/2026 13:19"
+  "actualizadoEl": "10/09/2026 23:19"
 };
