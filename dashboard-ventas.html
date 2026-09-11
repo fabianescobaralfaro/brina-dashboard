@@ -4752,11 +4752,17 @@ function _cajaPeriodoFechas() {
 function renderCaja() {
   const { desde, hasta } = _cajaPeriodoFechas();
 
-  // Mapa de cierres por fecha
+  // Mapa de cierres por fecha (solo tipo 'dia' o sin tipo para retrocompatibilidad)
   const cierreMap = {};
+  const turnosData = []; // cambios de turno intra-día
   for (const c of _cierreCajaData) {
     const f = (c.fecha || '').slice(0, 10);
-    if (f >= desde && f <= hasta) cierreMap[f] = c;
+    if (f < desde || f > hasta) continue;
+    if (c.tipo === 'turno') {
+      turnosData.push(c);
+    } else {
+      cierreMap[f] = c; // newest created_at wins (query ordered asc)
+    }
   }
 
   // Mapa de gastos pagados en efectivo por fecha
@@ -4840,7 +4846,32 @@ function renderCaja() {
   // Tabla
   const tbody = document.getElementById('tabla-caja');
   if (tbody) {
-    tbody.innerHTML = dias.map(d => {
+    // Construir filas: por cada día, intercalar turnos del mismo día antes de la fila principal
+    const turnosPorFecha = {};
+    for (const t of turnosData) {
+      const f = (t.fecha || '').slice(0, 10);
+      if (!turnosPorFecha[f]) turnosPorFecha[f] = [];
+      turnosPorFecha[f].push(t);
+    }
+
+    const filas = [];
+    for (const d of dias) {
+      // Filas de turno del día (ordenadas por notas que incluyen la hora)
+      const turnos = (turnosPorFecha[d.fecha] || []).sort((a,b) => (a.notas||'').localeCompare(b.notas||''));
+      for (const t of turnos) {
+        const tfoto = t.foto_url ? `<a href="javascript:void(0)" onclick="verFotoComprobante('${t.foto_url}')" style="font-size:18px;cursor:pointer;text-decoration:none" title="Ver foto">📷</a>` : '—';
+        filas.push(`<tr style="opacity:${d.esPrueba?'0.35':'0.7'};background:rgba(245,197,24,.05)">
+          <td style="font-size:16px;text-align:center">🔄</td>
+          <td style="white-space:nowrap;font-size:11px;color:#f5c518">${d.fecha.split('-').reverse().join('/')}<br>cambio turno</td>
+          <td style="text-align:right;font-size:11px;color:var(--muted)" colspan="3">${t.trabajador_saliente||'?'} → ${t.trabajador_entrante||'?'} · ${fmt(t.monto_efectivo||0)}</td>
+          <td>—</td>
+          <td style="font-size:11px;color:var(--muted)">${t.trabajador_saliente||'—'}</td>
+          <td style="font-size:11px;color:var(--muted)">${(t.notas||'').slice(0,40)}</td>
+          <td style="text-align:center">${tfoto}</td>
+        </tr>`);
+      }
+
+      // Fila principal del día
       const sem = d.esPrueba ? '⚫' : semaforo(d.diff);
       const diffStr = d.diff !== null ? fmtSigned(d.diff) : '—';
       const diffColor = d.esPrueba ? 'color:#888' : d.diff === null ? '' : Math.abs(d.diff) >= 3000 ? 'color:#ff5b5b' : Math.abs(d.diff) >= 1000 ? 'color:#f5c518' : 'color:#4ade80';
@@ -4855,7 +4886,7 @@ function renderCaja() {
         ? `<span title="Período de prueba — no considerar para análisis" style="margin-left:6px;font-size:10px;background:#555;color:#aaa;border-radius:4px;padding:1px 5px;vertical-align:middle;cursor:default">prueba</span>`
         : '';
       const rowStyle = d.esPrueba ? ' style="opacity:0.45;filter:grayscale(0.8)"' : '';
-      return `<tr${rowStyle}>
+      filas.push(`<tr${rowStyle}>
         <td style="font-size:18px;text-align:center">${sem}</td>
         <td style="white-space:nowrap">${fechaDisplay}${pruebaBadge}</td>
         <td style="text-align:right">${fmt(d.efectivoHaulmer)}${gastosBadge}</td>
@@ -4865,8 +4896,9 @@ function renderCaja() {
         <td>${trabajador}</td>
         <td style="font-size:12px;color:var(--muted)">${notas}</td>
         <td style="text-align:center">${fotoBtn}</td>
-      </tr>`;
-    }).join('');
+      </tr>`);
+    }
+    tbody.innerHTML = filas.join('');
     if (!dias.length) tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">Sin datos para el período seleccionado</td></tr>';
   }
 
