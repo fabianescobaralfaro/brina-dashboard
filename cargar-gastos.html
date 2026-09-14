@@ -603,10 +603,8 @@
       <div class="card">
         <div class="card-title">¿Quién cierra caja?</div>
         <div class="worker-chips" id="caja-chips-worker">
-          <div class="worker-chip active" data-val="Encargado">Encargado</div>
-          <div class="worker-chip" data-val="Caja">Caja</div>
-          <div class="worker-chip" data-val="Administración">Administración</div>
-          <div class="worker-chip" data-val="Cocina">Cocina</div>
+          <div class="worker-chip active" data-val="Maria Alicia">Maria Alicia</div>
+          <div class="worker-chip" data-val="Karen">Karen</div>
         </div>
       </div>
 
@@ -675,20 +673,16 @@
       <div class="card">
         <div class="card-title">Cajera que entrega (sale)</div>
         <div class="worker-chips" id="turno-chips-saliente">
-          <div class="worker-chip active" data-val="Encargado">Encargado</div>
-          <div class="worker-chip" data-val="Caja">Caja</div>
-          <div class="worker-chip" data-val="Administración">Administración</div>
-          <div class="worker-chip" data-val="Cocina">Cocina</div>
+          <div class="worker-chip active" data-val="Maria Alicia">Maria Alicia</div>
+          <div class="worker-chip" data-val="Karen">Karen</div>
         </div>
       </div>
 
       <div class="card">
         <div class="card-title">Cajera que recibe (entra)</div>
         <div class="worker-chips" id="turno-chips-entrante">
-          <div class="worker-chip" data-val="Encargado">Encargado</div>
-          <div class="worker-chip active" data-val="Caja">Caja</div>
-          <div class="worker-chip" data-val="Administración">Administración</div>
-          <div class="worker-chip" data-val="Cocina">Cocina</div>
+          <div class="worker-chip" data-val="Maria Alicia">Maria Alicia</div>
+          <div class="worker-chip active" data-val="Karen">Karen</div>
         </div>
       </div>
 
@@ -1060,7 +1054,7 @@ function switchTab(tab) {
 // CIERRE DE CAJA
 // ══════════════════════════════════════
 let cajaFotoFile = null;
-let cajaTrabajador = 'Encargado';
+let cajaTrabajador = 'Maria Alicia';
 
 document.getElementById('caja-fecha').value = new Date().toISOString().split('T')[0];
 
@@ -1121,8 +1115,8 @@ async function subirFotoCaja(file) {
 
 // ── Estado cajera turno ──
 let turnoFotoFile   = null;
-let turnoSaliente   = 'Encargado';
-let turnoEntrante   = 'Caja';
+let turnoSaliente   = 'Maria Alicia';
+let turnoEntrante   = 'Karen';
 
 function switchCajaTab(tab) {
   const isDia = tab === 'dia';
@@ -1307,7 +1301,7 @@ function nuevoCierre() {
   document.getElementById('caja-fecha').value  = new Date().toISOString().split('T')[0];
   quitarCajaFoto();
   document.querySelectorAll('#caja-chips-worker .worker-chip').forEach((c,i) => c.classList.toggle('active', i === 0));
-  cajaTrabajador = 'Encargado';
+  cajaTrabajador = 'Maria Alicia';
   document.getElementById('caja-success-view').classList.remove('show');
   document.getElementById('caja-form-view').style.display = '';
 }
