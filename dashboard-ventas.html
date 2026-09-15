@@ -2168,7 +2168,8 @@ function renderResumen() {
   );
   const _histTotal   = _histRows.reduce((s,v) => s + v.monto, 0);
   const haulmerKPI   = _usarMesHaulmer ? ((H.informe_mes||{}).monto_ventas || 0) : liveHaulmer;
-  const totalVentas  = haulmerKPI + liveToteat + livePya + liveRappi + ventasManual + _histTotal;
+  // liveToteat excluido del total: Toteat gestiona mesas pero los pagos van por Haulmer POS (mismo dinero)
+  const totalVentas  = haulmerKPI + livePya + liveRappi + ventasManual + _histTotal;
   const totalOrdenes = ordToteat + ordPya + ordRappi + ventas.length;
   const neto = totalVentas - totalGastos;
 
