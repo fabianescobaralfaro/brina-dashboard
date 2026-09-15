@@ -4790,6 +4790,9 @@ function renderCaja() {
   // Orden ascendente para calcular la cadena de arrastre
   dias.sort((a, b) => a.fecha.localeCompare(b.fecha));
 
+  // Período de prueba: sep 14 es el primer cierre válido (Karen)
+  const CIERRES_VALIDOS_DESDE = '2026-09-14';
+
   // Saldo inicial: último cierre registrado ANTES del rango
   const _cierreInicialObj = _cierreCajaData
     .filter(c => (c.fecha || '').slice(0, 10) < desde)
@@ -4806,8 +4809,6 @@ function renderCaja() {
   }
   dias.sort((a, b) => b.fecha.localeCompare(a.fecha));
 
-  // Período de prueba: sep 14 es el primer cierre válido (Karen)
-  const CIERRES_VALIDOS_DESDE = '2026-09-14';
   for (const d of dias) d.esPrueba = d.fecha < CIERRES_VALIDOS_DESDE;
 
   const semaforo = (diff) => {
