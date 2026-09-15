@@ -4806,8 +4806,8 @@ function renderCaja() {
   }
   dias.sort((a, b) => b.fecha.localeCompare(a.fecha));
 
-  // Período de prueba: sep 09 es el primer cierre válido
-  const CIERRES_VALIDOS_DESDE = '2026-09-09';
+  // Período de prueba: sep 14 es el primer cierre válido (Karen)
+  const CIERRES_VALIDOS_DESDE = '2026-09-14';
   for (const d of dias) d.esPrueba = d.fecha < CIERRES_VALIDOS_DESDE;
 
   const semaforo = (diff) => {
