@@ -62,5 +62,5 @@ window.TOTEAT_DATA = {
     }
   ],
   "total_cierres_historicos": 202,
-  "actualizadoEl": "15/09/2026 22:24"
+  "actualizadoEl": "15/09/2026 22:52"
 };
