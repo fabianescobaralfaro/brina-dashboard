@@ -28,5 +28,5 @@ window.PEDIDOSYA_DATA = {
   },
   "performance_7d": [],
   "heatmap": [],
-  "actualizadoEl": "16/09/2026 21:13"
+  "actualizadoEl": "17/09/2026 09:23"
 };
