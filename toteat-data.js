@@ -77,5 +77,5 @@ window.TOTEAT_DATA = {
     }
   ],
   "total_cierres_historicos": 204,
-  "actualizadoEl": "16/09/2026 21:12"
+  "actualizadoEl": "17/09/2026 09:22"
 };
