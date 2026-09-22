@@ -377,9 +377,107 @@
       transition: opacity .2s;
     }
     .btn-nuevo:hover { opacity: .8; }
-  </style>
+    /* ── PIN de acceso ── */
+  #pin-overlay {
+    position: fixed; inset: 0; background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 9999; gap: 20px; padding: 32px;
+  }
+  #pin-overlay .pin-logo { font-size: 48px; }
+  #pin-overlay h2 { font-size: 20px; font-weight: 700; color: var(--text); }
+  #pin-overlay p  { font-size: 14px; color: var(--muted); text-align: center; }
+  #pin-dots {
+    display: flex; gap: 14px; margin: 8px 0;
+  }
+  .pin-dot {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid var(--border); background: transparent;
+    transition: background .15s, border-color .15s;
+  }
+  .pin-dot.filled { background: var(--purple); border-color: var(--purple); }
+  #pin-pad {
+    display: grid; grid-template-columns: repeat(3, 72px);
+    gap: 12px;
+  }
+  .pin-key {
+    height: 64px; border-radius: 12px;
+    background: var(--card2); border: 1px solid var(--border);
+    color: var(--text); font-size: 22px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background .12s;
+  }
+  .pin-key:active, .pin-key:hover { background: var(--purpleL); border-color: var(--purple); }
+  .pin-key.del { font-size: 18px; color: var(--muted); }
+  #pin-error {
+    color: var(--red); font-size: 13px; min-height: 18px; text-align: center;
+  }
+</style>
 </head>
 <body>
+
+<!-- PIN de acceso -->
+<div id="pin-overlay">
+  <div class="pin-logo">🔐</div>
+  <h2>Brina Pizzería</h2>
+  <p>Ingresa el PIN para acceder</p>
+  <div id="pin-dots">
+    <div class="pin-dot" id="d0"></div>
+    <div class="pin-dot" id="d1"></div>
+    <div class="pin-dot" id="d2"></div>
+    <div class="pin-dot" id="d3"></div>
+  </div>
+  <div id="pin-error"></div>
+  <div id="pin-pad">
+    <div class="pin-key" onclick="pinPress('1')">1</div>
+    <div class="pin-key" onclick="pinPress('2')">2</div>
+    <div class="pin-key" onclick="pinPress('3')">3</div>
+    <div class="pin-key" onclick="pinPress('4')">4</div>
+    <div class="pin-key" onclick="pinPress('5')">5</div>
+    <div class="pin-key" onclick="pinPress('6')">6</div>
+    <div class="pin-key" onclick="pinPress('7')">7</div>
+    <div class="pin-key" onclick="pinPress('8')">8</div>
+    <div class="pin-key" onclick="pinPress('9')">9</div>
+    <div class="pin-key" style="visibility:hidden"></div>
+    <div class="pin-key" onclick="pinPress('0')">0</div>
+    <div class="pin-key del" onclick="pinDel()">⌫</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const PIN = '1234';
+  const SK  = 'brina_pin_ok';
+  if (sessionStorage.getItem(SK) === '1') {
+    document.getElementById('pin-overlay').style.display = 'none';
+  }
+  let entered = '';
+  window.pinPress = function(d) {
+    if (entered.length >= 4) return;
+    entered += d;
+    document.getElementById('d' + (entered.length - 1)).classList.add('filled');
+    if (entered.length === 4) {
+      if (entered === PIN) {
+        sessionStorage.setItem(SK, '1');
+        document.getElementById('pin-overlay').style.display = 'none';
+      } else {
+        document.getElementById('pin-error').textContent = 'PIN incorrecto';
+        setTimeout(() => {
+          entered = '';
+          document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('filled'));
+          document.getElementById('pin-error').textContent = '';
+        }, 900);
+      }
+    }
+  };
+  window.pinDel = function() {
+    if (!entered.length) return;
+    entered = entered.slice(0, -1);
+    document.getElementById('d' + entered.length).classList.remove('filled');
+    document.getElementById('pin-error').textContent = '';
+  };
+})();
+</script>
 
 <div class="header">
   <div class="header-logo">🍕</div>
