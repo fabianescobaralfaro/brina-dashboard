@@ -2,37 +2,76 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "17/09/2026",
-    "fecha_iso": "2026-09-17",
-    "turno": "1494747985014084-00001-20260917TB.001",
+    "fecha": "21/09/2026",
+    "fecha_iso": "2026-09-21",
+    "turno": "1494747985014084-00001-20260921TB.001",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 12770.0,
-    "total_neto": 10730.0,
-    "total_iva": 2040.0,
-    "n_ordenes": 1,
+    "total_ventas": 107148.0,
+    "total_neto": 212337.0,
+    "total_iva": 40131.0,
+    "n_ordenes": 7,
     "n_anuladas": 0,
-    "efectivo": 0,
-    "tarjeta": 14047.0,
+    "efectivo": 21000.0,
+    "tarjeta": 92401.0,
     "productos_top": [
       {
-        "nombre": "Vegetariana",
-        "cantidad": 1,
-        "total": 8390.0
+        "nombre": "Menú ejecutivo",
+        "cantidad": 7,
+        "total": 49000.0
       },
       {
-        "nombre": "Americano",
+        "nombre": "Mechada palta, tomate y mayo",
         "cantidad": 1,
-        "total": 2490.0
+        "total": 9000.0
       },
       {
-        "nombre": "Bebida 350 cc",
+        "nombre": "Churrasco palta tomate mayo",
         "cantidad": 1,
-        "total": 1890.0
+        "total": 8990.0
+      },
+      {
+        "nombre": "Mechada queso y palta",
+        "cantidad": 1,
+        "total": 8750.0
+      },
+      {
+        "nombre": "Bebida express",
+        "cantidad": 6,
+        "total": 7800.0
+      },
+      {
+        "nombre": "Completo Italiano",
+        "cantidad": 1,
+        "total": 6660.0
+      },
+      {
+        "nombre": "Ciabatta con huevo",
+        "cantidad": 1,
+        "total": 5500.0
+      },
+      {
+        "nombre": "Tradición de la casa",
+        "cantidad": 1,
+        "total": 5500.0
+      },
+      {
+        "nombre": "1/4 pizza y bebida",
+        "cantidad": 1,
+        "total": 3950.0
+      },
+      {
+        "nombre": "Latte",
+        "cantidad": 1,
+        "total": 2790.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-09-21",
+      "turno": "1494747985014084-00001-20260921TB.001"
+    },
     {
       "fecha": "2026-09-17",
       "turno": "1494747985014084-00001-20260917TB.001"
@@ -66,6 +105,6 @@ window.TOTEAT_DATA = {
       "turno": "1494747985014084-00001-20260909TB.002"
     }
   ],
-  "total_cierres_historicos": 205,
-  "actualizadoEl": "17/09/2026 21:44"
+  "total_cierres_historicos": 206,
+  "actualizadoEl": "21/09/2026 22:00"
 };
