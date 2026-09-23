@@ -2,72 +2,40 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "21/09/2026",
-    "fecha_iso": "2026-09-21",
-    "turno": "1494747985014084-00001-20260921TB.001",
-    "apertura": "",
+    "fecha": "23/09/2026",
+    "fecha_iso": "2026-09-23",
+    "turno": "1494747985014084-00001-20260923TB.001",
+    "apertura": "2026-09-23T13:16:37",
     "cierre": "",
-    "total_ventas": 107148.0,
-    "total_neto": 212337.0,
-    "total_iva": 40131.0,
-    "n_ordenes": 7,
+    "total_ventas": 13800.0,
+    "total_neto": 26556.0,
+    "total_iva": 5044.0,
+    "n_ordenes": 1,
     "n_anuladas": 0,
-    "efectivo": 21000.0,
-    "tarjeta": 92401.0,
+    "efectivo": 15180.0,
+    "tarjeta": 0,
     "productos_top": [
       {
-        "nombre": "Menú ejecutivo",
-        "cantidad": 7,
-        "total": 49000.0
+        "nombre": "Amanecer verde",
+        "cantidad": 2,
+        "total": 11800.0
       },
       {
-        "nombre": "Mechada palta, tomate y mayo",
-        "cantidad": 1,
-        "total": 9000.0
-      },
-      {
-        "nombre": "Churrasco palta tomate mayo",
-        "cantidad": 1,
-        "total": 8990.0
-      },
-      {
-        "nombre": "Mechada queso y palta",
-        "cantidad": 1,
-        "total": 8750.0
-      },
-      {
-        "nombre": "Bebida express",
-        "cantidad": 6,
-        "total": 7800.0
-      },
-      {
-        "nombre": "Completo Italiano",
-        "cantidad": 1,
-        "total": 6660.0
-      },
-      {
-        "nombre": "Ciabatta con huevo",
-        "cantidad": 1,
-        "total": 5500.0
-      },
-      {
-        "nombre": "Tradición de la casa",
-        "cantidad": 1,
-        "total": 5500.0
-      },
-      {
-        "nombre": "1/4 pizza y bebida",
-        "cantidad": 1,
-        "total": 3950.0
-      },
-      {
-        "nombre": "Latte",
-        "cantidad": 1,
-        "total": 2790.0
+        "nombre": "Bigtime sandia",
+        "cantidad": 4,
+        "total": 2000.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-09-23",
+      "turno": "1494747985014084-00001-20260923TB.001"
+    },
+    {
+      "fecha": "2026-09-22",
+      "turno": "1494747985014084-00001-20260922TB.001"
+    },
     {
       "fecha": "2026-09-21",
       "turno": "1494747985014084-00001-20260921TB.001"
@@ -95,16 +63,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-09-11",
       "turno": "1494747985014084-00001-20260911TB.002"
-    },
-    {
-      "fecha": "2026-09-10",
-      "turno": "1494747985014084-00001-20260910TB.001"
-    },
-    {
-      "fecha": "2026-09-09",
-      "turno": "1494747985014084-00001-20260909TB.002"
     }
   ],
-  "total_cierres_historicos": 206,
-  "actualizadoEl": "21/09/2026 22:00"
+  "total_cierres_historicos": 208,
+  "actualizadoEl": "23/09/2026 14:00"
 };
