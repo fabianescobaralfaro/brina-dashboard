@@ -2,32 +2,39 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "23/09/2026",
-    "fecha_iso": "2026-09-23",
-    "turno": "1494747985014084-00001-20260923TB.001",
-    "apertura": "2026-09-23T13:16:37",
+    "fecha": "26/09/2026",
+    "fecha_iso": "2026-09-26",
+    "turno": "1494747985014084-00001-20260926TB.001",
+    "apertura": "",
     "cierre": "",
-    "total_ventas": 13800.0,
-    "total_neto": 26556.0,
-    "total_iva": 5044.0,
-    "n_ordenes": 1,
+    "total_ventas": 42000.0,
+    "total_neto": 117646.0,
+    "total_iva": 22354.0,
+    "n_ordenes": 2,
     "n_anuladas": 0,
-    "efectivo": 15180.0,
-    "tarjeta": 0,
+    "efectivo": 0,
+    "tarjeta": 46200.0,
     "productos_top": [
       {
-        "nombre": "Amanecer verde",
-        "cantidad": 2,
-        "total": 11800.0
-      },
-      {
-        "nombre": "Bigtime sandia",
-        "cantidad": 4,
-        "total": 2000.0
+        "nombre": "Menú ejecutivo",
+        "cantidad": 6,
+        "total": 42000.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-09-26",
+      "turno": "1494747985014084-00001-20260926TB.001"
+    },
+    {
+      "fecha": "2026-09-25",
+      "turno": "1494747985014084-00001-20260925TB.001"
+    },
+    {
+      "fecha": "2026-09-24",
+      "turno": "1494747985014084-00001-20260924TB.001"
+    },
     {
       "fecha": "2026-09-23",
       "turno": "1494747985014084-00001-20260923TB.001"
@@ -59,12 +66,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-09-12",
       "turno": "1494747985014084-00001-20260912TB.002"
-    },
-    {
-      "fecha": "2026-09-11",
-      "turno": "1494747985014084-00001-20260911TB.002"
     }
   ],
-  "total_cierres_historicos": 208,
-  "actualizadoEl": "23/09/2026 14:00"
+  "total_cierres_historicos": 211,
+  "actualizadoEl": "27/09/2026 23:07"
 };
