@@ -2,37 +2,46 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "29/09/2026",
-    "fecha_iso": "2026-09-29",
-    "turno": "1494747985014084-00001-20260929TB.001",
+    "fecha": "30/09/2026",
+    "fecha_iso": "2026-09-30",
+    "turno": "1494747985014084-00001-20260930TB.001",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 38650.0,
-    "total_neto": 47418.0,
-    "total_iva": 9012.0,
+    "total_ventas": 18730.0,
+    "total_neto": 19606.0,
+    "total_iva": 3724.0,
     "n_ordenes": 3,
     "n_anuladas": 0,
-    "efectivo": 10439.0,
-    "tarjeta": 29997.0,
+    "efectivo": 3588.0,
+    "tarjeta": 17314.0,
     "productos_top": [
       {
-        "nombre": "Menú ejecutivo",
-        "cantidad": 4,
-        "total": 28000.0
+        "nombre": "Pollo Barbecue",
+        "cantidad": 1,
+        "total": 7190.0
       },
       {
-        "nombre": "Bebida 350 cc",
-        "cantidad": 3,
-        "total": 5670.0
-      },
-      {
-        "nombre": "Americano",
+        "nombre": "Jugo natural 350 cc",
         "cantidad": 2,
-        "total": 4980.0
+        "total": 4600.0
+      },
+      {
+        "nombre": "1/4 pizza y bebida",
+        "cantidad": 1,
+        "total": 3950.0
+      },
+      {
+        "nombre": "Promo completo italiano",
+        "cantidad": 1,
+        "total": 2990.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-09-30",
+      "turno": "1494747985014084-00001-20260930TB.001"
+    },
     {
       "fecha": "2026-09-29",
       "turno": "1494747985014084-00001-20260929TB.001"
@@ -76,12 +85,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-09-15",
       "turno": "1494747985014084-00001-20260915TB.002"
-    },
-    {
-      "fecha": "2026-09-14",
-      "turno": "1494747985014084-00001-20260914TB.002"
     }
   ],
-  "total_cierres_historicos": 213,
-  "actualizadoEl": "29/09/2026 21:03"
+  "total_cierres_historicos": 214,
+  "actualizadoEl": "01/10/2026 08:41"
 };
