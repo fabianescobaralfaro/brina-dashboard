@@ -617,7 +617,7 @@
       }
     ],
     "total_cierres_historicos": 213,
-    "actualizadoEl": "29/09/2026 21:03"
+    "actualizadoEl": "29/09/2026 22:29"
   },
   "pedidosya": {
     "error": null,
@@ -648,7 +648,7 @@
     },
     "performance_7d": [],
     "heatmap": [],
-    "actualizadoEl": "29/09/2026 21:03"
+    "actualizadoEl": "29/09/2026 22:30"
   },
   "rappi": {
     "error": null,
@@ -705,11 +705,11 @@
       ]
     },
     "indicadores": {
-      "cancellation_pct": 0,
+      "cancellation_pct": 100.0,
       "error_pct": 0,
-      "availability_pct": 0,
+      "availability_pct": 100.0,
       "cooking_time_avg": 0
     },
-    "actualizadoEl": "29/09/2026 21:03"
+    "actualizadoEl": "29/09/2026 22:30"
   }
 }
