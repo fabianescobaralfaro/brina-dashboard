@@ -2,42 +2,29 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "30/09/2026",
-    "fecha_iso": "2026-09-30",
-    "turno": "1494747985014084-00001-20260930TB.001",
-    "apertura": "",
+    "fecha": "02/10/2026",
+    "fecha_iso": "2026-10-02",
+    "turno": "1494747985014084-00001-20261002TB.001",
+    "apertura": "2026-10-02T14:55:24",
     "cierre": "",
-    "total_ventas": 18730.0,
-    "total_neto": 19606.0,
-    "total_iva": 3724.0,
-    "n_ordenes": 3,
+    "total_ventas": 0,
+    "total_neto": 0,
+    "total_iva": 0,
+    "n_ordenes": 0,
     "n_anuladas": 0,
-    "efectivo": 3588.0,
-    "tarjeta": 17314.0,
-    "productos_top": [
-      {
-        "nombre": "Pollo Barbecue",
-        "cantidad": 1,
-        "total": 7190.0
-      },
-      {
-        "nombre": "Jugo natural 350 cc",
-        "cantidad": 2,
-        "total": 4600.0
-      },
-      {
-        "nombre": "1/4 pizza y bebida",
-        "cantidad": 1,
-        "total": 3950.0
-      },
-      {
-        "nombre": "Promo completo italiano",
-        "cantidad": 1,
-        "total": 2990.0
-      }
-    ]
+    "efectivo": 0,
+    "tarjeta": 0,
+    "productos_top": []
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-10-02",
+      "turno": "1494747985014084-00001-20261002TB.001"
+    },
+    {
+      "fecha": "2026-10-01",
+      "turno": "1494747985014084-00001-20261001TB.001"
+    },
     {
       "fecha": "2026-09-30",
       "turno": "1494747985014084-00001-20260930TB.001"
@@ -81,12 +68,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-09-16",
       "turno": "1494747985014084-00001-20260916TB.002"
-    },
-    {
-      "fecha": "2026-09-15",
-      "turno": "1494747985014084-00001-20260915TB.002"
     }
   ],
-  "total_cierres_historicos": 214,
-  "actualizadoEl": "01/10/2026 08:41"
+  "total_cierres_historicos": 216,
+  "actualizadoEl": "02/10/2026 15:11"
 };
