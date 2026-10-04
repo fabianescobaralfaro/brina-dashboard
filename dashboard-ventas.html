@@ -4790,7 +4790,7 @@ function renderCaja() {
   // Orden ascendente para calcular la cadena de arrastre
   dias.sort((a, b) => a.fecha.localeCompare(b.fecha));
 
-  // Período de prueba: sep 14 es el primer cierre válido (Karen)
+  // Período de prueba: sep 14 es el primer cierre válido (Miguel reemplazó a Karen el 03/10)
   const CIERRES_VALIDOS_DESDE = '2026-09-14';
 
   // Saldo inicial: último cierre registrado ANTES del rango
@@ -4876,10 +4876,17 @@ function renderCaja() {
       // Fila principal del día
       const sem = d.esPrueba ? '⚫' : semaforo(d.diff);
       const diffStr = d.diff !== null ? fmtSigned(d.diff) : '—';
-      const diffColor = d.esPrueba ? 'color:#888' : d.diff === null ? '' : Math.abs(d.diff) >= 3000 ? 'color:#ff5b5b' : Math.abs(d.diff) >= 1000 ? 'color:#f5c518' : 'color:#4ade80';
+      const _trab = (d.cierre?.trabajador || '').replace(/^Karen$/i, 'Miguel');
+      const _esMiguelRow = _trab === 'Miguel';
+      const diffColor = d.esPrueba ? 'color:#888' : d.diff === null ? '' :
+        _esMiguelRow
+          ? (Math.abs(d.diff) >= 3000 ? 'color:#f687b3' : Math.abs(d.diff) >= 1000 ? 'color:#b794f4' : 'color:#63b3ed')
+          : (Math.abs(d.diff) >= 3000 ? 'color:#ff5b5b' : Math.abs(d.diff) >= 1000 ? 'color:#f5c518' : 'color:#4ade80');
       const fotoBtn = d.cierre?.foto_url ? `<a href="javascript:void(0)" onclick="verFotoComprobante('${d.cierre.foto_url}')" style="font-size:18px;cursor:pointer;text-decoration:none" title="Ver foto">📷</a>` : '—';
       const notas = d.cierre?.notas ? `<span title="${String(d.cierre.notas).replace(/"/g,'&quot;')}" style="cursor:default">${String(d.cierre.notas).slice(0,30)}${d.cierre.notas.length>30?'…':''}</span>` : '—';
-      const trabajador = d.cierre?.trabajador || '—';
+      const _trabBg = _esMiguelRow ? 'rgba(99,179,237,0.15)' : 'rgba(127,90,240,0.15)';
+      const _trabColor = _esMiguelRow ? '#63b3ed' : 'var(--accent)';
+      const trabajador = _trab ? `<span style="font-size:11px;background:${_trabBg};color:${_trabColor};padding:2px 7px;border-radius:4px;white-space:nowrap">${_trab}</span>` : '—';
       const fechaDisplay = d.fecha.split('-').reverse().join('/');
       const gastosBadge = d.gastosEfectivo > 0
         ? `<br><span style="font-size:10px;color:${d.esPrueba?'#888':'#f5c518'}">−${fmt(d.gastosEfectivo)} pagos caja</span>`
@@ -4908,13 +4915,31 @@ function renderCaja() {
   const diasChart = [...dias].sort((a, b) => a.fecha.localeCompare(b.fecha)).slice(-60);
   const labels = diasChart.map(d => d.fecha.slice(5).replace('-', '/'));
   const diffVals = diasChart.map(d => d.diff);
-  const bgColors = diasChart.map(d => {
-    if (d.esPrueba) return 'rgba(120,120,120,0.2)';
-    if (d.diff === null) return 'rgba(120,120,120,0.3)';
+  const _trabsChart = diasChart.map(d => (d.cierre?.trabajador || '').replace(/^Karen$/i, 'Miguel'));
+  const bgColors = diasChart.map((d, i) => {
+    if (d.esPrueba) return 'rgba(120,120,120,0.12)';
+    if (d.diff === null) return 'rgba(120,120,120,0.18)';
     const abs = Math.abs(d.diff);
-    if (abs < 1000) return 'rgba(74,222,128,0.7)';
-    if (abs < 3000) return 'rgba(245,197,24,0.7)';
-    return 'rgba(255,91,91,0.7)';
+    if (_trabsChart[i] === 'Miguel') {
+      if (abs < 1000) return 'rgba(99,179,237,0.35)';
+      if (abs < 3000) return 'rgba(159,122,234,0.35)';
+      return 'rgba(237,100,166,0.35)';
+    }
+    if (abs < 1000) return 'rgba(74,222,128,0.35)';
+    if (abs < 3000) return 'rgba(245,197,24,0.35)';
+    return 'rgba(255,91,91,0.35)';
+  });
+  const borderColors = diasChart.map((d, i) => {
+    if (d.esPrueba || d.diff === null) return 'transparent';
+    const abs = Math.abs(d.diff);
+    if (_trabsChart[i] === 'Miguel') {
+      if (abs < 1000) return 'rgba(99,179,237,0.9)';
+      if (abs < 3000) return 'rgba(159,122,234,0.9)';
+      return 'rgba(237,100,166,0.9)';
+    }
+    if (abs < 1000) return 'rgba(74,222,128,0.9)';
+    if (abs < 3000) return 'rgba(245,197,24,0.9)';
+    return 'rgba(255,91,91,0.9)';
   });
 
   if (_chartCajaDiff) { _chartCajaDiff.destroy(); _chartCajaDiff = null; }
@@ -4928,7 +4953,9 @@ function renderCaja() {
         label: 'Diferencia ($)',
         data: diffVals,
         backgroundColor: bgColors,
-        borderWidth: 0,
+        borderColor: borderColors,
+        borderWidth: 2,
+        borderRadius: 3,
       }]
     },
     options: {
@@ -4940,8 +4967,10 @@ function renderCaja() {
           callbacks: {
             label: ctx => {
               const v = ctx.parsed.y;
-              if (v === null || v === undefined) return 'Sin cierre';
-              return (v >= 0 ? '+' : '') + '$' + Math.round(v).toLocaleString('es-CL');
+              const w = _trabsChart[ctx.dataIndex];
+              const wStr = w ? ` · ${w}` : '';
+              if (v === null || v === undefined) return 'Sin cierre' + wStr;
+              return (v >= 0 ? '+' : '') + '$' + Math.round(v).toLocaleString('es-CL') + wStr;
             }
           }
         }
