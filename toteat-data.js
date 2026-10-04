@@ -2,21 +2,61 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "02/10/2026",
-    "fecha_iso": "2026-10-02",
-    "turno": "1494747985014084-00001-20261002TB.001",
-    "apertura": "2026-10-02T14:55:24",
+    "fecha": "03/10/2026",
+    "fecha_iso": "2026-10-03",
+    "turno": "1494747985014084-00001-20261003TB.001",
+    "apertura": "",
     "cierre": "",
-    "total_ventas": 0,
-    "total_neto": 0,
-    "total_iva": 0,
-    "n_ordenes": 0,
+    "total_ventas": 85630.0,
+    "total_neto": 118348.0,
+    "total_iva": 22482.0,
+    "n_ordenes": 4,
     "n_anuladas": 0,
-    "efectivo": 0,
-    "tarjeta": 0,
-    "productos_top": []
+    "efectivo": 18979.0,
+    "tarjeta": 75218.0,
+    "productos_top": [
+      {
+        "nombre": "Menú ejecutivo",
+        "cantidad": 4,
+        "total": 28000.0
+      },
+      {
+        "nombre": "Menú premium",
+        "cantidad": 2,
+        "total": 18000.0
+      },
+      {
+        "nombre": "Jugo natural 350 cc",
+        "cantidad": 5,
+        "total": 11500.0
+      },
+      {
+        "nombre": "Churrasco queso palta",
+        "cantidad": 1,
+        "total": 8990.0
+      },
+      {
+        "nombre": "Mechada queso y palta",
+        "cantidad": 1,
+        "total": 8750.0
+      },
+      {
+        "nombre": "Mechada queso",
+        "cantidad": 1,
+        "total": 8500.0
+      },
+      {
+        "nombre": "Bebida 350 cc",
+        "cantidad": 1,
+        "total": 1890.0
+      }
+    ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-10-03",
+      "turno": "1494747985014084-00001-20261003TB.001"
+    },
     {
       "fecha": "2026-10-02",
       "turno": "1494747985014084-00001-20261002TB.001"
@@ -70,6 +110,6 @@ window.TOTEAT_DATA = {
       "turno": "1494747985014084-00001-20260916TB.002"
     }
   ],
-  "total_cierres_historicos": 216,
-  "actualizadoEl": "02/10/2026 15:11"
+  "total_cierres_historicos": 217,
+  "actualizadoEl": "04/10/2026 15:03"
 };
