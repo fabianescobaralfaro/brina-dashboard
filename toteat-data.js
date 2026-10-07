@@ -2,48 +2,53 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "03/10/2026",
-    "fecha_iso": "2026-10-03",
-    "turno": "1494747985014084-00001-20261003TB.001",
-    "apertura": "",
+    "fecha": "07/10/2026",
+    "fecha_iso": "2026-10-07",
+    "turno": "1494747985014084-00001-20261007TB.001",
+    "apertura": "2026-10-07T12:40:11",
     "cierre": "",
-    "total_ventas": 85630.0,
-    "total_neto": 118348.0,
-    "total_iva": 22482.0,
-    "n_ordenes": 4,
+    "total_ventas": 87800.0,
+    "total_neto": 113263.0,
+    "total_iva": 21517.0,
+    "n_ordenes": 9,
     "n_anuladas": 0,
-    "efectivo": 18979.0,
-    "tarjeta": 75218.0,
+    "efectivo": 0,
+    "tarjeta": 94050.0,
     "productos_top": [
       {
         "nombre": "Menú ejecutivo",
-        "cantidad": 4,
-        "total": 28000.0
+        "cantidad": 7,
+        "total": 49000.0
       },
       {
-        "nombre": "Menú premium",
-        "cantidad": 2,
-        "total": 18000.0
+        "nombre": "Promo completo italiano",
+        "cantidad": 4,
+        "total": 11960.0
+      },
+      {
+        "nombre": "Té variedades",
+        "cantidad": 3,
+        "total": 7470.0
+      },
+      {
+        "nombre": "Pollo Barbecue",
+        "cantidad": 1,
+        "total": 7190.0
+      },
+      {
+        "nombre": "Ciabatta con huevo",
+        "cantidad": 1,
+        "total": 5500.0
+      },
+      {
+        "nombre": "Americano",
+        "cantidad": 1,
+        "total": 2490.0
       },
       {
         "nombre": "Jugo natural 350 cc",
-        "cantidad": 5,
-        "total": 11500.0
-      },
-      {
-        "nombre": "Churrasco queso palta",
         "cantidad": 1,
-        "total": 8990.0
-      },
-      {
-        "nombre": "Mechada queso y palta",
-        "cantidad": 1,
-        "total": 8750.0
-      },
-      {
-        "nombre": "Mechada queso",
-        "cantidad": 1,
-        "total": 8500.0
+        "total": 2300.0
       },
       {
         "nombre": "Bebida 350 cc",
@@ -53,6 +58,14 @@ window.TOTEAT_DATA = {
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-10-07",
+      "turno": "1494747985014084-00001-20261007TB.001"
+    },
+    {
+      "fecha": "2026-10-06",
+      "turno": "1494747985014084-00001-20261006TB.001"
+    },
     {
       "fecha": "2026-10-03",
       "turno": "1494747985014084-00001-20261003TB.001"
@@ -100,16 +113,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-09-21",
       "turno": "1494747985014084-00001-20260921TB.001"
-    },
-    {
-      "fecha": "2026-09-17",
-      "turno": "1494747985014084-00001-20260917TB.001"
-    },
-    {
-      "fecha": "2026-09-16",
-      "turno": "1494747985014084-00001-20260916TB.002"
     }
   ],
-  "total_cierres_historicos": 217,
-  "actualizadoEl": "06/10/2026 00:24"
+  "total_cierres_historicos": 219,
+  "actualizadoEl": "07/10/2026 18:55"
 };
