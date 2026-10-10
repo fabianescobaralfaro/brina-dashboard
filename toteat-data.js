@@ -2,62 +2,46 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "07/10/2026",
-    "fecha_iso": "2026-10-07",
-    "turno": "1494747985014084-00001-20261007TB.001",
-    "apertura": "2026-10-07T12:40:11",
+    "fecha": "09/10/2026",
+    "fecha_iso": "2026-10-09",
+    "turno": "1494747985014084-00001-20261009TB.001",
+    "apertura": "2026-10-09T17:13:25",
     "cierre": "",
-    "total_ventas": 87800.0,
-    "total_neto": 113263.0,
-    "total_iva": 21517.0,
-    "n_ordenes": 9,
+    "total_ventas": 35880.0,
+    "total_neto": 41747.0,
+    "total_iva": 7933.0,
+    "n_ordenes": 2,
     "n_anuladas": 0,
-    "efectivo": 0,
-    "tarjeta": 94050.0,
+    "efectivo": 7000.0,
+    "tarjeta": 31768.0,
     "productos_top": [
       {
         "nombre": "Menú ejecutivo",
-        "cantidad": 7,
-        "total": 49000.0
+        "cantidad": 2,
+        "total": 14000.0
       },
       {
-        "nombre": "Promo completo italiano",
-        "cantidad": 4,
-        "total": 11960.0
-      },
-      {
-        "nombre": "Té variedades",
-        "cantidad": 3,
-        "total": 7470.0
-      },
-      {
-        "nombre": "Pollo Barbecue",
+        "nombre": "Churrasco palta tomate mayo",
         "cantidad": 1,
-        "total": 7190.0
-      },
-      {
-        "nombre": "Ciabatta con huevo",
-        "cantidad": 1,
-        "total": 5500.0
-      },
-      {
-        "nombre": "Americano",
-        "cantidad": 1,
-        "total": 2490.0
+        "total": 8990.0
       },
       {
         "nombre": "Jugo natural 350 cc",
-        "cantidad": 1,
-        "total": 2300.0
+        "cantidad": 3,
+        "total": 6900.0
       },
       {
-        "nombre": "Bebida 350 cc",
+        "nombre": "As italiano",
         "cantidad": 1,
-        "total": 1890.0
+        "total": 5990.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-10-09",
+      "turno": "1494747985014084-00001-20261009TB.001"
+    },
     {
       "fecha": "2026-10-07",
       "turno": "1494747985014084-00001-20261007TB.001"
@@ -109,12 +93,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-09-22",
       "turno": "1494747985014084-00001-20260922TB.001"
-    },
-    {
-      "fecha": "2026-09-21",
-      "turno": "1494747985014084-00001-20260921TB.001"
     }
   ],
-  "total_cierres_historicos": 219,
-  "actualizadoEl": "08/10/2026 23:14"
+  "total_cierres_historicos": 220,
+  "actualizadoEl": "09/10/2026 21:58"
 };
