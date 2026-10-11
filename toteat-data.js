@@ -2,18 +2,18 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "09/10/2026",
-    "fecha_iso": "2026-10-09",
-    "turno": "1494747985014084-00001-20261009TB.001",
-    "apertura": "2026-10-09T17:13:25",
+    "fecha": "10/10/2026",
+    "fecha_iso": "2026-10-10",
+    "turno": "1494747985014084-00001-20261010TB.001",
+    "apertura": "",
     "cierre": "",
-    "total_ventas": 35880.0,
-    "total_neto": 41747.0,
-    "total_iva": 7933.0,
-    "n_ordenes": 2,
+    "total_ventas": 17780.0,
+    "total_neto": 29882.0,
+    "total_iva": 5678.0,
+    "n_ordenes": 1,
     "n_anuladas": 0,
-    "efectivo": 7000.0,
-    "tarjeta": 31768.0,
+    "efectivo": 0,
+    "tarjeta": 19558.0,
     "productos_top": [
       {
         "nombre": "Menú ejecutivo",
@@ -21,23 +21,17 @@ window.TOTEAT_DATA = {
         "total": 14000.0
       },
       {
-        "nombre": "Churrasco palta tomate mayo",
-        "cantidad": 1,
-        "total": 8990.0
-      },
-      {
-        "nombre": "Jugo natural 350 cc",
-        "cantidad": 3,
-        "total": 6900.0
-      },
-      {
-        "nombre": "As italiano",
-        "cantidad": 1,
-        "total": 5990.0
+        "nombre": "Bebida 350 cc",
+        "cantidad": 2,
+        "total": 3780.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-10-10",
+      "turno": "1494747985014084-00001-20261010TB.001"
+    },
     {
       "fecha": "2026-10-09",
       "turno": "1494747985014084-00001-20261009TB.001"
@@ -89,12 +83,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-09-23",
       "turno": "1494747985014084-00001-20260923TB.001"
-    },
-    {
-      "fecha": "2026-09-22",
-      "turno": "1494747985014084-00001-20260922TB.001"
     }
   ],
-  "total_cierres_historicos": 220,
-  "actualizadoEl": "09/10/2026 21:58"
+  "total_cierres_historicos": 221,
+  "actualizadoEl": "11/10/2026 12:35"
 };
