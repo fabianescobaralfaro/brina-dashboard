@@ -1528,6 +1528,44 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
       </div>
     </div>
 
+    <!-- ── Desempeño por Hora — Días Recientes (ambos POS) ── -->
+    <div class="card" style="margin-top:16px">
+      <div class="card-header" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <span class="card-title">📊 Desempeño por Hora — Días Recientes (ambos POS)</span>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label style="color:#8892b0;font-size:.8rem">Días:</label>
+          <select id="pos-multidias-n" onchange="renderPosMultiDias()"
+                  style="background:#1e2140;border:1px solid #3a3f6e;color:#cdd6f4;padding:3px 10px;border-radius:6px;font-size:.8rem">
+            <option value="5">Últimos 5 días</option>
+            <option value="7" selected>Últimos 7 días</option>
+            <option value="14">Últimos 14 días</option>
+            <option value="30">Últimos 30 días</option>
+          </select>
+          <label style="color:#8892b0;font-size:.8rem">Hasta:</label>
+          <input type="date" id="pos-multidias-hasta"
+                 style="background:#1e2140;border:1px solid #3a3f6e;color:#cdd6f4;padding:3px 8px;border-radius:6px;font-size:.8rem"
+                 onchange="renderPosMultiDias()">
+          <button onclick="posMultiDiasHoy()"
+                  style="background:#6c63ff;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.8rem;cursor:pointer">Hoy</button>
+        </div>
+      </div>
+      <div style="padding:6px 16px 0;font-size:.73rem;color:#8892b0" id="pos-multidias-info"></div>
+      <!-- Pizzería -->
+      <div style="margin-top:14px">
+        <div style="font-size:.85rem;font-weight:700;color:#6c63ff;padding:0 16px 4px">🍕 Pizzería</div>
+        <div class="chart-container" style="height:230px">
+          <canvas id="chart-pos-multidias-pizza"></canvas>
+        </div>
+      </div>
+      <!-- Estacionamiento -->
+      <div style="margin-top:22px">
+        <div style="font-size:.85rem;font-weight:700;color:#38b2ac;padding:0 16px 4px">🅿️ Estacionamiento</div>
+        <div class="chart-container" style="height:230px">
+          <canvas id="chart-pos-multidias-estac"></canvas>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ──── MESES ANTERIORES ──── -->
@@ -3911,6 +3949,7 @@ function renderPOS() {
 
   // ── Ventas por hora por POS ──
   renderPosHoras();
+  renderPosMultiDias();
 }
 
 let _chartTicketMensual = null;
@@ -4050,6 +4089,7 @@ function renderTicketMensual() {
 // VENTAS POR HORA POR POS
 // ═══════════════════════════════════════
 let _chartPosHoras = null;
+let _chartPosMultiPizza = null, _chartPosMultiEstac = null;
 
 function posHorasFechaHoy() {
   const hoy = new Date();
@@ -4257,6 +4297,150 @@ async function renderPosHoras() {
         },
       }
     }
+  });
+}
+
+// ═══════════════════════════════════════
+// DESEMPEÑO MULTI-DÍA POR POS
+// ═══════════════════════════════════════
+
+function posMultiDiasHoy() {
+  const hoy = new Date();
+  const s = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+  const el = document.getElementById('pos-multidias-hasta');
+  if (el) el.value = s;
+  renderPosMultiDias();
+}
+
+async function renderPosMultiDias() {
+  if (!window.HISTORICO_CACHE) return;
+
+  const nEl    = document.getElementById('pos-multidias-n');
+  const hastaEl= document.getElementById('pos-multidias-hasta');
+  const hoy    = new Date();
+  const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
+
+  if (!hastaEl.value) hastaEl.value = hoyStr;
+  const hasta = hastaEl.value;
+  const N     = parseInt(nEl ? nEl.value : '7') || 7;
+
+  // Recopilar todas las fechas con datos (desde historico + hoy)
+  const cachePlus = Object.assign({}, window.HISTORICO_CACHE);
+  // Intentar incluir hoy si hay datos en vivo
+  if (!cachePlus[hoyStr]) {
+    try {
+      const r = await fetch(`historico/${hoyStr}.json?v=${Date.now()}`);
+      if (r.ok) cachePlus[hoyStr] = await r.json();
+    } catch(_) {}
+  }
+
+  // Ordenar fechas disponibles <= hasta, con datos horarios de al menos uno de los dos POS
+  const SERIAL_PIZZA = POS_SERIALS.pizza;
+  const SERIAL_ESTAC = POS_SERIALS.estac;
+  const fechasDisp = Object.keys(cachePlus)
+    .filter(f => f <= hasta)
+    .filter(f => {
+      const hp = (cachePlus[f]?.haulmer?.ventas_por_hora_pos) || {};
+      return (hp[SERIAL_PIZZA]?.length > 0) || (hp[SERIAL_ESTAC]?.length > 0);
+    })
+    .sort()
+    .reverse()
+    .slice(0, N)
+    .reverse(); // cronológico
+
+  const infoEl = document.getElementById('pos-multidias-info');
+  if (infoEl) infoEl.textContent = fechasDisp.length > 0
+    ? `Mostrando ${fechasDisp.length} día(s) con datos horarios — del ${fechasDisp[0]} al ${fechasDisp[fechasDisp.length-1]}`
+    : 'Sin datos de ventas por hora para el rango seleccionado.';
+
+  const HORAS = Array.from({length:15}, (_,i) => i+7);
+  const labels = HORAS.map(h => `${String(h).padStart(2,'0')}:00`);
+  const fmt = v => '$' + Math.round(v).toLocaleString('es-CL');
+
+  // Paleta de colores para líneas de días
+  const PALETA = [
+    '#6c63ff','#38b2ac','#f6c90e','#ff6b6b','#4fc3f7',
+    '#81c784','#ffb74d','#e879f9','#34d399','#fb923c',
+    '#60a5fa','#a78bfa','#f472b6','#4ade80','#fbbf24',
+  ];
+
+  // Función para construir datasets de un POS
+  function buildDatasets(serial) {
+    return fechasDisp.map((fecha, i) => {
+      const hp   = (cachePlus[fecha]?.haulmer?.ventas_por_hora_pos) || {};
+      const lista= hp[serial] || [];
+      const data = HORAS.map(h => {
+        const e = lista.find(x => x.hora === h);
+        return e ? e.ventas : 0;
+      });
+      // Recortar trailing zeros del día
+      let last = -1;
+      data.forEach((v,j) => { if (v > 0) last = j; });
+      const dataTrim = data.map((v,j) => j <= last ? v : null);
+
+      const [y,m,d] = fecha.split('-');
+      const diasSemana = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+      const diaSem = diasSemana[new Date(+y, +m-1, +d).getDay()];
+      const color  = PALETA[i % PALETA.length];
+      const esHoy  = fecha === hoyStr;
+      return {
+        type: 'line',
+        label: `${diaSem} ${d}/${m}${esHoy ? ' (hoy)' : ''}`,
+        data: dataTrim,
+        borderColor: color,
+        backgroundColor: color + '22',
+        borderWidth: esHoy ? 3 : 1.5,
+        pointRadius: esHoy ? 4 : 2,
+        pointHoverRadius: 6,
+        tension: 0.3,
+        spanGaps: false,
+        borderDash: esHoy ? [] : [],
+      };
+    });
+  }
+
+  const optsComunes = (titulo, color) => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: { color: '#8892b0', font: {size:10}, boxWidth:12, padding:8 }
+      },
+      tooltip: {
+        callbacks: {
+          label: ctx => {
+            if (ctx.parsed.y === null) return null;
+            return `${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString('es-CL')}`;
+          }
+        }
+      },
+    },
+    scales: {
+      x: { ticks:{color:'#8892b0',font:{size:10}}, grid:{color:'#2e3250'} },
+      y: {
+        ticks: { color: color, callback: v => '$'+v.toLocaleString('es-AR'), font:{size:10} },
+        grid:  { color: '#2e3250' },
+        title: { display:true, text:'Ventas / hora ($)', color: color, font:{size:10} },
+      }
+    }
+  });
+
+  // Chart Pizzería
+  const ctxP = document.getElementById('chart-pos-multidias-pizza').getContext('2d');
+  if (_chartPosMultiPizza) _chartPosMultiPizza.destroy();
+  _chartPosMultiPizza = new Chart(ctxP, {
+    data: { labels, datasets: buildDatasets(SERIAL_PIZZA) },
+    options: optsComunes('Pizzería', '#6c63ff'),
+  });
+
+  // Chart Estacionamiento
+  const ctxE = document.getElementById('chart-pos-multidias-estac').getContext('2d');
+  if (_chartPosMultiEstac) _chartPosMultiEstac.destroy();
+  _chartPosMultiEstac = new Chart(ctxE, {
+    data: { labels, datasets: buildDatasets(SERIAL_ESTAC) },
+    options: optsComunes('Estacionamiento', '#38b2ac'),
   });
 }
 
@@ -5002,6 +5186,12 @@ function renderCaja() {
     const hoy = new Date();
     posHorasFechaEl.value = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
     posHorasFechaEl.addEventListener('change', renderPosHoras);
+  }
+  // Inicializar fecha "hasta" del picker multi-días
+  const posMultiHastaEl = document.getElementById('pos-multidias-hasta');
+  if (posMultiHastaEl && !posMultiHastaEl.value) {
+    const hoy = new Date();
+    posMultiHastaEl.value = `${hoy.getFullYear()}-${String(hoy.getMonth()+1).padStart(2,'0')}-${String(hoy.getDate()).padStart(2,'0')}`;
   }
 })();
 </script>
