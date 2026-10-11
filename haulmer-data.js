@@ -1,243 +1,298 @@
 /* Generado automáticamente por scraper.py — NO editar manualmente */
 window.HAULMER_DATA = {
-  "actualizadoEl": "09/10/2026 21:57",
+  "actualizadoEl": "11/10/2026 12:38",
   "error": null,
   "informe_dia": {
     "periodo": "Día",
-    "monto_neto": 265005,
-    "iva": 50355,
-    "monto_ventas": 315360,
-    "monto_exento": 315360,
-    "propinas": 11805,
-    "debito": 229975,
-    "credito": 32080,
-    "efectivo": 65110,
+    "monto_neto": 0,
+    "iva": 0,
+    "monto_ventas": 0,
+    "monto_exento": 0,
+    "propinas": 0,
+    "debito": 0,
+    "credito": 0,
+    "efectivo": 0,
     "pos_breakdown": [
       {
         "serial": "PB1T238420182",
-        "total_ventas": 160250,
-        "debito": 89350,
-        "credito": 19250,
-        "efectivo": 51650,
-        "propinas": 0
-      },
-      {
-        "serial": "6010B232511900275",
-        "total_ventas": 166915,
-        "debito": 140625,
-        "credito": 12830,
-        "efectivo": 13460,
+        "total_ventas": 0,
+        "debito": 0,
+        "credito": 0,
+        "efectivo": 0,
         "propinas": 0
       }
     ],
-    "n_tx_debito": 53,
-    "n_tx_credito": 10,
-    "n_tx_efectivo": 32,
-    "n_tx_total": 95
+    "n_tx_debito": 0,
+    "n_tx_credito": 0,
+    "n_tx_efectivo": 0,
+    "n_tx_total": 0
   },
   "informe_semana": {
     "periodo": "Semana",
-    "monto_neto": 1280429,
-    "iva": 243311,
-    "monto_ventas": 1523740,
-    "monto_exento": 1523740,
-    "propinas": 54343,
-    "debito": 1158153,
-    "credito": 117320,
-    "efectivo": 302610,
+    "monto_neto": 1365637,
+    "iva": 259503,
+    "monto_ventas": 1625140,
+    "monto_exento": 1625140,
+    "propinas": 56121,
+    "debito": 1236381,
+    "credito": 128220,
+    "efectivo": 316660,
     "pos_breakdown": [
       {
         "serial": "PB1T238420182",
-        "total_ventas": 868880,
-        "debito": 567880,
-        "credito": 53000,
-        "efectivo": 248000,
+        "total_ventas": 952500,
+        "debito": 626550,
+        "credito": 63900,
+        "efectivo": 262050,
         "propinas": 0
       },
       {
         "serial": "6010B232511900275",
-        "total_ventas": 709203,
-        "debito": 590273,
+        "total_ventas": 728761,
+        "debito": 609831,
         "credito": 64320,
         "efectivo": 54610,
         "propinas": 0
       }
     ],
-    "n_tx_debito": 286,
-    "n_tx_credito": 27,
-    "n_tx_efectivo": 181,
-    "n_tx_total": 494
+    "n_tx_debito": 313,
+    "n_tx_credito": 29,
+    "n_tx_efectivo": 196,
+    "n_tx_total": 538
   },
   "informe_mes": {
     "periodo": "Mes",
-    "monto_neto": 2189899,
-    "iva": 416111,
-    "monto_ventas": 2606010,
-    "monto_exento": 2606010,
-    "propinas": 110417,
-    "debito": 1973902,
-    "credito": 174450,
-    "efectivo": 568070,
+    "monto_neto": 2275107,
+    "iva": 432303,
+    "monto_ventas": 2707410,
+    "monto_exento": 2707410,
+    "propinas": 112195,
+    "debito": 2052130,
+    "credito": 185350,
+    "efectivo": 582120,
     "pos_breakdown": [
       {
         "serial": "PB1T238420182",
-        "total_ventas": 1356130,
-        "debito": 873180,
-        "credito": 77900,
-        "efectivo": 405050,
+        "total_ventas": 1439750,
+        "debito": 931850,
+        "credito": 88800,
+        "efectivo": 419100,
         "propinas": 0
       },
       {
         "serial": "6010B232511900275",
-        "total_ventas": 1360292,
-        "debito": 1100722,
+        "total_ventas": 1379850,
+        "debito": 1120280,
         "credito": 96550,
         "efectivo": 163020,
         "propinas": 0
       }
     ],
-    "n_tx_debito": 438,
-    "n_tx_credito": 39,
-    "n_tx_efectivo": 290,
-    "n_tx_total": 767
+    "n_tx_debito": 465,
+    "n_tx_credito": 41,
+    "n_tx_efectivo": 305,
+    "n_tx_total": 811
   },
   "dte": {
-    "total_declarado": 0,
-    "total": 0,
-    "boletas": 0,
+    "total_declarado": 30,
+    "total": 30,
+    "boletas": 30,
     "facturas": 0,
-    "monto_boletas": 0,
+    "monto_boletas": 49400,
     "monto_facturas": 0,
-    "documentos": [],
+    "documentos": [
+      {
+        "tipo": "Boleta",
+        "numero": "38387",
+        "monto": 500,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38386",
+        "monto": 1650,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38385",
+        "monto": 1150,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38384",
+        "monto": 2650,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38383",
+        "monto": 900,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38382",
+        "monto": 650,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38381",
+        "monto": 400,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38380",
+        "monto": 400,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38379",
+        "monto": 400,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38378",
+        "monto": 2700,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38377",
+        "monto": 650,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38376",
+        "monto": 500,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38375",
+        "monto": 600,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38374",
+        "monto": 400,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38373",
+        "monto": 500,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38372",
+        "monto": 4250,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38371",
+        "monto": 900,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38370",
+        "monto": 3150,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38369",
+        "monto": 4900,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38368",
+        "monto": 900,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38367",
+        "monto": 1950,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38366",
+        "monto": 5000,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38365",
+        "monto": 1800,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38364",
+        "monto": 4150,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38363",
+        "monto": 1150,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38362",
+        "monto": 400,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38361",
+        "monto": 2600,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38360",
+        "monto": 650,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38359",
+        "monto": 2900,
+        "fecha": ""
+      },
+      {
+        "tipo": "Boleta",
+        "numero": "38358",
+        "monto": 650,
+        "fecha": ""
+      }
+    ],
     "paginas_leidas": 1,
     "nota": ""
   },
   "abonos": {
-    "abonos": [
-      {
-        "fecha": "09/10/2026",
-        "ventas_abonadas": 23950,
-        "comision": 478,
-        "total_abonado": 23472
-      }
-    ],
-    "total_abonado": 23472,
-    "total_comision": 478,
+    "abonos": [],
+    "total_abonado": 0,
+    "total_comision": 0,
     "comision_pct": 1.99,
-    "transacciones_hoy": [
-      {
-        "n_tx": "110016291792",
-        "monto": 1400,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 28,
-        "neto": 1372,
-        "serial": "700073561563"
-      },
-      {
-        "n_tx": "700073561563",
-        "monto": 1900,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 38,
-        "neto": 1862,
-        "serial": "700073553031"
-      },
-      {
-        "n_tx": "700073553031",
-        "monto": 1150,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 23,
-        "neto": 1127,
-        "serial": "700073551580"
-      },
-      {
-        "n_tx": "700073551580",
-        "monto": 3650,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 73,
-        "neto": 3577,
-        "serial": "120001201625"
-      },
-      {
-        "n_tx": "120001201625",
-        "monto": 3150,
-        "tipo": "Crédito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 63,
-        "neto": 3087,
-        "serial": "600073552886"
-      },
-      {
-        "n_tx": "600073552886",
-        "monto": 900,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 18,
-        "neto": 882,
-        "serial": "900082242230"
-      },
-      {
-        "n_tx": "900082242230",
-        "monto": 3000,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 60,
-        "neto": 2940,
-        "serial": "900082240115"
-      },
-      {
-        "n_tx": "900082240115",
-        "monto": 750,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 15,
-        "neto": 735,
-        "serial": "110016259045"
-      },
-      {
-        "n_tx": "110016259045",
-        "monto": 5400,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 107,
-        "neto": 5293,
-        "serial": "110016255694"
-      },
-      {
-        "n_tx": "110016255694",
-        "monto": 2650,
-        "tipo": "Débito",
-        "estado": "Aprobada",
-        "fecha": "09-10-2026",
-        "comision_pct": 1.99,
-        "comision_valor": 53,
-        "neto": 2597,
-        "serial": "PB1T238420182"
-      }
-    ],
-    "total_ventas_hoy": 23950,
-    "n_transacciones_hoy": 10
+    "transacciones_hoy": [],
+    "total_ventas_hoy": 0,
+    "n_transacciones_hoy": 0
   },
   "ventas_hoy": {
     "total_dia": 0,
