@@ -44,7 +44,9 @@
       "n_tx_debito": 76,
       "n_tx_credito": 4,
       "n_tx_efectivo": 39,
-      "n_tx_total": 119
+      "n_tx_total": 119,
+      "efectivo_propinas": 0,
+      "efectivo_redondeo": 0
     },
     "informe_semana": {},
     "informe_mes": {},
