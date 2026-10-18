@@ -40,7 +40,9 @@
           "n_tx_efectivo": 38,
           "n_tx_total": 83
         }
-      ]
+      ],
+      "efectivo_propinas": 3239,
+      "efectivo_redondeo": 1
     },
     "ventas_hoy": {
       "total_dia": 336900,
