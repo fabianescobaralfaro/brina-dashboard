@@ -39,7 +39,9 @@
           "n_tx_efectivo": 21,
           "n_tx_total": 74
         }
-      ]
+      ],
+      "efectivo_propinas": 3863,
+      "efectivo_redondeo": -3
     },
     "informe_mes": {},
     "ventas_hoy": {},
