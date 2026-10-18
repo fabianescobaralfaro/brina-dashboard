@@ -677,7 +677,7 @@
         </div>
 
         <div class="form-group">
-          <label>Foto del paquete <span style="color:var(--muted);font-weight:400">(recomendada)</span></label>
+          <label>Foto del paquete <span class="req">*</span></label>
           <div id="caja-foto-upload-area" class="foto-upload-area">
             <input type="file" id="caja-f-foto" accept="image/*" capture="environment" onchange="onCajaFotoSelected(this)">
             <div class="foto-upload-icon">📷</div>
@@ -1264,6 +1264,7 @@ async function guardarCierre() {
 
   if (!fecha) return mostrarErrorCaja('Por favor ingresa una fecha.');
   if (isNaN(monto) || monto < 0) return mostrarErrorCaja('El monto debe ser 0 o mayor.');
+  if (!cajaFotoFile) return mostrarErrorCaja('La foto del paquete es obligatoria. Saca una foto del sobre con el papel visible.');
 
   const montoFmt = '$' + monto.toLocaleString('es-CL');
   if (!confirm(`¿Confirmas el cierre del ${fecha.split('-').reverse().join('/')} con ${montoFmt}?`)) return;
@@ -1278,7 +1279,7 @@ async function guardarCierre() {
     if (fotoErr || !url) {
       btn.disabled = false;
       btn.textContent = 'Registrar Cierre de Caja';
-      return mostrarErrorCaja('No se pudo subir la foto (' + (fotoErr || 'error') + '). Intenta de nuevo o guarda sin foto.');
+      return mostrarErrorCaja('No se pudo subir la foto (' + (fotoErr || 'error') + '). Intenta de nuevo.');
     }
     fotoUrl = url;
   }
