@@ -42,7 +42,9 @@
       "n_tx_debito": 0,
       "n_tx_credito": 0,
       "n_tx_efectivo": 0,
-      "n_tx_total": 0
+      "n_tx_total": 0,
+      "efectivo_propinas": 678,
+      "efectivo_redondeo": 2
     },
     "actualizadoEl": "15/05/2026 11:45",
     "error": null,
