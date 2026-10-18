@@ -4962,14 +4962,17 @@ function renderCaja() {
   const dias = [];
   for (const [fecha, hist] of Object.entries(HISTORICO_CACHE)) {
     if (fecha < desde || fecha > hasta) continue;
-    const efectivoHaulmer = (hist?.haulmer?.informe_dia?.monto_ventas > 0)
-      ? (hist?.haulmer?.informe_dia?.efectivo || 0)
+    const _dia = hist?.haulmer?.informe_dia;
+    const efectivoHaulmer = (_dia?.monto_ventas > 0) ? (Number(_dia.efectivo) || 0) : 0;
+    // Propinas y redondeo pagados en efectivo también entran a la caja
+    const extraEfectivo = (_dia?.monto_ventas > 0)
+      ? (Number(_dia.efectivo_propinas) || 0) + (Number(_dia.efectivo_redondeo) || 0)
       : 0;
     const cierre = cierreMap[fecha];
     if (efectivoHaulmer === 0 && !cierre) continue;
     const gastosEfectivo = gastosEfectivoMap[fecha] || 0;
     const montoCierre = cierre ? (Number(cierre.monto_efectivo) || 0) : null;
-    dias.push({ fecha, efectivoHaulmer, gastosEfectivo, cierre, montoCierre });
+    dias.push({ fecha, efectivoHaulmer, extraEfectivo, gastosEfectivo, cierre, montoCierre });
   }
   // Orden ascendente para calcular la cadena de arrastre
   dias.sort((a, b) => a.fecha.localeCompare(b.fecha));
@@ -4985,8 +4988,8 @@ function renderCaja() {
 
   for (const d of dias) {
     d.saldoAnterior = _saldoArrastre;
-    // Esperado = Cierre anterior + Ventas efectivo - Gastos efectivo del día
-    d.esperadoCaja = _saldoArrastre + d.efectivoHaulmer - d.gastosEfectivo;
+    // Esperado = Cierre anterior + Ventas efectivo + Propinas/redondeo efectivo - Gastos efectivo del día
+    d.esperadoCaja = _saldoArrastre + d.efectivoHaulmer + d.extraEfectivo - d.gastosEfectivo;
     d.diff = d.montoCierre !== null ? (d.montoCierre - d.esperadoCaja) : null;
     // Arrastre: usar cierre real si existe, si no usar el esperado
     _saldoArrastre = d.montoCierre !== null ? d.montoCierre : d.esperadoCaja;
@@ -5072,9 +5075,12 @@ function renderCaja() {
       const _trabColor = _esMiguelRow ? '#63b3ed' : 'var(--accent)';
       const trabajador = _trab ? `<span style="font-size:11px;background:${_trabBg};color:${_trabColor};padding:2px 7px;border-radius:4px;white-space:nowrap">${_trab}</span>` : '—';
       const fechaDisplay = d.fecha.split('-').reverse().join('/');
-      const gastosBadge = d.gastosEfectivo > 0
-        ? `<br><span style="font-size:10px;color:${d.esPrueba?'#888':'#f5c518'}">−${fmt(d.gastosEfectivo)} pagos caja</span>`
+      const extraBadge = d.extraEfectivo > 0
+        ? `<br><span style="font-size:10px;color:${d.esPrueba?'#888':'#4ade80'}">+${fmt(d.extraEfectivo)} propinas ef.</span>`
         : '';
+      const gastosBadge = extraBadge + (d.gastosEfectivo > 0
+        ? `<br><span style="font-size:10px;color:${d.esPrueba?'#888':'#f5c518'}">−${fmt(d.gastosEfectivo)} pagos caja</span>`
+        : '');
       const pruebaBadge = d.esPrueba
         ? `<span title="Período de prueba — no considerar para análisis" style="margin-left:6px;font-size:10px;background:#555;color:#aaa;border-radius:4px;padding:1px 5px;vertical-align:middle;cursor:default">prueba</span>`
         : '';
