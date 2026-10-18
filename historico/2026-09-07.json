@@ -41,7 +41,9 @@
           "n_tx_efectivo": 39,
           "n_tx_total": 72
         }
-      ]
+      ],
+      "efectivo_propinas": 2379,
+      "efectivo_redondeo": 1
     },
     "informe_semana": {
       "periodo": "Semana",
