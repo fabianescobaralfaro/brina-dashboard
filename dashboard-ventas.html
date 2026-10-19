@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Ventas — Mi Local</title>
+<title>Brina Pizzería — Ventas</title>
 <script>
 // Cache-bust: usa timestamp del minuto actual para forzar datos frescos
 var _cbv = (function(){ var d=new Date(); return d.getFullYear()+''+(d.getMonth()+1+'').padStart(2,'0')+''+(''+d.getDate()).padStart(2,'0')+''+(''+d.getHours()).padStart(2,'0')+''+(''+Math.floor(d.getMinutes()/10)).padStart(1,'0'); })();
@@ -16,29 +16,35 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
 <!-- Supabase (gastos en tiempo real) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="supabase-config.js" onerror="console.warn('supabase-config.js no encontrado')"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface2: #22263a;
-    --border: #2e3250;
-    --accent: #6c63ff;
-    --accent2: #ff6584;
-    --green: #22c55e;
-    --red: #ef4444;
-    --yellow: #f59e0b;
-    --text: #e2e8f0;
-    --muted: #8892b0;
-    --pedidosya: #fa005a;
-    --rappi: #ff441f;
-    --topeat: #00b140;
-    --haulmer: #6c63ff;
+    --bg: #F6EEE3;
+    --surface: #FFFFFF;
+    --surface2: #F6EEE3;
+    --border: #E5D6C1;
+    --accent: #7E5217;
+    --accent2: #B23A25;
+    --gold: #C48844;
+    --ink: #0A0A08;
+    --green: #56642F;
+    --red: #B23A25;
+    --yellow: #7E5217;
+    --text: #2B2A26;
+    --muted: #5A584F;
+    --pedidosya: #B23A25;
+    --rappi: #0A0A08;
+    --topeat: #56642F;
+    --haulmer: #C48844;
+    --estac: #035FAA;
     --radius: 12px;
-    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    --shadow: 0 2px 10px rgba(43,42,38,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Jost', 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
@@ -161,14 +167,14 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
   .kpi-sub { font-size: 0.75rem; color: var(--muted); }
   .kpi-badge {
     display: inline-block;
-    background: rgba(34,197,94,.15);
+    background: rgba(86,100,47,.15);
     color: var(--green);
     border-radius: 20px;
     padding: 2px 8px;
     font-size: 0.7rem;
     font-weight: 600;
   }
-  .kpi-badge.neg { background: rgba(239,68,68,.15); color: var(--red); }
+  .kpi-badge.neg { background: rgba(178,58,37,.15); color: var(--red); }
 
   /* ── Grilla 2 columnas ── */
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
@@ -249,8 +255,8 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     display: none;
     align-items: center;
     gap: 8px;
-    background: rgba(245,158,11,.12);
-    border: 1px solid rgba(245,158,11,.35);
+    background: rgba(196,136,68,.12);
+    border: 1px solid rgba(196,136,68,.35);
     border-radius: 8px;
     padding: 8px 16px;
     font-size: 0.8rem;
@@ -287,7 +293,7 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     vertical-align: middle;
   }
   tr:last-child td { border-bottom: none; }
-  tr:hover td { background: rgba(255,255,255,.02); }
+  tr:hover td { background: rgba(43,42,38,.02); }
   .badge {
     display: inline-block;
     padding: 3px 9px;
@@ -295,15 +301,15 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     font-size: 0.7rem;
     font-weight: 600;
   }
-  .badge-pedidosya { background: rgba(250,0,90,.15); color: var(--pedidosya); }
-  .badge-rappi { background: rgba(255,68,31,.15); color: var(--rappi); }
-  .badge-topeat { background: rgba(0,177,64,.15); color: var(--topeat); }
-  .badge-haulmer { background: rgba(108,99,255,.15); color: var(--haulmer); }
-  .badge-factura { background: rgba(245,158,11,.15); color: var(--yellow); }
-  .badge-boleta { background: rgba(34,197,94,.15); color: var(--green); }
-  .badge-pendiente { background: rgba(239,68,68,.15); color: var(--red); }
-  .badge-pagado { background: rgba(34,197,94,.15); color: var(--green); }
-  .badge-gasto { background: rgba(239,68,68,.15); color: var(--red); }
+  .badge-pedidosya { background: rgba(178,58,37,.15); color: var(--pedidosya); }
+  .badge-rappi { background: rgba(10,10,8,.15); color: var(--rappi); }
+  .badge-topeat { background: rgba(86,100,47,.15); color: var(--topeat); }
+  .badge-haulmer { background: rgba(196,136,68,.15); color: var(--haulmer); }
+  .badge-factura { background: rgba(196,136,68,.15); color: var(--yellow); }
+  .badge-boleta { background: rgba(86,100,47,.15); color: var(--green); }
+  .badge-pendiente { background: rgba(178,58,37,.15); color: var(--red); }
+  .badge-pagado { background: rgba(86,100,47,.15); color: var(--green); }
+  .badge-gasto { background: rgba(178,58,37,.15); color: var(--red); }
 
   /* ── Botones ── */
   .btn {
@@ -317,14 +323,14 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     display: inline-flex; align-items: center; gap: 6px;
   }
   .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #5a52d5; }
+  .btn-primary:hover { background: var(--ink); }
   .btn-outline {
     background: transparent;
     border: 1px solid var(--border);
     color: var(--text);
   }
   .btn-outline:hover { background: var(--surface2); }
-  .btn-danger { background: rgba(239,68,68,.15); color: var(--red); border: 1px solid rgba(239,68,68,.3); }
+  .btn-danger { background: rgba(178,58,37,.15); color: var(--red); border: 1px solid rgba(178,58,37,.3); }
   .btn-sm { padding: 5px 10px; font-size: 0.75rem; border-radius: 6px; }
 
   /* ── Modal / formulario ── */
@@ -448,6 +454,20 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
   .acc-plat-row:last-child { border-bottom: none; }
   .acc-plat-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
   .acc-plat-bar-fill { height: 100%; border-radius: 3px; }
+
+  /* ── Marca Brina: tipografía y franjas ── */
+  h1, h2, .page-header h1, .logo h2, .card-title, .section-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: .01em;
+  }
+  .page-header h1 { font-size: 1.75rem; font-weight: 700; color: var(--text); }
+  aside { background: var(--ink); border-right: 1px solid var(--ink); }
+  aside .logo { border-bottom: 1px solid rgba(196,136,68,.45); }
+  aside .logo h2 { color: var(--gold); font-size: 1.5rem; font-weight: 700; }
+  aside .logo p, aside .nav-section { color: #CFC6B8; }
+  aside nav a { color: #E9E2D6; }
+  aside nav a:hover, aside nav a.active { color: #FFFFFF; background: rgba(196,136,68,.16); border-left-color: var(--gold); }
+  aside nav::-webkit-scrollbar-thumb { background: rgba(196,136,68,.4); }
 </style>
 </head>
 <body>
@@ -455,8 +475,8 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
 <!-- ══════════════════ SIDEBAR ══════════════════ -->
 <aside>
   <div class="logo">
-    <h2>🍽 Mi Local</h2>
-    <p>Panel de Control</p>
+    <h2>Brina</h2>
+    <p>Pizzería · Panel de ventas</p>
   </div>
   <nav>
     <a class="active" onclick="showPage('resumen')">
@@ -558,7 +578,7 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     </div>
 
     <!-- Banner Haulmer -->
-    <div id="banner-haulmer" style="display:none;background:linear-gradient(135deg,rgba(108,99,255,.15),rgba(108,99,255,.05));border:1px solid rgba(108,99,255,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div id="banner-haulmer" style="display:none;background:rgba(196,136,68,.15);border:1px solid rgba(196,136,68,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
       <div style="display:flex;align-items:center;gap:10px">
         <span style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);flex-shrink:0"></span>
         <span style="font-size:0.82rem;font-weight:600;color:var(--accent)">Haulmer Live</span>
@@ -573,7 +593,7 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     </div>
 
     <!-- Banner Toteat -->
-    <div id="banner-toteat" style="display:none;background:linear-gradient(135deg,rgba(0,177,64,.12),rgba(0,177,64,.04));border:1px solid rgba(0,177,64,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div id="banner-toteat" style="display:none;background:rgba(86,100,47,.12);border:1px solid rgba(86,100,47,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
       <div style="display:flex;align-items:center;gap:10px">
         <span style="width:8px;height:8px;border-radius:50%;background:var(--topeat);box-shadow:0 0 6px var(--topeat);flex-shrink:0"></span>
         <span style="font-size:0.82rem;font-weight:600;color:var(--topeat)">Toteat Live</span>
@@ -588,7 +608,7 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     </div>
 
     <!-- Banner PedidosYa -->
-    <div id="banner-pedidosya" style="display:none;background:linear-gradient(135deg,rgba(250,0,90,.12),rgba(250,0,90,.04));border:1px solid rgba(250,0,90,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div id="banner-pedidosya" style="display:none;background:rgba(178,58,37,.12);border:1px solid rgba(178,58,37,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
       <div style="display:flex;align-items:center;gap:10px">
         <span id="banner-pya-dot" style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0"></span>
         <span style="font-size:0.82rem;font-weight:600;color:var(--pedidosya)">PedidosYa Live</span>
@@ -602,7 +622,7 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     </div>
 
     <!-- Banner Rappi -->
-    <div id="banner-rappi" style="display:none;background:linear-gradient(135deg,rgba(255,68,31,.12),rgba(255,68,31,.04));border:1px solid rgba(255,68,31,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+    <div id="banner-rappi" style="display:none;background:rgba(10,10,8,.12);border:1px solid rgba(10,10,8,.3);border-radius:var(--radius);padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
       <div style="display:flex;align-items:center;gap:10px">
         <span id="banner-rappi-dot" style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0"></span>
         <span style="font-size:0.82rem;font-weight:600;color:var(--rappi)">Rappi Live</span>
@@ -637,10 +657,10 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
         <div class="kpi-value" id="kpi-facturas">0</div>
         <div class="kpi-sub"><span class="kpi-badge" id="kpi-boletas-sub">0 boletas</span></div>
       </div>
-      <div class="kpi" style="border-color:rgba(246,201,14,.5);background:rgba(246,201,14,.07)">
-        <div class="kpi-label" style="color:#f6c90e">🍽️ Propinas del mes</div>
-        <div class="kpi-value" id="kpi-propinas-mes" style="color:#f6c90e">$0</div>
-        <div class="kpi-sub"><span id="kpi-propinas-dias" style="color:#8892b0;font-size:.7rem"></span></div>
+      <div class="kpi" style="border-color:rgba(43,42,38,.5);background:rgba(43,42,38,.07)">
+        <div class="kpi-label" style="color:#2B2A26">🍽️ Propinas del mes</div>
+        <div class="kpi-value" id="kpi-propinas-mes" style="color:#2B2A26">$0</div>
+        <div class="kpi-sub"><span id="kpi-propinas-dias" style="color:#5A584F;font-size:.7rem"></span></div>
       </div>
     </div>
 
@@ -705,19 +725,19 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
         <span class="card-muted" id="horas-label"></span>
       </div>
       <div style="display:flex;align-items:center;gap:10px;padding:0 16px 10px;">
-        <label style="font-size:12px;color:#8892b0;white-space:nowrap">Seleccionar día:</label>
+        <label style="font-size:12px;color:#5A584F;white-space:nowrap">Seleccionar día:</label>
         <input type="date" id="horas-fecha-picker"
-               style="background:#1e2140;border:1px solid #2e3250;color:#ccd6f6;border-radius:6px;padding:4px 8px;font-size:13px;cursor:pointer"
+               style="background:#FFFFFF;border:1px solid #E5D6C1;color:#2B2A26;border-radius:6px;padding:4px 8px;font-size:13px;cursor:pointer"
                onchange="onHorasFechaChange(this.value)">
         <button onclick="onHorasFechaChange('hoy')"
-                style="background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.4);color:#a78bfa;border-radius:6px;padding:4px 12px;font-size:12px;cursor:pointer">
+                style="background:rgba(196,136,68,.15);border:1px solid rgba(196,136,68,.4);color:#7E5217;border-radius:6px;padding:4px 12px;font-size:12px;cursor:pointer">
           Hoy
         </button>
       </div>
       <div class="chart-container" style="height:220px">
         <canvas id="chart-horas"></canvas>
       </div>
-      <p id="horas-nota" style="font-size:11px;color:#4a5568;margin:4px 16px 12px;display:none"></p>
+      <p id="horas-nota" style="font-size:11px;color:#CDBBA3;margin:4px 16px 12px;display:none"></p>
     </div>
   </div>
 
@@ -1379,11 +1399,11 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
     <!-- Selector de POS -->
     <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
       <button id="pos-tab-pizza" onclick="selectPOS('pizza')"
-        style="padding:8px 20px;border-radius:8px;border:2px solid #6c63ff;background:#6c63ff;color:#fff;cursor:pointer;font-weight:600;font-size:0.9rem">
+        style="padding:8px 20px;border-radius:8px;border:2px solid #7E5217;background:#7E5217;color:#fff;cursor:pointer;font-weight:600;font-size:0.9rem">
         🍕 Pizzería
       </button>
       <button id="pos-tab-estac" onclick="selectPOS('estac')"
-        style="padding:8px 20px;border-radius:8px;border:2px solid #4a5568;background:transparent;color:#8892b0;cursor:pointer;font-weight:600;font-size:0.9rem">
+        style="padding:8px 20px;border-radius:8px;border:2px solid #CDBBA3;background:transparent;color:#5A584F;cursor:pointer;font-weight:600;font-size:0.9rem">
         🅿️ Estacionamiento
       </button>
     </div>
@@ -1403,27 +1423,27 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
       <div class="kpi">
         <div class="kpi-label">Débito</div>
         <div class="kpi-value" id="pos-kpi-deb">$0</div>
-        <div class="kpi-sub" id="pos-kpi-deb-mes" style="color:#8892b0;font-size:.75rem"></div>
+        <div class="kpi-sub" id="pos-kpi-deb-mes" style="color:#5A584F;font-size:.75rem"></div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Crédito</div>
         <div class="kpi-value" id="pos-kpi-cre">$0</div>
-        <div class="kpi-sub" id="pos-kpi-cre-mes" style="color:#8892b0;font-size:.75rem"></div>
+        <div class="kpi-sub" id="pos-kpi-cre-mes" style="color:#5A584F;font-size:.75rem"></div>
       </div>
       <div class="kpi">
         <div class="kpi-label">Efectivo</div>
         <div class="kpi-value" id="pos-kpi-efe">$0</div>
-        <div class="kpi-sub" id="pos-kpi-efe-mes" style="color:#8892b0;font-size:.75rem"></div>
+        <div class="kpi-sub" id="pos-kpi-efe-mes" style="color:#5A584F;font-size:.75rem"></div>
       </div>
-      <div class="kpi" style="border-color:rgba(246,201,14,.5);background:rgba(246,201,14,.07)">
-        <div class="kpi-label" style="color:#f6c90e">🍽️ Propinas del Mes</div>
-        <div class="kpi-value" id="pos-kpi-prop" style="color:#f6c90e">$0</div>
-        <div class="kpi-sub"><span id="pos-kpi-prop-dias" style="color:#8892b0;font-size:.7rem"></span></div>
+      <div class="kpi" style="border-color:rgba(43,42,38,.5);background:rgba(43,42,38,.07)">
+        <div class="kpi-label" style="color:#2B2A26">🍽️ Propinas del Mes</div>
+        <div class="kpi-value" id="pos-kpi-prop" style="color:#2B2A26">$0</div>
+        <div class="kpi-sub"><span id="pos-kpi-prop-dias" style="color:#5A584F;font-size:.7rem"></span></div>
       </div>
-      <div class="kpi" style="border-color:rgba(99,179,237,.5);background:rgba(99,179,237,.07)">
-        <div class="kpi-label" style="color:#63b3ed">🎫 Ticket Promedio Mes</div>
-        <div class="kpi-value" id="pos-kpi-ticket" style="color:#63b3ed">$0</div>
-        <div class="kpi-sub"><span id="pos-kpi-ticket-tx" style="color:#8892b0;font-size:.7rem"></span></div>
+      <div class="kpi" style="border-color:rgba(86,100,47,.5);background:rgba(86,100,47,.07)">
+        <div class="kpi-label" style="color:#56642F">🎫 Ticket Promedio Mes</div>
+        <div class="kpi-value" id="pos-kpi-ticket" style="color:#56642F">$0</div>
+        <div class="kpi-sub"><span id="pos-kpi-ticket-tx" style="color:#5A584F;font-size:.7rem"></span></div>
       </div>
     </div>
 
@@ -1492,10 +1512,10 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
               <th>Mes</th>
               <th style="text-align:right">🍕 Ventas Pizzería</th>
               <th style="text-align:right">Tx</th>
-              <th style="text-align:right;color:#6c63ff">Ticket Prom.</th>
+              <th style="text-align:right;color:#7E5217">Ticket Prom.</th>
               <th style="text-align:right">🅿️ Ventas Estac.</th>
               <th style="text-align:right">Tx</th>
-              <th style="text-align:right;color:#38b2ac">Ticket Prom.</th>
+              <th style="text-align:right;color:#035FAA">Ticket Prom.</th>
             </tr>
           </thead>
           <tbody id="pos-ticket-tbody"></tbody>
@@ -1508,20 +1528,20 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
       <div class="card-header" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
         <span class="card-title" id="pos-horas-titulo">⏱ Ventas por Hora del Día — POS</span>
         <div style="display:flex;align-items:center;gap:8px">
-          <label style="color:#8892b0;font-size:.8rem">Día:</label>
+          <label style="color:#5A584F;font-size:.8rem">Día:</label>
           <input type="date" id="pos-horas-fecha"
-                 style="background:#1e2140;border:1px solid #3a3f6e;color:#cdd6f4;padding:3px 8px;border-radius:6px;font-size:.8rem">
+                 style="background:#FFFFFF;border:1px solid #E5D6C1;color:#2B2A26;padding:3px 8px;border-radius:6px;font-size:.8rem">
           <button onclick="posHorasFechaHoy()"
-                  style="background:#6c63ff;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.8rem;cursor:pointer">Hoy</button>
+                  style="background:#7E5217;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.8rem;cursor:pointer">Hoy</button>
         </div>
       </div>
       <!-- Curvas de referencia propinas: toggle -->
       <div style="padding:4px 16px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <label style="font-size:.75rem;color:#8892b0;display:flex;align-items:center;gap:5px;cursor:pointer">
+        <label style="font-size:.75rem;color:#5A584F;display:flex;align-items:center;gap:5px;cursor:pointer">
           <input type="checkbox" id="pos-horas-prop-check" checked onchange="renderPosHoras()">
-          <span style="color:#f6c90e">Mostrar curvas propinas 2026</span>
+          <span style="color:#2B2A26">Mostrar curvas propinas 2026</span>
         </label>
-        <span id="pos-horas-prop-info" style="font-size:.72rem;color:#8892b0"></span>
+        <span id="pos-horas-prop-info" style="font-size:.72rem;color:#5A584F"></span>
       </div>
       <div class="chart-container" style="height:240px;margin-top:8px">
         <canvas id="chart-pos-horas"></canvas>
@@ -1533,33 +1553,33 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
       <div class="card-header" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
         <span class="card-title">📊 Desempeño por Hora — Días Recientes (ambos POS)</span>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-          <label style="color:#8892b0;font-size:.8rem">Días:</label>
+          <label style="color:#5A584F;font-size:.8rem">Días:</label>
           <select id="pos-multidias-n" onchange="renderPosMultiDias()"
-                  style="background:#1e2140;border:1px solid #3a3f6e;color:#cdd6f4;padding:3px 10px;border-radius:6px;font-size:.8rem">
+                  style="background:#FFFFFF;border:1px solid #E5D6C1;color:#2B2A26;padding:3px 10px;border-radius:6px;font-size:.8rem">
             <option value="5">Últimos 5 días</option>
             <option value="7" selected>Últimos 7 días</option>
             <option value="14">Últimos 14 días</option>
             <option value="30">Últimos 30 días</option>
           </select>
-          <label style="color:#8892b0;font-size:.8rem">Hasta:</label>
+          <label style="color:#5A584F;font-size:.8rem">Hasta:</label>
           <input type="date" id="pos-multidias-hasta"
-                 style="background:#1e2140;border:1px solid #3a3f6e;color:#cdd6f4;padding:3px 8px;border-radius:6px;font-size:.8rem"
+                 style="background:#FFFFFF;border:1px solid #E5D6C1;color:#2B2A26;padding:3px 8px;border-radius:6px;font-size:.8rem"
                  onchange="renderPosMultiDias()">
           <button onclick="posMultiDiasHoy()"
-                  style="background:#6c63ff;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.8rem;cursor:pointer">Hoy</button>
+                  style="background:#7E5217;color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.8rem;cursor:pointer">Hoy</button>
         </div>
       </div>
-      <div style="padding:6px 16px 0;font-size:.73rem;color:#8892b0" id="pos-multidias-info"></div>
+      <div style="padding:6px 16px 0;font-size:.73rem;color:#5A584F" id="pos-multidias-info"></div>
       <!-- Pizzería -->
       <div style="margin-top:14px">
-        <div style="font-size:.85rem;font-weight:700;color:#6c63ff;padding:0 16px 4px">🍕 Pizzería</div>
+        <div style="font-size:.85rem;font-weight:700;color:#7E5217;padding:0 16px 4px">🍕 Pizzería</div>
         <div class="chart-container" style="height:230px">
           <canvas id="chart-pos-multidias-pizza"></canvas>
         </div>
       </div>
       <!-- Estacionamiento -->
       <div style="margin-top:22px">
-        <div style="font-size:.85rem;font-weight:700;color:#38b2ac;padding:0 16px 4px">🅿️ Estacionamiento</div>
+        <div style="font-size:.85rem;font-weight:700;color:#035FAA;padding:0 16px 4px">🅿️ Estacionamiento</div>
         <div class="chart-container" style="height:230px">
           <canvas id="chart-pos-multidias-estac"></canvas>
         </div>
@@ -1694,16 +1714,16 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
       </select>
     </div>
     <div class="form-group">
-      <label>Foto / Comprobante <span style="color:#4a5568;font-weight:400">(opcional)</span></label>
-      <div id="g-foto-upload-area" style="border:2px dashed #2e3250;border-radius:8px;padding:14px;text-align:center;cursor:pointer;position:relative;transition:border-color .2s">
+      <label>Foto / Comprobante <span style="color:#CDBBA3;font-weight:400">(opcional)</span></label>
+      <div id="g-foto-upload-area" style="border:2px dashed #E5D6C1;border-radius:8px;padding:14px;text-align:center;cursor:pointer;position:relative;transition:border-color .2s">
         <input type="file" id="g-foto" accept="image/*" capture="environment" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%" onchange="onDashFotoSelected(this)">
         <div style="font-size:22px;margin-bottom:4px">📷</div>
-        <div style="font-size:12px;color:#8892b0">Toca para adjuntar foto</div>
+        <div style="font-size:12px;color:#5A584F">Toca para adjuntar foto</div>
       </div>
-      <div id="g-foto-preview" style="display:none;margin-top:8px;position:relative;border-radius:8px;overflow:hidden;border:1px solid #2e3250">
+      <div id="g-foto-preview" style="display:none;margin-top:8px;position:relative;border-radius:8px;overflow:hidden;border:1px solid #E5D6C1">
         <img id="g-foto-preview-img" src="" style="width:100%;max-height:160px;object-fit:cover;display:block">
         <button onclick="quitarFotoDash()" style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);color:#fff;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:13px">✕</button>
-        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);padding:4px 8px;font-size:11px;color:#64ffda" id="g-foto-nombre"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.5);padding:4px 8px;font-size:11px;color:#56642F" id="g-foto-nombre"></div>
       </div>
     </div>
     <div class="modal-actions">
@@ -1715,18 +1735,18 @@ document.write('<scr'+'ipt src="rappi-data.js?v='+_cbv+'" onerror="console.warn(
 
 <!-- Modal Visor Foto Comprobante -->
 <div class="modal-backdrop" id="modal-foto-comprobante" style="z-index:9999">
-  <div style="background:#1a1f3a;border-radius:14px;padding:20px;max-width:92vw;max-height:90vh;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative" onclick="event.stopPropagation()">
+  <div style="background:#FFFFFF;border-radius:14px;padding:20px;max-width:92vw;max-height:90vh;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);position:relative" onclick="event.stopPropagation()">
     <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
-      <span style="font-size:15px;font-weight:600;color:#e2e8f0">📷 Comprobante</span>
-      <button onclick="cerrarModalFoto()" style="background:rgba(255,255,255,.08);border:none;color:#8892b0;cursor:pointer;border-radius:6px;padding:4px 10px;font-size:18px;line-height:1">✕</button>
+      <span style="font-size:15px;font-weight:600;color:#2B2A26">📷 Comprobante</span>
+      <button onclick="cerrarModalFoto()" style="background:rgba(43,42,38,.08);border:none;color:#5A584F;cursor:pointer;border-radius:6px;padding:4px 10px;font-size:18px;line-height:1">✕</button>
     </div>
-    <div style="overflow:auto;max-height:75vh;border-radius:8px;background:#0d1117;display:flex;align-items:center;justify-content:center;min-height:200px">
+    <div style="overflow:auto;max-height:75vh;border-radius:8px;background:#F6EEE3;display:flex;align-items:center;justify-content:center;min-height:200px">
       <img id="foto-comprobante-img" src="" alt="Comprobante"
         style="max-width:100%;max-height:72vh;border-radius:8px;object-fit:contain;display:block">
     </div>
     <div style="text-align:center">
       <a id="foto-comprobante-link" href="" target="_blank"
-        style="font-size:12px;color:#a78bfa;text-decoration:none;opacity:.7">
+        style="font-size:12px;color:#7E5217;text-decoration:none;opacity:.7">
         Abrir en pestaña nueva ↗
       </a>
     </div>
@@ -1801,11 +1821,11 @@ let filtroDoc = 'all';
 let charts = {};
 
 const PLAT_COLORS = {
-  PedidosYa: '#fa005a',
-  Rappi: '#ff441f',
-  Toteat: '#00b140',
-  Haulmer: '#6c63ff',
-  Directo: '#8892b0'
+  PedidosYa: '#B23A25',
+  Rappi: '#0A0A08',
+  Toteat: '#56642F',
+  Haulmer: '#C48844',
+  Directo: '#5A584F'
 };
 
 const PLAT_LABELS = {
@@ -2298,7 +2318,7 @@ function renderResumen() {
           <td>${fmtFecha(r.fecha)}</td>
           <td><span class="badge badge-gasto">Gasto</span></td>
           <td>${r.descripcion}${fotoLink}</td>
-          <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa">${r.categoria}</span></td>
+          <td><span class="badge" style="background:rgba(196,136,68,.15);color:#7E5217">${r.categoria}</span></td>
           <td class="text-red font-bold">-${fmt(r.monto)}</td>
         </tr>`;
       }
@@ -2344,7 +2364,7 @@ function renderCharts(ventas, gastos, liveByPlat) {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'right', labels: { color: '#8892b0', font: { size: 11 }, padding: 12 } },
+        legend: { position: 'right', labels: { color: '#5A584F', font: { size: 11 }, padding: 12 } },
         tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.parsed)}` } }
       }
     }
@@ -2387,16 +2407,16 @@ function renderCharts(ventas, gastos, liveByPlat) {
     data: {
       labels: mLabels.map(m => { const [y,mo]=m.split('-'); return new Date(y,mo-1).toLocaleDateString('es',{month:'short',year:'2-digit'}); }),
       datasets: [
-        { label: 'Ingresos', data: mLabels.map(m=>meses[m].ing), backgroundColor: 'rgba(34,197,94,.7)', borderRadius: 4 },
-        { label: 'Gastos',   data: mLabels.map(m=>meses[m].gas), backgroundColor: 'rgba(239,68,68,.7)', borderRadius: 4 }
+        { label: 'Ingresos', data: mLabels.map(m=>meses[m].ing), backgroundColor: 'rgba(86,100,47,.7)', borderRadius: 4 },
+        { label: 'Gastos',   data: mLabels.map(m=>meses[m].gas), backgroundColor: 'rgba(178,58,37,.7)', borderRadius: 4 }
       ]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { labels: { color: '#8892b0', font:{size:11} } } },
+      plugins: { legend: { labels: { color: '#5A584F', font:{size:11} } } },
       scales: {
-        x: { ticks: { color: '#8892b0' }, grid: { color: '#2e3250' } },
-        y: { ticks: { color: '#8892b0', callback: v=>'$'+v.toLocaleString('es-AR') }, grid: { color: '#2e3250' } }
+        x: { ticks: { color: '#5A584F' }, grid: { color: '#E5D6C1' } },
+        y: { ticks: { color: '#5A584F', callback: v=>'$'+v.toLocaleString('es-AR') }, grid: { color: '#E5D6C1' } }
       }
     }
   });
@@ -2433,8 +2453,8 @@ function renderCharts(ventas, gastos, liveByPlat) {
         {
           label: 'Ventas diarias',
           data: dailySales,
-          borderColor: '#6c63ff',
-          backgroundColor: 'rgba(108,99,255,.1)',
+          borderColor: '#C48844',
+          backgroundColor: 'rgba(196,136,68,.1)',
           fill: true,
           tension: 0.4,
           pointRadius: 2,
@@ -2444,8 +2464,8 @@ function renderCharts(ventas, gastos, liveByPlat) {
         {
           label: '🍽 Propinas',
           data: dailyPropinas,
-          borderColor: '#f6c90e',
-          backgroundColor: 'rgba(246,201,14,.15)',
+          borderColor: '#2B2A26',
+          backgroundColor: 'rgba(43,42,38,.15)',
           fill: true,
           tension: 0.4,
           pointRadius: 4,
@@ -2459,7 +2479,7 @@ function renderCharts(ventas, gastos, liveByPlat) {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#8892b0', font:{size:11}, boxWidth: 14 } },
+        legend: { labels: { color: '#5A584F', font:{size:11}, boxWidth: 14 } },
         tooltip: {
           callbacks: {
             label: ctx => `${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString('es-CL')}`
@@ -2467,17 +2487,17 @@ function renderCharts(ventas, gastos, liveByPlat) {
         }
       },
       scales: {
-        x: { ticks: { color: '#8892b0', maxTicksLimit:10 }, grid: { color: '#2e3250' } },
+        x: { ticks: { color: '#5A584F', maxTicksLimit:10 }, grid: { color: '#E5D6C1' } },
         y: {
           type: 'linear', position: 'left',
-          ticks: { color: '#8892b0', callback: v=>'$'+v.toLocaleString('es-AR') },
-          grid: { color: '#2e3250' }
+          ticks: { color: '#5A584F', callback: v=>'$'+v.toLocaleString('es-AR') },
+          grid: { color: '#E5D6C1' }
         },
         y2: {
           type: 'linear', position: 'right',
-          ticks: { color: '#f6c90e', callback: v=>'$'+v.toLocaleString('es-AR') },
+          ticks: { color: '#2B2A26', callback: v=>'$'+v.toLocaleString('es-AR') },
           grid: { drawOnChartArea: false },
-          title: { display: true, text: 'Propinas', color: '#f6c90e', font:{size:10} }
+          title: { display: true, text: 'Propinas', color: '#2B2A26', font:{size:10} }
         }
       }
     }
@@ -2600,8 +2620,8 @@ function renderHorasChart() {
           type: 'bar',
           label: 'Ventas / hora',
           data: barData,
-          backgroundColor: 'rgba(108,99,255,0.5)',
-          borderColor: '#6c63ff',
+          backgroundColor: 'rgba(196,136,68,0.5)',
+          borderColor: '#C48844',
           borderWidth: 1,
           borderRadius: 4,
           yAxisID: 'yBar'
@@ -2610,8 +2630,8 @@ function renderHorasChart() {
           type: 'line',
           label: 'Acumulado',
           data: lineData,
-          borderColor: '#00d4aa',
-          backgroundColor: 'rgba(0,212,170,0.1)',
+          borderColor: '#56642F',
+          backgroundColor: 'rgba(86,100,47,0.1)',
           borderWidth: 2,
           pointRadius: 4,
           pointHoverRadius: 6,
@@ -2624,7 +2644,7 @@ function renderHorasChart() {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#8892b0', font: { size: 11 } } },
+        legend: { labels: { color: '#5A584F', font: { size: 11 } } },
         tooltip: {
           callbacks: {
             label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString('es-CL')}`
@@ -2632,18 +2652,18 @@ function renderHorasChart() {
         }
       },
       scales: {
-        x: { ticks: { color: '#8892b0' }, grid: { color: '#2e3250' } },
+        x: { ticks: { color: '#5A584F' }, grid: { color: '#E5D6C1' } },
         yBar: {
           type: 'linear', position: 'left',
-          ticks: { color: '#8892b0', callback: v => '$' + v.toLocaleString('es-CL') },
-          grid: { color: '#2e3250' },
-          title: { display: true, text: 'Por hora', color: '#6c63ff', font: { size: 10 } }
+          ticks: { color: '#5A584F', callback: v => '$' + v.toLocaleString('es-CL') },
+          grid: { color: '#E5D6C1' },
+          title: { display: true, text: 'Por hora', color: '#7E5217', font: { size: 10 } }
         },
         yLine: {
           type: 'linear', position: 'right',
-          ticks: { color: '#00d4aa', callback: v => '$' + v.toLocaleString('es-CL') },
+          ticks: { color: '#56642F', callback: v => '$' + v.toLocaleString('es-CL') },
           grid: { drawOnChartArea: false },
-          title: { display: true, text: 'Acumulado', color: '#00d4aa', font: { size: 10 } }
+          title: { display: true, text: 'Acumulado', color: '#56642F', font: { size: 10 } }
         }
       }
     }
@@ -2792,7 +2812,7 @@ function renderVentas() {
 
   tb.innerHTML = todas.map(v => {
     const liveBadge = v._live
-      ? `<span style="font-size:.65rem;background:rgba(100,255,180,.12);color:#4ade80;border:1px solid rgba(100,255,180,.3);border-radius:4px;padding:1px 5px;margin-left:4px">Live</span>`
+      ? `<span style="font-size:.65rem;background:rgba(86,100,47,.12);color:#56642F;border:1px solid rgba(86,100,47,.3);border-radius:4px;padding:1px 5px;margin-left:4px">Live</span>`
       : '';
     const accion = v._live
       ? `<span style="color:var(--muted);font-size:.75rem">auto</span>`
@@ -2968,13 +2988,13 @@ function _renderChartGastosMes(todosGastos) {
   if (_chartGastosMes) _chartGastosMes.destroy();
   _chartGastosMes = new Chart(ctx.getContext('2d'), {
     type: 'bar',
-    data: { labels, datasets: [{ label: 'Gastos', data: totales, backgroundColor: 'rgba(239,68,68,.65)', borderColor:'#ef4444', borderWidth:1, borderRadius:4 }] },
+    data: { labels, datasets: [{ label: 'Gastos', data: totales, backgroundColor: 'rgba(178,58,37,.65)', borderColor:'#B23A25', borderWidth:1, borderRadius:4 }] },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend:{display:false}, tooltip:{ callbacks:{ label: ctx => ' $'+ctx.parsed.y.toLocaleString('es-CL') } } },
       scales: {
-        x: { grid:{color:'rgba(255,255,255,.05)'}, ticks:{color:'#8892b0',font:{size:10}} },
-        y: { grid:{color:'rgba(255,255,255,.05)'}, ticks:{color:'#8892b0',font:{size:10}, callback:v=>'$'+v.toLocaleString('es-CL')} }
+        x: { grid:{color:'rgba(43,42,38,.05)'}, ticks:{color:'#5A584F',font:{size:10}} },
+        y: { grid:{color:'rgba(43,42,38,.05)'}, ticks:{color:'#5A584F',font:{size:10}, callback:v=>'$'+v.toLocaleString('es-CL')} }
       }
     }
   });
@@ -2987,7 +3007,7 @@ function _renderChartGastosCat(gastos) {
   gastos.forEach(g => byCat[g.categoria]=(byCat[g.categoria]||0)+g.monto);
   const sorted = Object.entries(byCat).sort((a,b)=>b[1]-a[1]);
   if (!sorted.length) { if(_chartGastosCat){_chartGastosCat.destroy();_chartGastosCat=null;} return; }
-  const COLORS = ['#6c63ff','#ef4444','#f59e0b','#22c55e','#ec4899','#14b8a6','#f97316','#8b5cf6','#06b6d4','#84cc16'];
+  const COLORS = ['#C48844','#B23A25','#56642F','#2B2A26','#7E5217','#D9B585','#8A9466','#D07A68','#5A584F','#A89F8C'];
   if (_chartGastosCat) _chartGastosCat.destroy();
   _chartGastosCat = new Chart(ctx.getContext('2d'), {
     type: 'doughnut',
@@ -2995,7 +3015,7 @@ function _renderChartGastosCat(gastos) {
     options: {
       responsive:true, maintainAspectRatio:false,
       plugins: {
-        legend: { position:'right', labels:{ color:'#8892b0', font:{size:10}, padding:10, boxWidth:10 } },
+        legend: { position:'right', labels:{ color:'#5A584F', font:{size:10}, padding:10, boxWidth:10 } },
         tooltip: { callbacks:{ label: c => ` ${c.label}: $${c.parsed.toLocaleString('es-CL')} (${Math.round(c.parsed/sorted.reduce((s,[,v])=>s+v,0)*100)}%)` } }
       }
     }
@@ -3054,19 +3074,19 @@ function renderGastos() {
     const safeId  = String(g.id).replace(/"/g,'');
     const fotoBtn = g.foto_url
       ? `<button data-url="${safeUrl}" onclick="verFotoComprobante(this.dataset.url)" title="Ver comprobante"
-           style="display:inline-flex;align-items:center;gap:5px;background:rgba(108,99,255,.12);
-                  border:1px solid rgba(108,99,255,.3);color:#a78bfa;border-radius:6px;
+           style="display:inline-flex;align-items:center;gap:5px;background:rgba(196,136,68,.12);
+                  border:1px solid rgba(196,136,68,.3);color:#7E5217;border-radius:6px;
                   padding:4px 10px;font-size:12px;cursor:pointer">📷 Ver</button>`
-      : '<span style="color:#4a5568;font-size:11px">—</span>';
+      : '<span style="color:#CDBBA3;font-size:11px">—</span>';
     return `<tr>
       <td>${fmtFecha(g.fecha)}</td>
-      <td><span class="badge" style="background:rgba(139,92,246,.15);color:#a78bfa;font-size:.7rem">${g.categoria}</span></td>
+      <td><span class="badge" style="background:rgba(196,136,68,.15);color:#7E5217;font-size:.7rem">${g.categoria}</span></td>
       <td>${g.descripcion||'—'}</td>
       <td>${g.proveedor||'—'}</td>
-      <td>${g.trabajador ? `<span style="font-size:12px;color:var(--muted)">${g.trabajador}</span>` : '<span style="color:#4a5568;font-size:11px">—</span>'}</td>
+      <td>${g.trabajador ? `<span style="font-size:12px;color:var(--muted)">${g.trabajador}</span>` : '<span style="color:#CDBBA3;font-size:11px">—</span>'}</td>
       <td class="font-bold text-red">${fmt(g.monto)}</td>
       <td>${fotoBtn}</td>
-      <td style="white-space:nowrap">${g._supabase?'<span title="Vía app trabajador" style="color:#8892b0;font-size:12px;margin-right:4px">👤</span>':''}<button class="btn btn-danger btn-sm" data-id="${safeId}" onclick="eliminarGasto(this.dataset.id)" title="Eliminar">✕</button></td>
+      <td style="white-space:nowrap">${g._supabase?'<span title="Vía app trabajador" style="color:#5A584F;font-size:12px;margin-right:4px">👤</span>':''}<button class="btn btn-danger btn-sm" data-id="${safeId}" onclick="eliminarGasto(this.dataset.id)" title="Eliminar">✕</button></td>
     </tr>`;
   }).join('');
 }
@@ -3207,7 +3227,7 @@ function renderHaulmer() {
       const pctDeb  = total ? Math.round(deb  / total * 100) : 0;
       const pctCred = total ? Math.round(cred / total * 100) : 0;
       const pctEfec = total ? Math.round(efec / total * 100) : 0;
-      const colors = ['var(--accent)', 'var(--green)', '#ff6584', '#f59e0b'];
+      const colors = ['var(--gold)', 'var(--green)', '#B23A25', 'var(--ink)'];
       const color = colors[idx % colors.length];
       return `
       <div class="card" style="border-top:3px solid ${color};margin:0">
@@ -3234,7 +3254,7 @@ function renderHaulmer() {
         </div>
         <div style="margin-top:10px;height:6px;border-radius:3px;background:var(--surface2);overflow:hidden;display:flex">
           <div style="width:${pctDeb}%;background:var(--accent);transition:width .4s"></div>
-          ${cred > 0 ? `<div style="width:${pctCred}%;background:#ff6584;transition:width .4s"></div>` : ''}
+          ${cred > 0 ? `<div style="width:${pctCred}%;background:#B23A25;transition:width .4s"></div>` : ''}
           <div style="width:${pctEfec}%;background:var(--green);transition:width .4s"></div>
         </div>
       </div>`;
@@ -3250,7 +3270,7 @@ function renderHaulmer() {
       labels: ['Débito', 'Crédito', 'Efectivo'],
       datasets: [{
         data: [m.debito||0, m.credito||0, m.efectivo||0],
-        backgroundColor: ['#6c63ff','#ff6584','#22c55e'],
+        backgroundColor: ['#C48844','#B23A25','#56642F'],
         borderWidth: 0,
         hoverOffset: 6
       }]
@@ -3258,7 +3278,7 @@ function renderHaulmer() {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'right', labels: { color:'#8892b0', font:{size:11}, padding:12 }},
+        legend: { position: 'right', labels: { color:'#5A584F', font:{size:11}, padding:12 }},
         tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.parsed)}` }}
       }
     }
@@ -3374,14 +3394,14 @@ function renderToteat() {
       labels: ['Efectivo', 'Tarjeta'],
       datasets: [{
         data: [efectivo, tarjeta],
-        backgroundColor: ['#22c55e', '#6c63ff'],
+        backgroundColor: ['#56642F', '#C48844'],
         borderWidth: 0, hoverOffset: 6
       }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'right', labels: { color:'#8892b0', font:{size:11}, padding:12 }},
+        legend: { position: 'right', labels: { color:'#5A584F', font:{size:11}, padding:12 }},
         tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.parsed)}` }}
       }
     }
@@ -3535,14 +3555,14 @@ function renderPedidosYa() {
           {
             label: 'Revenue',
             data: perf.map(d => Number(d.revenue||0)),
-            backgroundColor: 'rgba(250,0,90,.7)',
+            backgroundColor: 'rgba(178,58,37,.7)',
             borderRadius: 4,
             yAxisID: 'y',
           },
           {
             label: 'Pedidos',
             data: perf.map(d => d.orderCount),
-            backgroundColor: 'rgba(250,0,90,.25)',
+            backgroundColor: 'rgba(178,58,37,.25)',
             borderRadius: 4,
             yAxisID: 'y2',
           }
@@ -3551,11 +3571,11 @@ function renderPedidosYa() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#8892b0', font: { size: 11 } } } },
+        plugins: { legend: { labels: { color: '#5A584F', font: { size: 11 } } } },
         scales: {
-          x:  { ticks: { color: '#8892b0' }, grid: { color: '#2e3250' } },
-          y:  { position: 'left',  ticks: { color: '#8892b0', callback: v => '$' + v.toLocaleString('es-CL') }, grid: { color: '#2e3250' } },
-          y2: { position: 'right', ticks: { color: '#8892b0' }, grid: { drawOnChartArea: false } }
+          x:  { ticks: { color: '#5A584F' }, grid: { color: '#E5D6C1' } },
+          y:  { position: 'left',  ticks: { color: '#5A584F', callback: v => '$' + v.toLocaleString('es-CL') }, grid: { color: '#E5D6C1' } },
+          y2: { position: 'right', ticks: { color: '#5A584F' }, grid: { drawOnChartArea: false } }
         }
       }
     });
@@ -3649,14 +3669,14 @@ function renderRappi() {
           {
             label: 'Ventas ($)',
             data: dias.map(d => d.amount),
-            backgroundColor: 'rgba(255,68,31,.7)',
+            backgroundColor: 'rgba(10,10,8,.7)',
             borderRadius: 4,
             yAxisID: 'y',
           },
           {
             label: 'Pedidos',
             data: dias.map(d => d.orders),
-            backgroundColor: 'rgba(255,68,31,.25)',
+            backgroundColor: 'rgba(10,10,8,.25)',
             borderRadius: 4,
             yAxisID: 'y2',
           }
@@ -3665,11 +3685,11 @@ function renderRappi() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#8892b0', font: { size: 11 } } } },
+        plugins: { legend: { labels: { color: '#5A584F', font: { size: 11 } } } },
         scales: {
-          x:  { ticks: { color: '#8892b0' }, grid: { color: '#2e3250' } },
-          y:  { position: 'left',  ticks: { color: '#8892b0', callback: v => '$' + v.toLocaleString('es-CL') }, grid: { color: '#2e3250' } },
-          y2: { position: 'right', ticks: { color: '#8892b0' }, grid: { drawOnChartArea: false } }
+          x:  { ticks: { color: '#5A584F' }, grid: { color: '#E5D6C1' } },
+          y:  { position: 'left',  ticks: { color: '#5A584F', callback: v => '$' + v.toLocaleString('es-CL') }, grid: { color: '#E5D6C1' } },
+          y2: { position: 'right', ticks: { color: '#5A584F' }, grid: { drawOnChartArea: false } }
         }
       }
     });
@@ -3687,7 +3707,7 @@ const POS_SERIALS = {
   estac: 'PB1T238420182',       // Estacionamiento — sin propinas
 };
 const POS_NOMBRES = { pizza: 'Pizzería', estac: 'Estacionamiento' };
-const POS_COLORES = { pizza: '#6c63ff', estac: '#38b2ac' };
+const POS_COLORES = { pizza: '#C48844', estac: '#035FAA' };
 let _posActual = 'pizza';
 let _chartPosEvo = null, _chartPosComp = null;
 
@@ -3698,13 +3718,15 @@ function selectPOS(pos) {
     const btn = document.getElementById('pos-tab-' + p);
     if (!btn) return;
     if (p === pos) {
-      btn.style.background = POS_COLORES[p];
-      btn.style.borderColor = POS_COLORES[p];
+      // Pizzería usa "oro texto" de fondo: el oro con texto blanco no tiene contraste suficiente
+      const bgTab = p === 'pizza' ? '#7E5217' : POS_COLORES[p];
+      btn.style.background = bgTab;
+      btn.style.borderColor = bgTab;
       btn.style.color = '#fff';
     } else {
       btn.style.background = 'transparent';
-      btn.style.borderColor = '#4a5568';
-      btn.style.color = '#8892b0';
+      btn.style.borderColor = '#CDBBA3';
+      btn.style.color = '#5A584F';
     }
   });
   renderPOS();
@@ -3835,26 +3857,26 @@ function renderPOS() {
   if (showProp) datasets.push({
     label: '🍽 Propinas',
     data: propEvo,
-    borderColor: '#f6c90e',
-    backgroundColor: 'rgba(246,201,14,.15)',
+    borderColor: '#2B2A26',
+    backgroundColor: 'rgba(43,42,38,.15)',
     fill: true, tension: 0.4, pointRadius: 3, borderWidth: 2,
     yAxisID: 'y2', order: 1,
   });
   const scales = {
-    x: { ticks:{ color:'#8892b0', maxTicksLimit:10 }, grid:{ color:'#2e3250' } },
-    y: { type:'linear', position:'left', ticks:{ color:'#8892b0', callback:v=>'$'+v.toLocaleString('es-AR') }, grid:{ color:'#2e3250' } },
+    x: { ticks:{ color:'#5A584F', maxTicksLimit:10 }, grid:{ color:'#E5D6C1' } },
+    y: { type:'linear', position:'left', ticks:{ color:'#5A584F', callback:v=>'$'+v.toLocaleString('es-AR') }, grid:{ color:'#E5D6C1' } },
   };
   if (showProp) scales.y2 = {
     type:'linear', position:'right',
-    ticks:{ color:'#f6c90e', callback:v=>'$'+v.toLocaleString('es-AR') },
+    ticks:{ color:'#2B2A26', callback:v=>'$'+v.toLocaleString('es-AR') },
     grid:{ drawOnChartArea:false },
-    title:{ display:true, text:'Propinas', color:'#f6c90e', font:{size:10} }
+    title:{ display:true, text:'Propinas', color:'#2B2A26', font:{size:10} }
   };
   _chartPosEvo = new Chart(ctxEvo, {
     type:'line',
     data:{ labels: dias30.map(d=>{ const[,m,dy]=d.split('-'); return `${dy}/${m}`; }), datasets },
     options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ labels:{ color:'#8892b0', font:{size:11}, boxWidth:14 } },
+      plugins:{ legend:{ labels:{ color:'#5A584F', font:{size:11}, boxWidth:14 } },
         tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString('es-CL')}` } } },
       scales }
   });
@@ -3879,23 +3901,23 @@ function renderPOS() {
     if (f === hoyStr && hoyData) { v=hoyData.ventas;d=hoyData.debito;c=hoyData.credito;e=hoyData.efectivo;p=hoyData.propinas; }
     else if (cache[f]) { v=cache[f].ventas;d=cache[f].debito;c=cache[f].credito;e=cache[f].efectivo;p=cache[f].propinas; }
     totalSem.v+=v; totalSem.d+=d; totalSem.c+=c; totalSem.e+=e; totalSem.p+=p;
-    const esHoy = f===hoyStr ? ' style="background:rgba(108,99,255,.07)"' : '';
+    const esHoy = f===hoyStr ? ' style="background:rgba(196,136,68,.07)"' : '';
     tbody += `<tr${esHoy}>
       <td>${nombreDia} ${dd}/${mm}</td>
-      <td style="text-align:right;color:${v>0?'#a0f0b0':'#4a5568'}">${fmt(v)}</td>
+      <td style="text-align:right;color:${v>0?'#56642F':'#CDBBA3'}">${fmt(v)}</td>
       <td style="text-align:right">${fmt(d)}</td>
       <td style="text-align:right">${fmt(c)}</td>
       <td style="text-align:right">${fmt(e)}</td>
-      <td style="text-align:right;color:#f6c90e">${p>0?fmt(p):'—'}</td>
+      <td style="text-align:right;color:#2B2A26">${p>0?fmt(p):'—'}</td>
     </tr>`;
   });
-  tbody += `<tr style="font-weight:600;border-top:2px solid #2e3250">
+  tbody += `<tr style="font-weight:600;border-top:2px solid #E5D6C1">
     <td>Total semana</td>
-    <td style="text-align:right;color:#6c63ff">${fmt(totalSem.v)}</td>
+    <td style="text-align:right;color:#7E5217">${fmt(totalSem.v)}</td>
     <td style="text-align:right">${fmt(totalSem.d)}</td>
     <td style="text-align:right">${fmt(totalSem.c)}</td>
     <td style="text-align:right">${fmt(totalSem.e)}</td>
-    <td style="text-align:right;color:#f6c90e">${totalSem.p>0?fmt(totalSem.p):'—'}</td>
+    <td style="text-align:right;color:#2B2A26">${totalSem.p>0?fmt(totalSem.p):'—'}</td>
   </tr>`;
   document.getElementById('pos-semana-tbody').innerHTML = tbody;
 
@@ -3930,16 +3952,16 @@ function renderPOS() {
     data:{
       labels: dias30.map(d=>{ const[,m,dy]=d.split('-'); return `${dy}/${m}`; }),
       datasets:[
-        { label:'🍕 Pizzería', data:salesPizza, borderColor:'#6c63ff', backgroundColor:'rgba(108,99,255,.1)', fill:true, tension:0.4, pointRadius:2, borderWidth:2 },
-        { label:'🅿️ Estacionamiento', data:salesEstac, borderColor:'#38b2ac', backgroundColor:'rgba(56,178,172,.1)', fill:true, tension:0.4, pointRadius:2, borderWidth:2 },
+        { label:'🍕 Pizzería', data:salesPizza, borderColor:'#C48844', backgroundColor:'rgba(196,136,68,.1)', fill:true, tension:0.4, pointRadius:2, borderWidth:2 },
+        { label:'🅿️ Estacionamiento', data:salesEstac, borderColor:'#035FAA', backgroundColor:'rgba(3,95,170,.1)', fill:true, tension:0.4, pointRadius:2, borderWidth:2 },
       ]
     },
     options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ labels:{ color:'#8892b0', font:{size:11}, boxWidth:14 } },
+      plugins:{ legend:{ labels:{ color:'#5A584F', font:{size:11}, boxWidth:14 } },
         tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString('es-CL')}` } } },
       scales:{
-        x:{ ticks:{ color:'#8892b0', maxTicksLimit:10 }, grid:{ color:'#2e3250' } },
-        y:{ ticks:{ color:'#8892b0', callback:v=>'$'+v.toLocaleString('es-AR') }, grid:{ color:'#2e3250' } },
+        x:{ ticks:{ color:'#5A584F', maxTicksLimit:10 }, grid:{ color:'#E5D6C1' } },
+        y:{ ticks:{ color:'#5A584F', callback:v=>'$'+v.toLocaleString('es-AR') }, grid:{ color:'#E5D6C1' } },
       }
     }
   });
@@ -4042,22 +4064,22 @@ function renderTicketMensual() {
     data: {
       labels,
       datasets: [
-        { label:'🍕 Pizzería', data:ticketPizza, borderColor:'#6c63ff', backgroundColor:'rgba(108,99,255,.15)',
+        { label:'🍕 Pizzería', data:ticketPizza, borderColor:'#C48844', backgroundColor:'rgba(196,136,68,.15)',
           fill:true, tension:0.4, pointRadius:5, pointHoverRadius:7, borderWidth:2 },
-        { label:'🅿️ Estacionamiento', data:ticketEstac, borderColor:'#38b2ac', backgroundColor:'rgba(56,178,172,.15)',
+        { label:'🅿️ Estacionamiento', data:ticketEstac, borderColor:'#035FAA', backgroundColor:'rgba(3,95,170,.15)',
           fill:true, tension:0.4, pointRadius:5, pointHoverRadius:7, borderWidth:2 },
       ]
     },
     options: {
       responsive:true, maintainAspectRatio:false,
       plugins: {
-        legend: { labels:{ color:'#8892b0', font:{size:11}, boxWidth:14 } },
+        legend: { labels:{ color:'#5A584F', font:{size:11}, boxWidth:14 } },
         tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: $${(ctx.parsed.y||0).toLocaleString('es-CL')} / tx` } }
       },
       scales: {
-        x: { ticks:{ color:'#8892b0' }, grid:{ color:'#2e3250' } },
-        y: { ticks:{ color:'#8892b0', callback:v=>'$'+v.toLocaleString('es-AR') }, grid:{ color:'#2e3250' },
-             title:{ display:true, text:'Ticket promedio ($)', color:'#8892b0', font:{size:10} } }
+        x: { ticks:{ color:'#5A584F' }, grid:{ color:'#E5D6C1' } },
+        y: { ticks:{ color:'#5A584F', callback:v=>'$'+v.toLocaleString('es-AR') }, grid:{ color:'#E5D6C1' },
+             title:{ display:true, text:'Ticket promedio ($)', color:'#5A584F', font:{size:10} } }
       }
     }
   });
@@ -4071,15 +4093,15 @@ function renderTicketMensual() {
     const tPizza = d.pizza_tx > 0 ? Math.round(d.pizza_v/d.pizza_tx) : null;
     const tEstac = d.estac_tx > 0 ? Math.round(d.estac_v/d.estac_tx) : null;
     const esMesActual = m === mesActual;
-    const rowStyle = esMesActual ? ' style="background:rgba(108,99,255,.07);font-weight:600"' : '';
+    const rowStyle = esMesActual ? ' style="background:rgba(196,136,68,.07);font-weight:600"' : '';
     tbody += `<tr${rowStyle}>
-      <td>${nomMes}${esMesActual?' <span style="color:#6c63ff;font-size:.7rem">(en curso)</span>':''}</td>
+      <td>${nomMes}${esMesActual?' <span style="color:#7E5217;font-size:.7rem">(en curso)</span>':''}</td>
       <td style="text-align:right">${d.pizza_v>0?fmt(d.pizza_v):'—'}</td>
-      <td style="text-align:right;color:#8892b0">${d.pizza_tx||'—'}</td>
-      <td style="text-align:right;color:#6c63ff;font-weight:600">${tPizza!==null?fmt(tPizza):'—'}</td>
+      <td style="text-align:right;color:#5A584F">${d.pizza_tx||'—'}</td>
+      <td style="text-align:right;color:#7E5217;font-weight:600">${tPizza!==null?fmt(tPizza):'—'}</td>
       <td style="text-align:right">${d.estac_v>0?fmt(d.estac_v):'—'}</td>
-      <td style="text-align:right;color:#8892b0">${d.estac_tx||'—'}</td>
-      <td style="text-align:right;color:#38b2ac;font-weight:600">${tEstac!==null?fmt(tEstac):'—'}</td>
+      <td style="text-align:right;color:#5A584F">${d.estac_tx||'—'}</td>
+      <td style="text-align:right;color:#035FAA;font-weight:600">${tEstac!==null?fmt(tEstac):'—'}</td>
     </tr>`;
   });
   document.getElementById('pos-ticket-tbody').innerHTML = tbody;
@@ -4200,9 +4222,9 @@ async function renderPosHoras() {
       type: 'line',
       label: 'Acumulado',
       data: acumClean,
-      borderColor: '#38ffb3',
+      borderColor: '#56642F',
       backgroundColor: 'transparent',
-      pointBackgroundColor: '#38ffb3',
+      pointBackgroundColor: '#56642F',
       pointRadius: 4,
       borderWidth: 2,
       tension: 0.3,
@@ -4219,7 +4241,7 @@ async function renderPosHoras() {
         type: 'line',
         label: '_prop_' + c.label,
         data: c.data,
-        borderColor: 'rgba(246,201,14,0.18)',
+        borderColor: 'rgba(43,42,38,0.18)',
         backgroundColor: 'transparent',
         pointRadius: 0,
         borderWidth: 1,
@@ -4234,8 +4256,8 @@ async function renderPosHoras() {
         type: 'line',
         label: 'Propinas promedio',
         data: propProm,
-        borderColor: '#f6c90e',
-        backgroundColor: 'rgba(246,201,14,0.08)',
+        borderColor: '#2B2A26',
+        backgroundColor: 'rgba(43,42,38,0.08)',
         fill: true,
         pointRadius: 3,
         borderWidth: 2,
@@ -4257,7 +4279,7 @@ async function renderPosHoras() {
       plugins: {
         legend: {
           labels: {
-            color: '#8892b0', font: {size:11}, boxWidth:14,
+            color: '#5A584F', font: {size:11}, boxWidth:14,
             filter: item => !item.text?.startsWith('_prop_'),
           }
         },
@@ -4275,25 +4297,25 @@ async function renderPosHoras() {
         },
       },
       scales: {
-        x: { ticks:{color:'#8892b0'}, grid:{color:'#2e3250'} },
+        x: { ticks:{color:'#5A584F'}, grid:{color:'#E5D6C1'} },
         y: {
           position: 'left',
-          ticks: { color:'#8892b0', callback: v => '$'+v.toLocaleString('es-AR') },
-          grid: { color:'#2e3250' },
-          title: { display:true, text:'Por hora ($)', color:'#8892b0', font:{size:10} },
+          ticks: { color:'#5A584F', callback: v => '$'+v.toLocaleString('es-AR') },
+          grid: { color:'#E5D6C1' },
+          title: { display:true, text:'Por hora ($)', color:'#5A584F', font:{size:10} },
         },
         y2: {
           position: 'right',
-          ticks: { color:'#38ffb3', callback: v => v===null?'':('$'+v.toLocaleString('es-AR')) },
+          ticks: { color:'#56642F', callback: v => v===null?'':('$'+v.toLocaleString('es-AR')) },
           grid: { drawOnChartArea: false },
-          title: { display:true, text:'Acumulado ($)', color:'#38ffb3', font:{size:10} },
+          title: { display:true, text:'Acumulado ($)', color:'#56642F', font:{size:10} },
         },
         y3: {
           position: 'right',
           display: mostrarProp && propCurvas.length > 0,
-          ticks: { color:'#f6c90e', callback: v => '$'+v.toLocaleString('es-AR') },
+          ticks: { color:'#2B2A26', callback: v => '$'+v.toLocaleString('es-AR') },
           grid: { drawOnChartArea: false },
-          title: { display: mostrarProp && propCurvas.length > 0, text:'Propinas ($)', color:'#f6c90e', font:{size:10} },
+          title: { display: mostrarProp && propCurvas.length > 0, text:'Propinas ($)', color:'#2B2A26', font:{size:10} },
         },
       }
     }
@@ -4359,9 +4381,7 @@ async function renderPosMultiDias() {
 
   // Paleta de colores para líneas de días
   const PALETA = [
-    '#6c63ff','#38b2ac','#f6c90e','#ff6b6b','#4fc3f7',
-    '#81c784','#ffb74d','#e879f9','#34d399','#fb923c',
-    '#60a5fa','#a78bfa','#f472b6','#4ade80','#fbbf24',
+    '#C48844','#B23A25','#56642F','#2B2A26','#7E5217','#D9B585','#8A9466','#D07A68','#5A584F','#A89F8C','#0A0A08','#B07A3C','#6E7A45','#C2594A','#8C7A5E'
   ];
 
   // Función para construir datasets de un POS
@@ -4406,7 +4426,7 @@ async function renderPosMultiDias() {
     plugins: {
       legend: {
         position: 'bottom',
-        labels: { color: '#8892b0', font: {size:10}, boxWidth:12, padding:8 }
+        labels: { color: '#5A584F', font: {size:10}, boxWidth:12, padding:8 }
       },
       tooltip: {
         callbacks: {
@@ -4418,10 +4438,10 @@ async function renderPosMultiDias() {
       },
     },
     scales: {
-      x: { ticks:{color:'#8892b0',font:{size:10}}, grid:{color:'#2e3250'} },
+      x: { ticks:{color:'#5A584F',font:{size:10}}, grid:{color:'#E5D6C1'} },
       y: {
         ticks: { color: color, callback: v => '$'+v.toLocaleString('es-AR'), font:{size:10} },
-        grid:  { color: '#2e3250' },
+        grid:  { color: '#E5D6C1' },
         title: { display:true, text:'Ventas / hora ($)', color: color, font:{size:10} },
       }
     }
@@ -4432,7 +4452,7 @@ async function renderPosMultiDias() {
   if (_chartPosMultiPizza) _chartPosMultiPizza.destroy();
   _chartPosMultiPizza = new Chart(ctxP, {
     data: { labels, datasets: buildDatasets(SERIAL_PIZZA) },
-    options: optsComunes('Pizzería', '#6c63ff'),
+    options: optsComunes('Pizzería', '#C48844'),
   });
 
   // Chart Estacionamiento
@@ -4440,7 +4460,7 @@ async function renderPosMultiDias() {
   if (_chartPosMultiEstac) _chartPosMultiEstac.destroy();
   _chartPosMultiEstac = new Chart(ctxE, {
     data: { labels, datasets: buildDatasets(SERIAL_ESTAC) },
-    options: optsComunes('Estacionamiento', '#38b2ac'),
+    options: optsComunes('Estacionamiento', '#035FAA'),
   });
 }
 
@@ -5049,9 +5069,9 @@ function renderCaja() {
       const turnos = (turnosPorFecha[d.fecha] || []).sort((a,b) => (a.notas||'').localeCompare(b.notas||''));
       for (const t of turnos) {
         const tfoto = t.foto_url ? `<a href="javascript:void(0)" onclick="verFotoComprobante('${t.foto_url}')" style="font-size:18px;cursor:pointer;text-decoration:none" title="Ver foto">📷</a>` : '—';
-        filas.push(`<tr style="opacity:${d.esPrueba?'0.35':'0.7'};background:rgba(245,197,24,.05)">
+        filas.push(`<tr style="opacity:${d.esPrueba?'0.35':'0.7'};background:rgba(196,136,68,.05)">
           <td style="font-size:16px;text-align:center">🔄</td>
-          <td style="white-space:nowrap;font-size:11px;color:#f5c518">${d.fecha.split('-').reverse().join('/')}<br>cambio turno</td>
+          <td style="white-space:nowrap;font-size:11px;color:#7E5217">${d.fecha.split('-').reverse().join('/')}<br>cambio turno</td>
           <td style="text-align:right;font-size:11px;color:var(--muted)" colspan="3">${t.trabajador_saliente||'?'} → ${t.trabajador_entrante||'?'} · ${fmt(t.monto_efectivo||0)}</td>
           <td>—</td>
           <td style="font-size:11px;color:var(--muted)">${t.trabajador_saliente||'—'}</td>
@@ -5065,24 +5085,24 @@ function renderCaja() {
       const diffStr = d.diff !== null ? fmtSigned(d.diff) : '—';
       const _trab = (d.cierre?.trabajador || '').replace(/^Karen$/i, 'Miguel');
       const _esMiguelRow = _trab === 'Miguel';
-      const diffColor = d.esPrueba ? 'color:#888' : d.diff === null ? '' :
+      const diffColor = d.esPrueba ? 'color:#5A584F' : d.diff === null ? '' :
         _esMiguelRow
-          ? (Math.abs(d.diff) >= 3000 ? 'color:#f687b3' : Math.abs(d.diff) >= 1000 ? 'color:#b794f4' : 'color:#63b3ed')
-          : (Math.abs(d.diff) >= 3000 ? 'color:#ff5b5b' : Math.abs(d.diff) >= 1000 ? 'color:#f5c518' : 'color:#4ade80');
+          ? (Math.abs(d.diff) >= 3000 ? 'color:#B23A25' : Math.abs(d.diff) >= 1000 ? 'color:#7E5217' : 'color:#56642F')
+          : (Math.abs(d.diff) >= 3000 ? 'color:#B23A25' : Math.abs(d.diff) >= 1000 ? 'color:#7E5217' : 'color:#56642F');
       const fotoBtn = d.cierre?.foto_url ? `<a href="javascript:void(0)" onclick="verFotoComprobante('${d.cierre.foto_url}')" style="font-size:18px;cursor:pointer;text-decoration:none" title="Ver foto">📷</a>` : '—';
       const notas = d.cierre?.notas ? `<span title="${String(d.cierre.notas).replace(/"/g,'&quot;')}" style="cursor:default">${String(d.cierre.notas).slice(0,30)}${d.cierre.notas.length>30?'…':''}</span>` : '—';
-      const _trabBg = _esMiguelRow ? 'rgba(99,179,237,0.15)' : 'rgba(127,90,240,0.15)';
-      const _trabColor = _esMiguelRow ? '#63b3ed' : 'var(--accent)';
+      const _trabBg = _esMiguelRow ? 'rgba(86,100,47,0.15)' : 'rgba(196,136,68,0.15)';
+      const _trabColor = _esMiguelRow ? '#56642F' : 'var(--accent)';
       const trabajador = _trab ? `<span style="font-size:11px;background:${_trabBg};color:${_trabColor};padding:2px 7px;border-radius:4px;white-space:nowrap">${_trab}</span>` : '—';
       const fechaDisplay = d.fecha.split('-').reverse().join('/');
       const extraBadge = d.extraEfectivo > 0
-        ? `<br><span style="font-size:10px;color:${d.esPrueba?'#888':'#4ade80'}">+${fmt(d.extraEfectivo)} propinas ef.</span>`
+        ? `<br><span style="font-size:10px;color:${d.esPrueba?'#5A584F':'#56642F'}">+${fmt(d.extraEfectivo)} propinas ef.</span>`
         : '';
       const gastosBadge = extraBadge + (d.gastosEfectivo > 0
-        ? `<br><span style="font-size:10px;color:${d.esPrueba?'#888':'#f5c518'}">−${fmt(d.gastosEfectivo)} pagos caja</span>`
+        ? `<br><span style="font-size:10px;color:${d.esPrueba?'#5A584F':'#7E5217'}">−${fmt(d.gastosEfectivo)} pagos caja</span>`
         : '');
       const pruebaBadge = d.esPrueba
-        ? `<span title="Período de prueba — no considerar para análisis" style="margin-left:6px;font-size:10px;background:#555;color:#aaa;border-radius:4px;padding:1px 5px;vertical-align:middle;cursor:default">prueba</span>`
+        ? `<span title="Período de prueba — no considerar para análisis" style="margin-left:6px;font-size:10px;background:#E5D6C1;color:#5A584F;border-radius:4px;padding:1px 5px;vertical-align:middle;cursor:default">prueba</span>`
         : '';
       const rowStyle = d.esPrueba ? ' style="opacity:0.45;filter:grayscale(0.8)"' : '';
       filas.push(`<tr${rowStyle}>
@@ -5107,29 +5127,29 @@ function renderCaja() {
   const diffVals = diasChart.map(d => d.diff);
   const _trabsChart = diasChart.map(d => (d.cierre?.trabajador || '').replace(/^Karen$/i, 'Miguel'));
   const bgColors = diasChart.map((d, i) => {
-    if (d.esPrueba) return 'rgba(120,120,120,0.12)';
-    if (d.diff === null) return 'rgba(120,120,120,0.18)';
+    if (d.esPrueba) return 'rgba(90,88,79,0.12)';
+    if (d.diff === null) return 'rgba(90,88,79,0.18)';
     const abs = Math.abs(d.diff);
     if (_trabsChart[i] === 'Miguel') {
-      if (abs < 1000) return 'rgba(99,179,237,0.35)';
-      if (abs < 3000) return 'rgba(159,122,234,0.35)';
-      return 'rgba(237,100,166,0.35)';
+      if (abs < 1000) return 'rgba(86,100,47,0.35)';
+      if (abs < 3000) return 'rgba(196,136,68,0.35)';
+      return 'rgba(178,58,37,0.35)';
     }
-    if (abs < 1000) return 'rgba(74,222,128,0.35)';
-    if (abs < 3000) return 'rgba(245,197,24,0.35)';
-    return 'rgba(255,91,91,0.35)';
+    if (abs < 1000) return 'rgba(86,100,47,0.35)';
+    if (abs < 3000) return 'rgba(196,136,68,0.35)';
+    return 'rgba(178,58,37,0.35)';
   });
   const borderColors = diasChart.map((d, i) => {
     if (d.esPrueba || d.diff === null) return 'transparent';
     const abs = Math.abs(d.diff);
     if (_trabsChart[i] === 'Miguel') {
-      if (abs < 1000) return 'rgba(99,179,237,0.9)';
-      if (abs < 3000) return 'rgba(159,122,234,0.9)';
-      return 'rgba(237,100,166,0.9)';
+      if (abs < 1000) return 'rgba(86,100,47,0.9)';
+      if (abs < 3000) return 'rgba(196,136,68,0.9)';
+      return 'rgba(178,58,37,0.9)';
     }
-    if (abs < 1000) return 'rgba(74,222,128,0.9)';
-    if (abs < 3000) return 'rgba(245,197,24,0.9)';
-    return 'rgba(255,91,91,0.9)';
+    if (abs < 1000) return 'rgba(86,100,47,0.9)';
+    if (abs < 3000) return 'rgba(196,136,68,0.9)';
+    return 'rgba(178,58,37,0.9)';
   });
 
   if (_chartCajaDiff) { _chartCajaDiff.destroy(); _chartCajaDiff = null; }
@@ -5166,10 +5186,10 @@ function renderCaja() {
         }
       },
       scales: {
-        x: { ticks: { color: 'rgba(150,150,170,0.8)', font: { size: 10 } }, grid: { color: 'transparent' } },
+        x: { ticks: { color: 'rgba(90,88,79,0.8)', font: { size: 10 } }, grid: { color: 'transparent' } },
         y: {
-          ticks: { color: 'rgba(150,150,170,0.8)', font: { size: 10 }, callback: v => '$' + (v/1000).toFixed(0) + 'k' },
-          grid: { color: 'rgba(255,255,255,0.05)' }
+          ticks: { color: 'rgba(90,88,79,0.8)', font: { size: 10 }, callback: v => '$' + (v/1000).toFixed(0) + 'k' },
+          grid: { color: 'rgba(43,42,38,0.05)' }
         }
       }
     }
