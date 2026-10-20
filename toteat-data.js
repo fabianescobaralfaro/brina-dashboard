@@ -2,42 +2,25 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "17/10/2026",
-    "fecha_iso": "2026-10-17",
-    "turno": "1494747985014084-00001-20261017TB.001",
-    "apertura": "2026-10-17T17:26:41",
+    "fecha": "19/10/2026",
+    "fecha_iso": "2026-10-19",
+    "turno": "1494747985014084-00001-20261019TB.001",
+    "apertura": "2026-10-19T16:39:31",
     "cierre": "",
-    "total_ventas": 19970.0,
-    "total_neto": 28546.0,
-    "total_iva": 5424.0,
-    "n_ordenes": 1,
-    "n_anuladas": 1,
+    "total_ventas": 0,
+    "total_neto": 0,
+    "total_iva": 0,
+    "n_ordenes": 0,
+    "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 21967.0,
-    "productos_top": [
-      {
-        "nombre": "Menú ejecutivo",
-        "cantidad": 2,
-        "total": 14000.0
-      },
-      {
-        "nombre": "Americano",
-        "cantidad": 1,
-        "total": 2490.0
-      },
-      {
-        "nombre": "Bebida 350 cc",
-        "cantidad": 1,
-        "total": 1890.0
-      },
-      {
-        "nombre": "Agua mineral 500 ml",
-        "cantidad": 1,
-        "total": 1590.0
-      }
-    ]
+    "tarjeta": 0,
+    "productos_top": []
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-10-19",
+      "turno": "1494747985014084-00001-20261019TB.001"
+    },
     {
       "fecha": "2026-10-17",
       "turno": "1494747985014084-00001-20261017TB.001"
@@ -89,12 +72,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-09-29",
       "turno": "1494747985014084-00001-20260929TB.001"
-    },
-    {
-      "fecha": "2026-09-28",
-      "turno": "1494747985014084-00001-20260928TB.001"
     }
   ],
-  "total_cierres_historicos": 225,
-  "actualizadoEl": "18/10/2026 10:47"
+  "total_cierres_historicos": 226,
+  "actualizadoEl": "20/10/2026 09:13"
 };
