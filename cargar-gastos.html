@@ -677,7 +677,7 @@
         </div>
 
         <div class="form-group">
-          <label>Foto del paquete <span class="req">*</span></label>
+          <label>Foto del paquete <span style="color:var(--muted);font-weight:400">(opcional)</span></label>
           <div id="caja-foto-upload-area" class="foto-upload-area">
             <input type="file" id="caja-f-foto" accept="image/*" capture="environment" onchange="onCajaFotoSelected(this)">
             <div class="foto-upload-icon">📷</div>
@@ -818,7 +818,7 @@
 </div><!-- /container -->
 
 <!-- Supabase JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
 <script src="supabase-config.js"></script>
 <script>
 
@@ -1264,7 +1264,6 @@ async function guardarCierre() {
 
   if (!fecha) return mostrarErrorCaja('Por favor ingresa una fecha.');
   if (isNaN(monto) || monto < 0) return mostrarErrorCaja('El monto debe ser 0 o mayor.');
-  if (!cajaFotoFile) return mostrarErrorCaja('La foto del paquete es obligatoria. Saca una foto del sobre con el papel visible.');
 
   const montoFmt = '$' + monto.toLocaleString('es-CL');
   if (!confirm(`¿Confirmas el cierre del ${fecha.split('-').reverse().join('/')} con ${montoFmt}?`)) return;
@@ -1277,11 +1276,11 @@ async function guardarCierre() {
     btn.textContent = 'Subiendo foto...';
     const { url, error: fotoErr } = await subirFotoCaja(cajaFotoFile);
     if (fotoErr || !url) {
-      btn.disabled = false;
-      btn.textContent = 'Registrar Cierre de Caja';
-      return mostrarErrorCaja('No se pudo subir la foto (' + (fotoErr || 'error') + '). Intenta de nuevo.');
+      console.warn('Foto no subida:', fotoErr);
+      // Continúa sin foto — el cierre se guarda igual
+    } else {
+      fotoUrl = url;
     }
-    fotoUrl = url;
   }
 
   btn.textContent = 'Guardando...';
