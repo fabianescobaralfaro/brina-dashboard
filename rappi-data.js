@@ -18,5 +18,5 @@ window.RAPPI_DATA = {
     "availability_pct": 0,
     "cooking_time_avg": 0
   },
-  "actualizadoEl": "20/10/2026 09:14"
+  "actualizadoEl": "21/10/2026 11:35"
 };
