@@ -4,19 +4,19 @@
     "actualizadoEl": "21/10/2026 16:20",
     "error": null,
     "informe_dia": {
-      "monto_ventas": 149670,
-      "debito": 93820,
+      "monto_ventas": 178420,
+      "debito": 116320,
       "credito": 13300,
-      "efectivo": 42550,
+      "efectivo": 48800,
       "monto_neto": 0,
       "iva": 0,
       "propinas": 5857,
       "efectivo_propinas": 0,
       "efectivo_redondeo": 0,
-      "n_tx_debito": 17,
+      "n_tx_debito": 27,
       "n_tx_credito": 3,
-      "n_tx_efectivo": 27,
-      "n_tx_total": 47,
+      "n_tx_efectivo": 33,
+      "n_tx_total": 63,
       "periodo": "Personalizado",
       "pos_breakdown": [
         {
@@ -33,15 +33,15 @@
         },
         {
           "serial": "PB1T238420182",
-          "total_ventas": 91100,
-          "debito": 35250,
+          "total_ventas": 119850,
+          "debito": 57750,
           "credito": 13300,
-          "efectivo": 42550,
+          "efectivo": 48800,
           "propinas": 0,
-          "n_tx_debito": 13,
+          "n_tx_debito": 23,
           "n_tx_credito": 3,
-          "n_tx_efectivo": 27,
-          "n_tx_total": 43
+          "n_tx_efectivo": 33,
+          "n_tx_total": 59
         }
       ]
     },
@@ -296,8 +296,18 @@
       },
       {
         "hora": 16,
-        "monto": 2300,
-        "acumulado": 151570
+        "monto": 16300,
+        "acumulado": 165570
+      },
+      {
+        "hora": 17,
+        "monto": 4450,
+        "acumulado": 170020
+      },
+      {
+        "hora": 18,
+        "monto": 8400,
+        "acumulado": 178420
       }
     ],
     "ventas_por_hora_pos": {
@@ -352,9 +362,21 @@
         },
         {
           "hora": 16,
-          "ventas": 2300,
+          "ventas": 16300,
           "propinas": 0,
-          "acumulado": 93000
+          "acumulado": 107000
+        },
+        {
+          "hora": 17,
+          "ventas": 4450,
+          "propinas": 0,
+          "acumulado": 111450
+        },
+        {
+          "hora": 18,
+          "ventas": 8400,
+          "propinas": 0,
+          "acumulado": 119850
         }
       ],
       "6010B232511900275": [
