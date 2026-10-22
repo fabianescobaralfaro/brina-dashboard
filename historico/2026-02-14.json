@@ -107,28 +107,28 @@
       },
       {
         "hora": 15,
-        "monto": 15300,
-        "acumulado": 57470
+        "monto": 17200,
+        "acumulado": 59370
       },
       {
         "hora": 16,
         "monto": 8300,
-        "acumulado": 65770
+        "acumulado": 67670
       },
       {
         "hora": 17,
         "monto": 9050,
-        "acumulado": 74820
+        "acumulado": 76720
       },
       {
         "hora": 18,
         "monto": 3750,
-        "acumulado": 78570
+        "acumulado": 80470
       },
       {
         "hora": 19,
         "monto": 6300,
-        "acumulado": 84870
+        "acumulado": 86770
       }
     ],
     "ventas_por_hora_pos": {
@@ -171,33 +171,33 @@
         },
         {
           "hora": 15,
-          "ventas": 15300,
+          "ventas": 17200,
           "propinas": 0,
-          "acumulado": 44700
+          "acumulado": 46600
         },
         {
           "hora": 16,
           "ventas": 8300,
           "propinas": 0,
-          "acumulado": 53000
+          "acumulado": 54900
         },
         {
           "hora": 17,
           "ventas": 9050,
           "propinas": 0,
-          "acumulado": 62050
+          "acumulado": 63950
         },
         {
           "hora": 18,
           "ventas": 3750,
           "propinas": 0,
-          "acumulado": 65800
+          "acumulado": 67700
         },
         {
           "hora": 19,
           "ventas": 6300,
           "propinas": 0,
-          "acumulado": 72100
+          "acumulado": 74000
         }
       ],
       "6010B232511900275": [
