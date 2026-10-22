@@ -6,15 +6,15 @@ window.PEDIDOSYA_DATA = {
   "cerrado_razon": null,
   "tier": "NONE",
   "tier_periodo": {
-    "desde": "",
-    "hasta": ""
+    "desde": "2026-07-01",
+    "hasta": "2026-09-30"
   },
   "metricas_tier": {
-    "calificacion": "0",
-    "pedidos_volumen": "0",
-    "tasa_fallo": "0",
-    "pedidos_incorrectos": "0",
-    "tiempo_espera": "0"
+    "calificacion": "3.8",
+    "pedidos_volumen": "12",
+    "tasa_fallo": "33.33",
+    "pedidos_incorrectos": "16.67",
+    "tiempo_espera": "263"
   },
   "benchmark": {
     "fecha_datos": "",
@@ -28,5 +28,5 @@ window.PEDIDOSYA_DATA = {
   },
   "performance_7d": [],
   "heatmap": [],
-  "actualizadoEl": "21/10/2026 16:21"
+  "actualizadoEl": "22/10/2026 09:51"
 };
