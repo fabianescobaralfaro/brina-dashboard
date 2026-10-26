@@ -2,37 +2,33 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "21/10/2026",
-    "fecha_iso": "2026-10-21",
-    "turno": "1494747985014084-00001-20261021TB.001",
-    "apertura": "2026-10-21T14:52:45",
+    "fecha": "24/10/2026",
+    "fecha_iso": "2026-10-24",
+    "turno": "1494747985014084-00001-20261024TB.001",
+    "apertura": "2026-10-24T13:58:48",
     "cierre": "",
-    "total_ventas": 19090.0,
-    "total_neto": 27808.0,
-    "total_iva": 5282.0,
-    "n_ordenes": 1,
+    "total_ventas": 0,
+    "total_neto": 0,
+    "total_iva": 0,
+    "n_ordenes": 0,
     "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 20999.0,
-    "productos_top": [
-      {
-        "nombre": "Menú ejecutivo",
-        "cantidad": 2,
-        "total": 14000.0
-      },
-      {
-        "nombre": "Capuccino",
-        "cantidad": 1,
-        "total": 2790.0
-      },
-      {
-        "nombre": "Jugo natural 350 cc",
-        "cantidad": 1,
-        "total": 2300.0
-      }
-    ]
+    "tarjeta": 0,
+    "productos_top": []
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-10-24",
+      "turno": "1494747985014084-00001-20261024TB.001"
+    },
+    {
+      "fecha": "2026-10-23",
+      "turno": "1494747985014084-00001-20261023TB.001"
+    },
+    {
+      "fecha": "2026-10-22",
+      "turno": "1494747985014084-00001-20261022TB.001"
+    },
     {
       "fecha": "2026-10-21",
       "turno": "1494747985014084-00001-20261021TB.001"
@@ -76,20 +72,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-10-06",
       "turno": "1494747985014084-00001-20261006TB.001"
-    },
-    {
-      "fecha": "2026-10-03",
-      "turno": "1494747985014084-00001-20261003TB.001"
-    },
-    {
-      "fecha": "2026-10-02",
-      "turno": "1494747985014084-00001-20261002TB.001"
-    },
-    {
-      "fecha": "2026-10-01",
-      "turno": "1494747985014084-00001-20261001TB.001"
     }
   ],
-  "total_cierres_historicos": 228,
-  "actualizadoEl": "22/10/2026 09:51"
+  "total_cierres_historicos": 231,
+  "actualizadoEl": "25/10/2026 23:05"
 };
