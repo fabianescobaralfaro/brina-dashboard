@@ -1,0 +1,280 @@
+{
+  "fecha": "2026-11-01",
+  "toteat": {
+    "error": null,
+    "ultimo_cierre": {
+      "fecha": "30/10/2026",
+      "fecha_iso": "2026-10-30",
+      "turno": "1494747985014084-00001-20261030TB.001",
+      "apertura": "2026-10-30T16:33:14",
+      "cierre": "",
+      "total_ventas": 154380.0,
+      "total_neto": 269565.0,
+      "total_iva": 51215.0,
+      "n_ordenes": 9,
+      "n_anuladas": 0,
+      "efectivo": 0,
+      "tarjeta": 169118.0,
+      "productos_top": [
+        {
+          "nombre": "Menú ejecutivo",
+          "cantidad": 18,
+          "total": 126000.0
+        },
+        {
+          "nombre": "Bebida 350 cc",
+          "cantidad": 11,
+          "total": 20790.0
+        },
+        {
+          "nombre": "Cioccolato Fondente",
+          "cantidad": 1,
+          "total": 3100.0
+        },
+        {
+          "nombre": "Bebida express",
+          "cantidad": 2,
+          "total": 2600.0
+        },
+        {
+          "nombre": "Néctar 300 cc",
+          "cantidad": 1,
+          "total": 1890.0
+        }
+      ]
+    },
+    "historial_cierres": [
+      {
+        "fecha": "2026-10-30",
+        "turno": "1494747985014084-00001-20261030TB.001"
+      },
+      {
+        "fecha": "2026-10-29",
+        "turno": "1494747985014084-00001-20261029TB.001"
+      },
+      {
+        "fecha": "2026-10-28",
+        "turno": "1494747985014084-00001-20261028TB.001"
+      },
+      {
+        "fecha": "2026-10-27",
+        "turno": "1494747985014084-00001-20261027TB.001"
+      },
+      {
+        "fecha": "2026-10-26",
+        "turno": "1494747985014084-00001-20261026TB.001"
+      },
+      {
+        "fecha": "2026-10-24",
+        "turno": "1494747985014084-00001-20261024TB.001"
+      },
+      {
+        "fecha": "2026-10-23",
+        "turno": "1494747985014084-00001-20261023TB.001"
+      },
+      {
+        "fecha": "2026-10-22",
+        "turno": "1494747985014084-00001-20261022TB.001"
+      },
+      {
+        "fecha": "2026-10-21",
+        "turno": "1494747985014084-00001-20261021TB.001"
+      },
+      {
+        "fecha": "2026-10-20",
+        "turno": "1494747985014084-00001-20261020TB.001"
+      },
+      {
+        "fecha": "2026-10-19",
+        "turno": "1494747985014084-00001-20261019TB.001"
+      },
+      {
+        "fecha": "2026-10-17",
+        "turno": "1494747985014084-00001-20261017TB.001"
+      },
+      {
+        "fecha": "2026-10-16",
+        "turno": "1494747985014084-00001-20261016TB.001"
+      },
+      {
+        "fecha": "2026-10-15",
+        "turno": "1494747985014084-00001-20261015TB.001"
+      }
+    ],
+    "total_cierres_historicos": 236,
+    "actualizadoEl": "01/11/2026 12:58"
+  },
+  "pedidosya": {
+    "error": null,
+    "estado_local": "CLOSED",
+    "cerrado_hasta": null,
+    "cerrado_razon": null,
+    "tier": "NONE",
+    "tier_periodo": {
+      "desde": "2026-08-01",
+      "hasta": "2026-10-31"
+    },
+    "metricas_tier": {
+      "calificacion": "3.8",
+      "pedidos_volumen": "12",
+      "tasa_fallo": "33.33",
+      "pedidos_incorrectos": "16.67",
+      "tiempo_espera": "245.45"
+    },
+    "benchmark": {
+      "fecha_datos": "",
+      "dias_agregados": 7,
+      "revenue_percentil90": 0,
+      "orders_percentil90": 0,
+      "avg_basket_percentil90": 0,
+      "cohort_size": 0,
+      "area": "",
+      "cuisine": ""
+    },
+    "performance_7d": [],
+    "heatmap": [],
+    "actualizadoEl": "01/11/2026 12:59"
+  },
+  "haulmer": {
+    "actualizadoEl": "01/11/2026 12:57",
+    "error": null,
+    "informe_dia": {
+      "monto_ventas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 0,
+      "efectivo_propinas": 0,
+      "efectivo_redondeo": 0,
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0,
+      "periodo": "Personalizado",
+      "pos_breakdown": [
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0,
+          "n_tx_debito": 0,
+          "n_tx_credito": 0,
+          "n_tx_efectivo": 0,
+          "n_tx_total": 0
+        },
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0,
+          "n_tx_debito": 0,
+          "n_tx_credito": 0,
+          "n_tx_efectivo": 0,
+          "n_tx_total": 0
+        }
+      ]
+    },
+    "informe_semana": {
+      "periodo": "Semana",
+      "monto_neto": 0,
+      "iva": 0,
+      "monto_ventas": 0,
+      "monto_exento": 0,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "informe_mes": {
+      "periodo": "Mes",
+      "monto_neto": 0,
+      "iva": 0,
+      "monto_ventas": 0,
+      "monto_exento": 0,
+      "propinas": 0,
+      "debito": 0,
+      "credito": 0,
+      "efectivo": 0,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 0,
+          "debito": 0,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 0,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 0,
+      "n_tx_total": 0
+    },
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 1,
+      "nota": ""
+    },
+    "abonos": {
+      "abonos": [],
+      "total_abonado": 0,
+      "total_comision": 0,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [],
+      "total_ventas_hoy": 0,
+      "n_transacciones_hoy": 0
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    },
+    "ventas_por_hora": []
+  },
+  "rappi": {
+    "error": null,
+    "store_name": "Brina Pizzeria",
+    "is_enabled": false,
+    "store_tier": "standard",
+    "ventas_7d": {
+      "total_amount": 0,
+      "total_orders": 0,
+      "orders_avg": 0,
+      "users_count": 0,
+      "new_users_count": 0,
+      "last_week": []
+    },
+    "indicadores": {
+      "cancellation_pct": 0,
+      "error_pct": 0,
+      "availability_pct": 0,
+      "cooking_time_avg": 0
+    },
+    "actualizadoEl": "01/11/2026 13:00"
+  }
+}
