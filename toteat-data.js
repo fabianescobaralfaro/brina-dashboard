@@ -2,21 +2,67 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "24/10/2026",
-    "fecha_iso": "2026-10-24",
-    "turno": "1494747985014084-00001-20261024TB.001",
-    "apertura": "2026-10-24T13:58:48",
+    "fecha": "30/10/2026",
+    "fecha_iso": "2026-10-30",
+    "turno": "1494747985014084-00001-20261030TB.001",
+    "apertura": "2026-10-30T16:33:14",
     "cierre": "",
-    "total_ventas": 0,
-    "total_neto": 0,
-    "total_iva": 0,
-    "n_ordenes": 0,
+    "total_ventas": 154380.0,
+    "total_neto": 269565.0,
+    "total_iva": 51215.0,
+    "n_ordenes": 9,
     "n_anuladas": 0,
     "efectivo": 0,
-    "tarjeta": 0,
-    "productos_top": []
+    "tarjeta": 169118.0,
+    "productos_top": [
+      {
+        "nombre": "Menú ejecutivo",
+        "cantidad": 18,
+        "total": 126000.0
+      },
+      {
+        "nombre": "Bebida 350 cc",
+        "cantidad": 11,
+        "total": 20790.0
+      },
+      {
+        "nombre": "Cioccolato Fondente",
+        "cantidad": 1,
+        "total": 3100.0
+      },
+      {
+        "nombre": "Bebida express",
+        "cantidad": 2,
+        "total": 2600.0
+      },
+      {
+        "nombre": "Néctar 300 cc",
+        "cantidad": 1,
+        "total": 1890.0
+      }
+    ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-10-30",
+      "turno": "1494747985014084-00001-20261030TB.001"
+    },
+    {
+      "fecha": "2026-10-29",
+      "turno": "1494747985014084-00001-20261029TB.001"
+    },
+    {
+      "fecha": "2026-10-28",
+      "turno": "1494747985014084-00001-20261028TB.001"
+    },
+    {
+      "fecha": "2026-10-27",
+      "turno": "1494747985014084-00001-20261027TB.001"
+    },
+    {
+      "fecha": "2026-10-26",
+      "turno": "1494747985014084-00001-20261026TB.001"
+    },
     {
       "fecha": "2026-10-24",
       "turno": "1494747985014084-00001-20261024TB.001"
@@ -52,28 +98,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-10-15",
       "turno": "1494747985014084-00001-20261015TB.001"
-    },
-    {
-      "fecha": "2026-10-13",
-      "turno": "1494747985014084-00001-20261013TB.001"
-    },
-    {
-      "fecha": "2026-10-10",
-      "turno": "1494747985014084-00001-20261010TB.001"
-    },
-    {
-      "fecha": "2026-10-09",
-      "turno": "1494747985014084-00001-20261009TB.001"
-    },
-    {
-      "fecha": "2026-10-07",
-      "turno": "1494747985014084-00001-20261007TB.001"
-    },
-    {
-      "fecha": "2026-10-06",
-      "turno": "1494747985014084-00001-20261006TB.001"
     }
   ],
-  "total_cierres_historicos": 231,
-  "actualizadoEl": "25/10/2026 23:05"
+  "total_cierres_historicos": 236,
+  "actualizadoEl": "01/11/2026 12:58"
 };
