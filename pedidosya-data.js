@@ -11,10 +11,10 @@ window.PEDIDOSYA_DATA = {
   },
   "metricas_tier": {
     "calificacion": "3.8",
-    "pedidos_volumen": "5",
-    "tasa_fallo": "37.5",
-    "pedidos_incorrectos": "40",
-    "tiempo_espera": "300"
+    "pedidos_volumen": "6",
+    "tasa_fallo": "33.33",
+    "pedidos_incorrectos": "50",
+    "tiempo_espera": "288"
   },
   "benchmark": {
     "fecha_datos": "",
@@ -28,5 +28,5 @@ window.PEDIDOSYA_DATA = {
   },
   "performance_7d": [],
   "heatmap": [],
-  "actualizadoEl": "03/11/2026 11:12"
+  "actualizadoEl": "05/11/2026 00:07"
 };
