@@ -137,13 +137,13 @@
       },
       {
         "hora": 19,
-        "monto": 15000,
-        "acumulado": 208030
+        "monto": 14350,
+        "acumulado": 207380
       },
       {
         "hora": 20,
         "monto": 14900,
-        "acumulado": 222930
+        "acumulado": 222280
       }
     ],
     "ventas_por_hora_pos": {
@@ -222,15 +222,15 @@
         },
         {
           "hora": 19,
-          "ventas": 15000,
+          "ventas": 14350,
           "propinas": 0,
-          "acumulado": 174350
+          "acumulado": 173700
         },
         {
           "hora": 20,
           "ventas": 14900,
           "propinas": 0,
-          "acumulado": 189250
+          "acumulado": 188600
         }
       ],
       "6010B232511900275": [
