@@ -2,21 +2,46 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "11/11/2026",
-    "fecha_iso": "2026-11-11",
-    "turno": "1494747985014084-00001-20261111TB.001",
-    "apertura": "2026-11-11T10:56:16",
+    "fecha": "12/11/2026",
+    "fecha_iso": "2026-11-12",
+    "turno": "1494747985014084-00001-20261112TB.001",
+    "apertura": "2026-11-12T15:25:01",
     "cierre": "",
-    "total_ventas": 0,
-    "total_neto": 0,
-    "total_iva": 0,
-    "n_ordenes": 0,
-    "n_anuladas": 0,
-    "efectivo": 0,
-    "tarjeta": 0,
-    "productos_top": []
+    "total_ventas": 36060.0,
+    "total_neto": 57176.0,
+    "total_iva": 10864.0,
+    "n_ordenes": 2,
+    "n_anuladas": 2,
+    "efectivo": 19888.0,
+    "tarjeta": 19778.0,
+    "productos_top": [
+      {
+        "nombre": "Churrasco chacarero",
+        "cantidad": 2,
+        "total": 17980.0
+      },
+      {
+        "nombre": "Menú ejecutivo",
+        "cantidad": 2,
+        "total": 14000.0
+      },
+      {
+        "nombre": "Té variedades",
+        "cantidad": 1,
+        "total": 2490.0
+      },
+      {
+        "nombre": "Agua mineral 500 ml",
+        "cantidad": 1,
+        "total": 1590.0
+      }
+    ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-11-12",
+      "turno": "1494747985014084-00001-20261112TB.001"
+    },
     {
       "fecha": "2026-11-11",
       "turno": "1494747985014084-00001-20261111TB.001"
@@ -68,12 +93,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-10-24",
       "turno": "1494747985014084-00001-20261024TB.001"
-    },
-    {
-      "fecha": "2026-10-23",
-      "turno": "1494747985014084-00001-20261023TB.001"
     }
   ],
-  "total_cierres_historicos": 243,
-  "actualizadoEl": "11/11/2026 10:23"
+  "total_cierres_historicos": 244,
+  "actualizadoEl": "14/11/2026 11:16"
 };
