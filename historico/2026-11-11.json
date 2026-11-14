@@ -10,7 +10,7 @@
       "efectivo": 12000,
       "monto_neto": 0,
       "iva": 0,
-      "propinas": 1870,
+      "propinas": 11394,
       "efectivo_propinas": 0,
       "efectivo_redondeo": 0,
       "n_tx_debito": 6,
@@ -199,8 +199,53 @@
       },
       {
         "hora": 10,
-        "monto": 6400,
-        "acumulado": 55900
+        "monto": 22900,
+        "acumulado": 72400
+      },
+      {
+        "hora": 11,
+        "monto": 11150,
+        "acumulado": 83550
+      },
+      {
+        "hora": 12,
+        "monto": 47600,
+        "acumulado": 131150
+      },
+      {
+        "hora": 13,
+        "monto": 72740,
+        "acumulado": 203890
+      },
+      {
+        "hora": 14,
+        "monto": 33450,
+        "acumulado": 237340
+      },
+      {
+        "hora": 15,
+        "monto": 3700,
+        "acumulado": 241040
+      },
+      {
+        "hora": 16,
+        "monto": 14600,
+        "acumulado": 255640
+      },
+      {
+        "hora": 17,
+        "monto": 4500,
+        "acumulado": 260140
+      },
+      {
+        "hora": 18,
+        "monto": 8950,
+        "acumulado": 269090
+      },
+      {
+        "hora": 19,
+        "monto": 19770,
+        "acumulado": 288860
       }
     ],
     "ventas_por_hora_pos": {
@@ -219,9 +264,63 @@
         },
         {
           "hora": 10,
-          "ventas": 6400,
+          "ventas": 22900,
           "propinas": 0,
-          "acumulado": 37200
+          "acumulado": 53700
+        },
+        {
+          "hora": 11,
+          "ventas": 11150,
+          "propinas": 0,
+          "acumulado": 64850
+        },
+        {
+          "hora": 12,
+          "ventas": 11950,
+          "propinas": 0,
+          "acumulado": 76800
+        },
+        {
+          "hora": 13,
+          "ventas": 16650,
+          "propinas": 0,
+          "acumulado": 93450
+        },
+        {
+          "hora": 14,
+          "ventas": 29950,
+          "propinas": 0,
+          "acumulado": 123400
+        },
+        {
+          "hora": 15,
+          "ventas": 3700,
+          "propinas": 0,
+          "acumulado": 127100
+        },
+        {
+          "hora": 16,
+          "ventas": 14600,
+          "propinas": 0,
+          "acumulado": 141700
+        },
+        {
+          "hora": 17,
+          "ventas": 4500,
+          "propinas": 0,
+          "acumulado": 146200
+        },
+        {
+          "hora": 18,
+          "ventas": 8950,
+          "propinas": 0,
+          "acumulado": 155150
+        },
+        {
+          "hora": 19,
+          "ventas": 19770,
+          "propinas": 0,
+          "acumulado": 174920
         }
       ],
       "6010B232511900275": [
@@ -230,6 +329,24 @@
           "ventas": 18700,
           "propinas": 1870,
           "acumulado": 18700
+        },
+        {
+          "hora": 12,
+          "ventas": 35650,
+          "propinas": 3565,
+          "acumulado": 54350
+        },
+        {
+          "hora": 13,
+          "ventas": 56090,
+          "propinas": 5609,
+          "acumulado": 110440
+        },
+        {
+          "hora": 14,
+          "ventas": 3500,
+          "propinas": 350,
+          "acumulado": 113940
         }
       ]
     }
@@ -294,14 +411,40 @@
       "turno": "1494747985014084-00001-20261111TB.001",
       "apertura": "2026-11-11T10:56:16",
       "cierre": "",
-      "total_ventas": 0,
-      "total_neto": 0,
-      "total_iva": 0,
-      "n_ordenes": 0,
+      "total_ventas": 32740.0,
+      "total_neto": 27512.0,
+      "total_iva": 5228.0,
+      "n_ordenes": 3,
       "n_anuladas": 0,
-      "efectivo": 0,
+      "efectivo": 33760.0,
       "tarjeta": 0,
-      "productos_top": []
+      "productos_top": [
+        {
+          "nombre": "Menú ejecutivo",
+          "cantidad": 2,
+          "total": 14000.0
+        },
+        {
+          "nombre": "Gnocchi Alfredo",
+          "cantidad": 1,
+          "total": 6490.0
+        },
+        {
+          "nombre": "Promo completo italiano",
+          "cantidad": 2,
+          "total": 5980.0
+        },
+        {
+          "nombre": "Bebida 350 cc",
+          "cantidad": 2,
+          "total": 3780.0
+        },
+        {
+          "nombre": "Americano",
+          "cantidad": 1,
+          "total": 2490.0
+        }
+      ]
     },
     "historial_cierres": [
       {
@@ -362,6 +505,6 @@
       }
     ],
     "total_cierres_historicos": 243,
-    "actualizadoEl": "11/11/2026 10:23"
+    "actualizadoEl": "11/11/2026 23:10"
   }
 }
