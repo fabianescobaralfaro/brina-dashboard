@@ -1,0 +1,578 @@
+{
+  "fecha": "2026-11-17",
+  "haulmer": {
+    "actualizadoEl": "17/11/2026 11:05",
+    "error": null,
+    "informe_dia": {
+      "monto_ventas": 319270,
+      "debito": 159950,
+      "credito": 33790,
+      "efectivo": 125530,
+      "monto_neto": 0,
+      "iva": 0,
+      "propinas": 8511,
+      "efectivo_propinas": 4573,
+      "efectivo_redondeo": -3,
+      "n_tx_debito": 51,
+      "n_tx_credito": 4,
+      "n_tx_efectivo": 57,
+      "n_tx_total": 112,
+      "periodo": "Personalizado",
+      "pos_breakdown": [
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 87610,
+          "debito": 15090,
+          "credito": 26790,
+          "efectivo": 45730,
+          "propinas": 8511,
+          "n_tx_debito": 2,
+          "n_tx_credito": 1,
+          "n_tx_efectivo": 3,
+          "n_tx_total": 6
+        },
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 231660,
+          "debito": 144860,
+          "credito": 7000,
+          "efectivo": 79800,
+          "propinas": 0,
+          "n_tx_debito": 49,
+          "n_tx_credito": 3,
+          "n_tx_efectivo": 54,
+          "n_tx_total": 106
+        }
+      ]
+    },
+    "informe_semana": {
+      "periodo": "Semana",
+      "monto_neto": 57284,
+      "iva": 10886,
+      "monto_ventas": 68170,
+      "monto_exento": 68170,
+      "propinas": 0,
+      "debito": 51270,
+      "credito": 16900,
+      "efectivo": 16900,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 65670,
+          "debito": 48770,
+          "credito": 0,
+          "efectivo": 16900,
+          "propinas": 0
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 2500,
+          "debito": 2500,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 14,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 9,
+      "n_tx_total": 23
+    },
+    "informe_mes": {
+      "periodo": "Mes",
+      "monto_neto": 57284,
+      "iva": 10886,
+      "monto_ventas": 68170,
+      "monto_exento": 68170,
+      "propinas": 0,
+      "debito": 51270,
+      "credito": 16900,
+      "efectivo": 16900,
+      "pos_breakdown": [
+        {
+          "serial": "PB1T238420182",
+          "total_ventas": 65670,
+          "debito": 48770,
+          "credito": 0,
+          "efectivo": 16900,
+          "propinas": 0
+        },
+        {
+          "serial": "6010B232511900275",
+          "total_ventas": 2500,
+          "debito": 2500,
+          "credito": 0,
+          "efectivo": 0,
+          "propinas": 0
+        }
+      ],
+      "n_tx_debito": 14,
+      "n_tx_credito": 0,
+      "n_tx_efectivo": 9,
+      "n_tx_total": 23
+    },
+    "dte": {
+      "total_declarado": 0,
+      "total": 0,
+      "boletas": 0,
+      "facturas": 0,
+      "monto_boletas": 0,
+      "monto_facturas": 0,
+      "documentos": [],
+      "paginas_leidas": 1,
+      "nota": ""
+    },
+    "abonos": {
+      "abonos": [
+        {
+          "fecha": "17/11/2026",
+          "ventas_abonadas": 36120,
+          "comision": 717,
+          "total_abonado": 35403
+        }
+      ],
+      "total_abonado": 35403,
+      "total_comision": 717,
+      "comision_pct": 1.99,
+      "transacciones_hoy": [
+        {
+          "n_tx": "110022260107",
+          "monto": 6000,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 119,
+          "neto": 5881,
+          "serial": "900088245107"
+        },
+        {
+          "n_tx": "900088245107",
+          "monto": 1150,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 23,
+          "neto": 1127,
+          "serial": "110022257717"
+        },
+        {
+          "n_tx": "110022257717",
+          "monto": 6150,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 122,
+          "neto": 6028,
+          "serial": "400020336864"
+        },
+        {
+          "n_tx": "400020336864",
+          "monto": 400,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 8,
+          "neto": 392,
+          "serial": "700079536524"
+        },
+        {
+          "n_tx": "700079536524",
+          "monto": 6000,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 119,
+          "neto": 5881,
+          "serial": "100034812936"
+        },
+        {
+          "n_tx": "100034812936",
+          "monto": 920,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 18,
+          "neto": 902,
+          "serial": "400020335565"
+        },
+        {
+          "n_tx": "400020335565",
+          "monto": 900,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 18,
+          "neto": 882,
+          "serial": "000032673153"
+        },
+        {
+          "n_tx": "000032673153",
+          "monto": 600,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 12,
+          "neto": 588,
+          "serial": "700079528603"
+        },
+        {
+          "n_tx": "700079528603",
+          "monto": 6000,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 119,
+          "neto": 5881,
+          "serial": "700079527311"
+        },
+        {
+          "n_tx": "700079527311",
+          "monto": 8000,
+          "tipo": "Débito",
+          "estado": "Aprobada",
+          "fecha": "17-11-2026",
+          "comision_pct": 1.99,
+          "comision_valor": 159,
+          "neto": 7841,
+          "serial": "PB1T238420182"
+        }
+      ],
+      "total_ventas_hoy": 36120,
+      "n_transacciones_hoy": 10
+    },
+    "ventas_hoy": {
+      "total_dia": 0,
+      "transacciones": []
+    },
+    "ventas_por_hora": [
+      {
+        "hora": 8,
+        "monto": 29150,
+        "acumulado": 29150
+      },
+      {
+        "hora": 9,
+        "monto": 14800,
+        "acumulado": 43950
+      },
+      {
+        "hora": 10,
+        "monto": 18220,
+        "acumulado": 62170
+      },
+      {
+        "hora": 11,
+        "monto": 25050,
+        "acumulado": 87220
+      },
+      {
+        "hora": 12,
+        "monto": 49930,
+        "acumulado": 137150
+      },
+      {
+        "hora": 13,
+        "monto": 33200,
+        "acumulado": 170350
+      },
+      {
+        "hora": 14,
+        "monto": 42190,
+        "acumulado": 212540
+      },
+      {
+        "hora": 15,
+        "monto": 48290,
+        "acumulado": 260830
+      },
+      {
+        "hora": 16,
+        "monto": 16800,
+        "acumulado": 277630
+      },
+      {
+        "hora": 17,
+        "monto": 16750,
+        "acumulado": 294380
+      },
+      {
+        "hora": 18,
+        "monto": 11940,
+        "acumulado": 306320
+      },
+      {
+        "hora": 19,
+        "monto": 12950,
+        "acumulado": 319270
+      }
+    ],
+    "ventas_por_hora_pos": {
+      "PB1T238420182": [
+        {
+          "hora": 8,
+          "ventas": 26650,
+          "propinas": 0,
+          "acumulado": 26650
+        },
+        {
+          "hora": 9,
+          "ventas": 14800,
+          "propinas": 0,
+          "acumulado": 41450
+        },
+        {
+          "hora": 10,
+          "ventas": 18220,
+          "propinas": 0,
+          "acumulado": 59670
+        },
+        {
+          "hora": 11,
+          "ventas": 25050,
+          "propinas": 0,
+          "acumulado": 84720
+        },
+        {
+          "hora": 12,
+          "ventas": 25950,
+          "propinas": 0,
+          "acumulado": 110670
+        },
+        {
+          "hora": 13,
+          "ventas": 33200,
+          "propinas": 0,
+          "acumulado": 143870
+        },
+        {
+          "hora": 14,
+          "ventas": 29600,
+          "propinas": 0,
+          "acumulado": 173470
+        },
+        {
+          "hora": 15,
+          "ventas": 6200,
+          "propinas": 0,
+          "acumulado": 179670
+        },
+        {
+          "hora": 16,
+          "ventas": 16800,
+          "propinas": 0,
+          "acumulado": 196470
+        },
+        {
+          "hora": 17,
+          "ventas": 10300,
+          "propinas": 0,
+          "acumulado": 206770
+        },
+        {
+          "hora": 18,
+          "ventas": 11940,
+          "propinas": 0,
+          "acumulado": 218710
+        },
+        {
+          "hora": 19,
+          "ventas": 12950,
+          "propinas": 0,
+          "acumulado": 231660
+        }
+      ],
+      "6010B232511900275": [
+        {
+          "hora": 8,
+          "ventas": 2500,
+          "propinas": 0,
+          "acumulado": 2500
+        },
+        {
+          "hora": 12,
+          "ventas": 23980,
+          "propinas": 2398,
+          "acumulado": 26480
+        },
+        {
+          "hora": 14,
+          "ventas": 12590,
+          "propinas": 1259,
+          "acumulado": 39070
+        },
+        {
+          "hora": 15,
+          "ventas": 42090,
+          "propinas": 4209,
+          "acumulado": 81160
+        },
+        {
+          "hora": 17,
+          "ventas": 6450,
+          "propinas": 645,
+          "acumulado": 87610
+        }
+      ]
+    }
+  },
+  "toteat": {
+    "error": null,
+    "ultimo_cierre": {
+      "fecha": "12/11/2026",
+      "fecha_iso": "2026-11-12",
+      "turno": "1494747985014084-00001-20261112TB.001",
+      "apertura": "2026-11-12T15:25:01",
+      "cierre": "",
+      "total_ventas": 36060.0,
+      "total_neto": 57176.0,
+      "total_iva": 10864.0,
+      "n_ordenes": 2,
+      "n_anuladas": 2,
+      "efectivo": 19888.0,
+      "tarjeta": 19778.0,
+      "productos_top": [
+        {
+          "nombre": "Churrasco chacarero",
+          "cantidad": 2,
+          "total": 17980.0
+        },
+        {
+          "nombre": "Menú ejecutivo",
+          "cantidad": 2,
+          "total": 14000.0
+        },
+        {
+          "nombre": "Té variedades",
+          "cantidad": 1,
+          "total": 2490.0
+        },
+        {
+          "nombre": "Agua mineral 500 ml",
+          "cantidad": 1,
+          "total": 1590.0
+        }
+      ]
+    },
+    "historial_cierres": [
+      {
+        "fecha": "2026-11-12",
+        "turno": "1494747985014084-00001-20261112TB.001"
+      },
+      {
+        "fecha": "2026-11-11",
+        "turno": "1494747985014084-00001-20261111TB.001"
+      },
+      {
+        "fecha": "2026-11-09",
+        "turno": "1494747985014084-00001-20261109TB.001"
+      },
+      {
+        "fecha": "2026-11-06",
+        "turno": "1494747985014084-00001-20261106TB.001"
+      },
+      {
+        "fecha": "2026-11-05",
+        "turno": "1494747985014084-00001-20261105TB.001"
+      },
+      {
+        "fecha": "2026-11-04",
+        "turno": "1494747985014084-00001-20261104TB.001"
+      },
+      {
+        "fecha": "2026-11-03",
+        "turno": "1494747985014084-00001-20261103TB.001"
+      },
+      {
+        "fecha": "2026-11-02",
+        "turno": "1494747985014084-00001-20261102TB.001"
+      },
+      {
+        "fecha": "2026-10-30",
+        "turno": "1494747985014084-00001-20261030TB.001"
+      },
+      {
+        "fecha": "2026-10-29",
+        "turno": "1494747985014084-00001-20261029TB.001"
+      },
+      {
+        "fecha": "2026-10-28",
+        "turno": "1494747985014084-00001-20261028TB.001"
+      },
+      {
+        "fecha": "2026-10-27",
+        "turno": "1494747985014084-00001-20261027TB.001"
+      },
+      {
+        "fecha": "2026-10-26",
+        "turno": "1494747985014084-00001-20261026TB.001"
+      },
+      {
+        "fecha": "2026-10-24",
+        "turno": "1494747985014084-00001-20261024TB.001"
+      }
+    ],
+    "total_cierres_historicos": 244,
+    "actualizadoEl": "17/11/2026 11:07"
+  },
+  "pedidosya": {
+    "error": null,
+    "estado_local": "CLOSED",
+    "cerrado_hasta": null,
+    "cerrado_razon": null,
+    "tier": "NONE",
+    "tier_periodo": {
+      "desde": "2026-08-01",
+      "hasta": "2026-10-31"
+    },
+    "metricas_tier": {
+      "calificacion": "3.8",
+      "pedidos_volumen": "7",
+      "tasa_fallo": "36.36",
+      "pedidos_incorrectos": "42.86",
+      "tiempo_espera": "250"
+    },
+    "benchmark": {
+      "fecha_datos": "",
+      "dias_agregados": 7,
+      "revenue_percentil90": 0,
+      "orders_percentil90": 0,
+      "avg_basket_percentil90": 0,
+      "cohort_size": 0,
+      "area": "",
+      "cuisine": ""
+    },
+    "performance_7d": [],
+    "heatmap": [],
+    "actualizadoEl": "17/11/2026 11:08"
+  },
+  "rappi": {
+    "error": null,
+    "store_name": "Brina Pizzeria",
+    "is_enabled": false,
+    "store_tier": "standard",
+    "ventas_7d": {
+      "total_amount": 0,
+      "total_orders": 0,
+      "orders_avg": 0,
+      "users_count": 0,
+      "new_users_count": 0,
+      "last_week": []
+    },
+    "indicadores": {
+      "cancellation_pct": 0,
+      "error_pct": 0,
+      "availability_pct": 0,
+      "cooking_time_avg": 0
+    },
+    "actualizadoEl": "17/11/2026 11:09"
+  }
+}
