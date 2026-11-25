@@ -2,28 +2,28 @@
 window.TOTEAT_DATA = {
   "error": null,
   "ultimo_cierre": {
-    "fecha": "20/11/2026",
-    "fecha_iso": "2026-11-20",
-    "turno": "1494747985014084-00001-20261120TB.001",
+    "fecha": "23/11/2026",
+    "fecha_iso": "2026-11-23",
+    "turno": "1494747985014084-00001-20261123TB.001",
     "apertura": "",
     "cierre": "",
-    "total_ventas": 55480.0,
-    "total_neto": 67125.0,
-    "total_iva": 12755.0,
+    "total_ventas": 54050.0,
+    "total_neto": 48594.0,
+    "total_iva": 9236.0,
     "n_ordenes": 5,
-    "n_anuladas": 0,
+    "n_anuladas": 1,
     "efectivo": 0,
-    "tarjeta": 61028.0,
+    "tarjeta": 58251.0,
     "productos_top": [
       {
-        "nombre": "Menú ejecutivo",
-        "cantidad": 4,
-        "total": 28000.0
+        "nombre": "Completo Italiano",
+        "cantidad": 3,
+        "total": 15470.0
       },
       {
-        "nombre": "Manzo",
+        "nombre": "Churrasco",
         "cantidad": 1,
-        "total": 8990.0
+        "total": 8490.0
       },
       {
         "nombre": "Pepperoni",
@@ -31,18 +31,42 @@ window.TOTEAT_DATA = {
         "total": 8390.0
       },
       {
-        "nombre": "Bebida express",
-        "cantidad": 6,
-        "total": 7800.0
+        "nombre": "Bebida 350 cc",
+        "cantidad": 4,
+        "total": 7560.0
       },
       {
-        "nombre": "Jugo natural 350 cc",
+        "nombre": "Menú ejecutivo",
         "cantidad": 1,
-        "total": 2300.0
+        "total": 7000.0
+      },
+      {
+        "nombre": "Promo completo italiano",
+        "cantidad": 1,
+        "total": 3990.0
+      },
+      {
+        "nombre": "Agua mineral 500 ml",
+        "cantidad": 1,
+        "total": 1590.0
+      },
+      {
+        "nombre": "Medialuna argentina",
+        "cantidad": 1,
+        "total": 1560.0
+      },
+      {
+        "nombre": "Limón soda",
+        "cantidad": 1,
+        "total": 0.0
       }
     ]
   },
   "historial_cierres": [
+    {
+      "fecha": "2026-11-23",
+      "turno": "1494747985014084-00001-20261123TB.001"
+    },
     {
       "fecha": "2026-11-20",
       "turno": "1494747985014084-00001-20261120TB.001"
@@ -94,12 +118,8 @@ window.TOTEAT_DATA = {
     {
       "fecha": "2026-10-30",
       "turno": "1494747985014084-00001-20261030TB.001"
-    },
-    {
-      "fecha": "2026-10-29",
-      "turno": "1494747985014084-00001-20261029TB.001"
     }
   ],
-  "total_cierres_historicos": 248,
-  "actualizadoEl": "22/11/2026 09:16"
+  "total_cierres_historicos": 249,
+  "actualizadoEl": "25/11/2026 00:38"
 };
