@@ -10,7 +10,7 @@
       "efectivo": 68900,
       "monto_neto": 0,
       "iva": 0,
-      "propinas": 6818,
+      "propinas": 9588,
       "efectivo_propinas": 0,
       "efectivo_redondeo": 0,
       "n_tx_debito": 42,
@@ -93,8 +93,28 @@
       },
       {
         "hora": 16,
+        "monto": 15000,
+        "acumulado": 258130
+      },
+      {
+        "hora": 17,
+        "monto": 5500,
+        "acumulado": 263630
+      },
+      {
+        "hora": 18,
+        "monto": 6600,
+        "acumulado": 270230
+      },
+      {
+        "hora": 19,
+        "monto": 23750,
+        "acumulado": 293980
+      },
+      {
+        "hora": 20,
         "monto": 3900,
-        "acumulado": 247030
+        "acumulado": 297880
       }
     ],
     "ventas_por_hora_pos": {
@@ -149,9 +169,33 @@
         },
         {
           "hora": 16,
+          "ventas": 5200,
+          "propinas": 0,
+          "acumulado": 158300
+        },
+        {
+          "hora": 17,
+          "ventas": 5500,
+          "propinas": 0,
+          "acumulado": 163800
+        },
+        {
+          "hora": 18,
+          "ventas": 6600,
+          "propinas": 0,
+          "acumulado": 170400
+        },
+        {
+          "hora": 19,
+          "ventas": 23750,
+          "propinas": 0,
+          "acumulado": 194150
+        },
+        {
+          "hora": 20,
           "ventas": 3900,
           "propinas": 0,
-          "acumulado": 157000
+          "acumulado": 198050
         }
       ],
       "6010B232511900275": [
@@ -184,6 +228,12 @@
           "ventas": 33200,
           "propinas": 3320,
           "acumulado": 90030
+        },
+        {
+          "hora": 16,
+          "ventas": 9800,
+          "propinas": 980,
+          "acumulado": 99830
         }
       ]
     }
