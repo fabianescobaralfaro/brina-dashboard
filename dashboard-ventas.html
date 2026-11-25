@@ -5002,10 +5002,11 @@ function renderCaja() {
   // Período de prueba: sep 14 es el primer cierre válido (Miguel reemplazó a Karen el 03/10)
   const CIERRES_VALIDOS_DESDE = '2026-09-14';
 
-  // Saldo inicial: último cierre registrado ANTES del rango
+  // Saldo inicial: último cierre real (tipo != 'turno') ANTES del rango
+  // Usar el de mayor created_at del día más reciente (Miguel cierra después de MA)
   const _cierreInicialObj = _cierreCajaData
-    .filter(c => (c.fecha || '').slice(0, 10) < desde)
-    .sort((a, b) => b.fecha.localeCompare(a.fecha))[0];
+    .filter(c => (c.fecha || '').slice(0, 10) < desde && c.tipo !== 'turno')
+    .sort((a, b) => b.fecha.localeCompare(a.fecha) || b.created_at.localeCompare(a.created_at))[0];
   let _saldoArrastre = _cierreInicialObj ? (Number(_cierreInicialObj.monto_efectivo) || 0) : 0;
 
   for (const d of dias) {
